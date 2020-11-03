@@ -1,0 +1,225 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/me.css" />
+    <script src="../../static/js/DPlayer.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <title>Video</title>
+</head>
+
+<body>
+<!--导航-->
+<nav class="ui inverted m-shadow-small">
+    <div class="ui container">
+        <div class="ui secondary menu m-padded-tb-mini">
+            <div class="item">
+                <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
+                     class="ui rounded image head" />
+            </div>
+            <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
+            <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}" th:href="@{/type/{id}(id=${type.id})}"
+               class="m-item item m-mobile-hide">类目1</a>
+            <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
+                  method="post" target="_blank">
+                <div class="ui icon transparent input m-margin-tb-tiny">
+                    <input type="text" name="query" placeholder="输入搜索标题……" th:value="${query}">
+                    <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                </div>
+            </form>
+            <div class="m-item item m-mobile-hide">
+                <img src="../../static/images/avatar.png" th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}" class="ui rounded head-big" />
+            </div>
+            <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
+            <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
+            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
+            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
+            <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
+            <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
+        </div>
+    </div>
+</nav>
+    <div class="ui m-margin-top column grid container">
+        <div class="eleven wide column">
+            <div class="ui attached segment">
+                <div class="ui">
+                    <div class="ui header title-big" th:text="${video.title}">123242rwetrtgfddgfdgfd</div>
+                    <div>
+                        <span th:text="${video.viewnum}">7900</span>人播放
+                        &nbsp;&nbsp;
+                        <span th:text="${video.barrnum}">543</span>弹幕
+                        &nbsp;&nbsp;
+                        <span th:text="${#dates.format(video.createTime,'yyyy-MM-dd hh:mm:ss')}">2020-10-23 18:51</span>
+                    </div>
+                </div>
+                <div class="ui m-margin-top" style="height: 400px;">
+                    <div id="dplayer"></div>
+                </div>
+                <div class="ui seven column grid m-margin" style="font-size: 16px;">
+                    <div class="column m-padded-tiny" style="margin-left:2rem">
+                        <i class="large star outline icon"></i><span th:text="${video.starnum}">1888</span>
+                    </div>
+                    <div class="column m-padded-tiny">
+                        <i class="large yen sign icon"></i><span th:text="${video.coinnum}">1888</span>
+                    </div>
+                    <div class="column m-padded-tiny">
+                        <i class="large thumbs up outline icon"></i><span th:text="${video.likenum}">1888</span>
+                    </div>
+                    <div class="column m-padded-tiny">
+                        <i class="large share icon"></i><span th:text="${video.trannum}">1888</span>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                <!--介绍信息-->
+                <div class="description" th:text="${video.description}">
+                    这个花嫁不想肝了orz，配布老规矩硬币走起
+                    过276硬币放链接∠( ᐛ 」∠)_ 给个三连呗x
+                    ——————————————
+                    model
+                    TDA/mihoyo/REe/iRon0129/机动战士牛肉
+                    camera/motion:
+                    AHK（注：动作使用已授权）/予沉7
+                    stage:
+                    糖斯
+                    mme:
+                    less 下腹p 針金p データＰそぼろ mqdl 摩丝ikeno
+                    BGM:No tears left to cry
+                </div>
+                <!--标签-->
+                <div class="label m-margin-top">
+                    <a class="ui blue label large">搞笑</a>
+                    <a class="ui blue label large">亲子</a>
+                    <a class="ui blue label large">编程</a>
+                </div>
+                <div class="ui divider"></div>
+                <!--评论-->
+                <div class="m-margin-top">
+                    <h3 class="ui header">评论</h3>
+                </div>
+                <div class="ui divider"></div>
+                <div class="ui comments">
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="../../static/images/logo.png" class="head" />
+                        </a>
+                        <div class="content">
+                            <a class="author">Matt</a>
+                            <div class="metadata">
+                                <span class="date">今天下午 5:42</span>
+                            </div>
+                            <div class="text">太赞了！ </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <a class="avatar">
+                            <img src="../../static/images/logo.png" class="head" />
+                        </a>
+                        <div class="content">
+                            <a class="author">Elliot Fu</a>
+                            <div class="metadata">
+                                <span class="date">昨天上午12:30</span>
+                            </div>
+                            <div class="text">
+                                <p>這對我的研究是非常有用.謝謝!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="ui reply form">
+                        <div class="field">
+                            <textarea></textarea>
+                        </div>
+                        <div class="ui blue labeled submit icon button"><i class="icon edit"></i>评论</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--右侧-->
+        <div class="five wide column">
+            <div class="ui attached segment">
+                <div class="ui column grid container">
+                    <div class="three wide column m-margin-tb-tiny">
+                        <img src="../../static/images/logo.png" class="ui rounded image head head-big " th:src="${video.user.avatar}">
+                    </div>
+                    <div class="thirteen wide column left">
+                        <h3 class="ui header m-margin-tb-tiny" th:text="${video.user.nickname}">xzm</h3>
+                        <p class="m-margin-tb-tiny" th:text="${video.user.description}">高效，我们是专业的</p>
+                    </div>
+                </div>
+                <div class="ui container m-margin-top" style="overflow: hidden;">
+                    <button class="ui primary button" style="float:right;"><i
+                            class="large plus icon"></i>关注<span th:text="${video.user.coinnum}">13000</span></button>
+                </div>
+            </div>
+            <!--弹幕部分-->
+            <div class="ui m-padded" style="background-color:#F5F5F5">
+                <span class="ui header" style="margin-right: 4px;">弹幕列表</span>
+                <a class="ui" id="toggle" style="float:right;">展开</a>
+            </div>
+            <div class="ui list barrage m-padded-tb-tiny" id="list">
+                <div class="ui three column grid container item">
+                    <span class="two wide column m-padded-mini">03:56</span>
+                    <span class="eight wide column m-padded-mini center">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
+                    <span class="five wide column m-padded-mini">2020-10-23 18:51</span>
+                </div>
+                <div class="ui three column grid container item">
+                    <span class="two wide column m-padded-mini">03:56</span>
+                    <span class="eight wide column m-padded-mini center">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
+                    <span class="five wide column m-padded-mini">2020-10-23 18:51</span>
+                </div>
+                <div class="ui three column grid container item">
+                    <span class="two wide column m-padded-mini">03:56</span>
+                    <span class="eight wide column m-padded-mini center">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
+                    <span class="five wide column m-padded-mini">2020-10-23 18:51</span>
+                </div>
+                <div class="ui three column grid container item">
+                    <span class="two wide column m-padded-mini">03:56</span>
+                    <span class="eight wide column m-padded-mini">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
+                    <span class="five wide column m-padded-mini">2020-10-23 18:51</span>
+                </div>
+            </div>
+            <!--推荐部分-->
+            <div class="ui m-padded">
+                <span class="ui header" style="margin:auto;">相关推荐</span>
+            </div>
+            <div class="ui two column grid container m-margin-top-small" th:each="video:${videos_hot}">
+                <img class="seven wide column m-padded-mini" src="../../static/images/temp.png"
+                    style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                <div class="nine column">
+                    <p class="title m-margin-tb-tiny" th:text="${video.title}">123242rwetrtgfddgfdgfd</p>
+                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <input type="hidden" id="videoUrl" th:value="${video.videoUrl}">
+    <script>
+        var videoUrl = $("#videoUrl").val();
+        const dp = new DPlayer({
+            container: document.getElementById('dplayer'),
+            autoplay: false,
+            theme: '#FADFA3',
+            loop: true,
+            lang: 'zh-cn',
+            screenshot: true,
+            hotkey: true,
+            preload: 'auto',
+            volume: 0.7,
+            mutex: true,
+            video: {
+                url: videoUrl,
+                type: 'auto',
+            }
+        });
+        $('#toggle').bind('click', function toggle() {
+            $('#list').toggle();
+        });
+
+    </script>
+</body>
+
+</html>

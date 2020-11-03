@@ -1,0 +1,70 @@
+
+<form action="" enctype="multipart/form-data">
+
+    <input id="file" class="filepath" onchange="changepic(this)" type="file"><br>
+
+	<img src="" id="show" width="200">
+
+</form>
+
+<video width = '500' height = '300' id = 'video' controls></video>
+
+ 
+
+<script>
+
+// 创建一个可存取该file的url的函数
+
+function getObjectURL(file) {
+
+			console.log(file)
+
+				var url = null ;
+
+				// 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+
+				if (window.createObjectURL!=undefined) { // basic
+
+						url = window.createObjectURL(file) ;
+
+				} else if (window.URL!=undefined) { // mozilla(firefox)
+
+						url = window.URL.createObjectURL(file) ;
+
+				} else if (window.webkitURL!=undefined) { // webkit or chrome
+
+						url = window.webkitURL.createObjectURL(file) ;
+
+				}
+
+				return url ;
+
+		}
+
+ 
+
+// 调用
+
+function changepic(obj) {
+
+				//console.log(obj.files[0]);//这里可以获取上传文件的name
+
+				// 转换格式
+
+				var newsrc=getObjectURL(obj.files[0]);
+
+				console.log(newsrc)
+
+				// 赋值
+
+                // 视频
+
+				document.getElementById('video').src=newsrc;
+
+                // 图片
+
+                document.getElementById('show').src = newsrc
+
+		}
+
+</script>

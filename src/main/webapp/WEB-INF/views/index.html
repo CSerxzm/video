@@ -1,0 +1,94 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/me.css" />
+    <title>Video</title>
+</head>
+
+<body>
+    <!--导航-->
+    <nav class="ui inverted m-shadow-small">
+        <div class="ui container">
+            <div class="ui secondary menu m-padded-tb-mini">
+                <div class="item">
+                    <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
+                        class="ui rounded image head" />
+                </div>
+                <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
+                <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}" th:href="@{/type/{id}(id=${type.id})}"
+                    class="m-item item m-mobile-hide">类目1</a>
+                <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
+                    method="post" target="_blank">
+                    <div class="ui icon transparent input m-margin-tb-tiny">
+                        <input type="text" name="query" placeholder="输入搜索标题……" th:value="${query}">
+                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                    </div>
+                </form>
+                <div class="m-item item m-mobile-hide">
+                    <img src="../../static/images/avatar.png" th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}" class="ui rounded head-big" />
+                </div>
+                <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
+                <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
+                <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
+                <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
+            </div>
+        </div>
+    </nav>
+    <div class="ui m-margin-top-large column grid container" th:each="videolist:${videos_new}">
+        <div class="twelve wide column">
+            <div class="ui attached segment">
+                <div class="ui middle aligned two column grid">
+                    <div class="column m-padded-tiny">
+                        <i class="video big icon"></i>
+                        <span class="ui header" style="vertical-align:middle" th:text="${videolist.key}">动画</span>
+                    </div>
+                    <div class="right aligned column m-padded-tiny">
+                        <button class="ui basic compact button"><i class="sync icon"></i>换一换</button>
+                        <button class="ui basic compact button">更多<i class="angle right icon"></i></button>
+                    </div>
+                </div>
+                <div class="ui m-margin-top three column grid container">
+                    <div class="column" th:each="video: ${videolist.value}">
+                        <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${video.id})}">
+                            <img src="https://i.loli.net/2020/10/24/eRSmEkXnQrxw6gf.jpg"
+                                style="width:300px;height:168px;" th:src="${video.pictureUrl}">
+                            <div class="inverted shade">
+                                <i class="large youtube icon"></i><span style="color:black;vertical-align:middle;" th:text="${video.viewnum}">123</span>
+                                <i class="large thumbs up outline icon"></i><span style="color:black;vertical-align:middle;" th:text="${video.likenum}">123</span>
+                            </div>
+                        </a>
+                        <div class="m-margin-top-mini m-padded-mini">
+                            <h3 class="ui header m-margin-tb-tiny title" th:text="${video.title}">
+                                123242rwetrtgfddgfdgfd</h3>
+                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span th:text="${video.user.nickname}">UP主/span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="four wide column">
+            <div class="ui attached segment">
+                <div class="ui middle aligned two column grid">
+                    <div class="column m-padded-tiny">
+                        <span class="ui header" style="vertical-align:middle">排行榜</span>
+                    </div>
+                    <div class="right aligned column m-padded-tiny">
+                        <button class="ui small basic compact button">更多<i class="angle right icon"></i></button>
+                    </div>
+                </div>
+                <div class="ui list">
+                    <a class="item m-padded-small m-text-lined title-small" th:each="video:${videos_hot[videolist.key]}"
+                        th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">起步</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
