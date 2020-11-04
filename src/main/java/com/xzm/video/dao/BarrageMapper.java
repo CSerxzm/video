@@ -2,6 +2,8 @@ package com.xzm.video.dao;
 
 import com.xzm.video.bean.Barrage;
 
+import java.util.List;
+
 public interface BarrageMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,7 @@ public interface BarrageMapper {
     int updateByPrimaryKeySelective(Barrage record);
 
     int updateByPrimaryKey(Barrage record);
+
+    List<Barrage> selectByVideoId(Integer video_id);
+
 }

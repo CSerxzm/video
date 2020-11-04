@@ -19,8 +19,8 @@
                         class="ui rounded image head" />
                 </div>
                 <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
-                <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}" th:href="@{/type/{id}(id=${type.id})}"
-                    class="m-item item m-mobile-hide">类目1</a>
+                <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}"
+                    th:href="@{/type/{id}(id=${type.id})}" class="m-item item m-mobile-hide">类目1</a>
                 <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
                     method="post" target="_blank">
                     <div class="ui icon transparent input m-margin-tb-tiny">
@@ -29,7 +29,9 @@
                     </div>
                 </form>
                 <div class="m-item item m-mobile-hide">
-                    <img src="../../static/images/avatar.png" th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}" class="ui rounded head-big" />
+                    <img src="../../static/images/avatar.png"
+                        th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}"
+                        class="ui rounded head-big" />
                 </div>
                 <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
                 <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
@@ -59,14 +61,17 @@
                             <img src="https://i.loli.net/2020/10/24/eRSmEkXnQrxw6gf.jpg"
                                 style="width:300px;height:168px;" th:src="${video.pictureUrl}">
                             <div class="inverted shade">
-                                <i class="large youtube icon"></i><span style="color:black;vertical-align:middle;" th:text="${video.viewnum}">123</span>
-                                <i class="large thumbs up outline icon"></i><span style="color:black;vertical-align:middle;" th:text="${video.likenum}">123</span>
+                                <i class="large youtube icon"></i><span style="color:black;vertical-align:middle;"
+                                    th:text="${video.viewnum}">123</span>
+                                <i class="large thumbs up outline icon"></i><span
+                                    style="color:black;vertical-align:middle;" th:text="${video.likenum}">123</span>
                             </div>
                         </a>
                         <div class="m-margin-top-mini m-padded-mini">
                             <h3 class="ui header m-margin-tb-tiny title" th:text="${video.title}">
                                 123242rwetrtgfddgfdgfd</h3>
-                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span th:text="${video.user.nickname}">UP主/span></p>
+                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span
+                                    th:text="${video.user.nickname}">UP主/span></p>
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,8 @@ import com.xzm.video.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -40,5 +42,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public int updateByPrimaryKey(Comment record) {
         return commentMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<Comment> selectByVideoId(Integer video_id){
+        return commentMapper.selectByVideoId(video_id);
     }
 }

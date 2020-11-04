@@ -10,36 +10,38 @@
 </head>
 
 <body>
-<!--导航-->
-<nav class="ui inverted m-shadow-small">
-    <div class="ui container">
-        <div class="ui secondary menu m-padded-tb-mini">
-            <div class="item">
-                <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
-                     class="ui rounded image head" />
-            </div>
-            <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
-            <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}" th:href="@{/type/{id}(id=${type.id})}"
-               class="m-item item m-mobile-hide">类目1</a>
-            <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
-                  method="post" target="_blank">
-                <div class="ui icon transparent input m-margin-tb-tiny">
-                    <input type="text" name="query" placeholder="输入搜索标题……" th:value="${query}">
-                    <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+    <!--导航-->
+    <nav class="ui inverted m-shadow-small">
+        <div class="ui container">
+            <div class="ui secondary menu m-padded-tb-mini">
+                <div class="item">
+                    <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
+                        class="ui rounded image head" />
                 </div>
-            </form>
-            <div class="m-item item m-mobile-hide">
-                <img src="../../static/images/avatar.png" th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}" class="ui rounded head-big" />
+                <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
+                <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}"
+                    th:href="@{/type/{id}(id=${type.id})}" class="m-item item m-mobile-hide">类目1</a>
+                <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
+                    method="post" target="_blank">
+                    <div class="ui icon transparent input m-margin-tb-tiny">
+                        <input type="text" name="query" placeholder="输入搜索标题……" th:value="${query}">
+                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                    </div>
+                </form>
+                <div class="m-item item m-mobile-hide">
+                    <img src="../../static/images/avatar.png"
+                        th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}"
+                        class="ui rounded head-big" />
+                </div>
+                <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
+                <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
+                <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
+                <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
             </div>
-            <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
-            <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
-            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
-            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
-            <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
-            <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
         </div>
-    </div>
-</nav>
+    </nav>
     <div class="ui m-margin-top-large column grid container">
         <div class="twelve wide column">
             <div class="ui attached segment">
@@ -50,7 +52,8 @@
                                 style="width:300px;height:168px;" th:src="${video.pictureUrl}">
                             <div class="inverted shade">
                                 <span style="color:black;"><i class="large youtube icon"></i>[[${video.viewnum}]]</span>
-                                <span style="color:black;"><i class="large thumbs up outline icon"></i>[[${video.likenum}]]</span>
+                                <span style="color:black;"><i
+                                        class="large thumbs up outline icon"></i>[[${video.likenum}]]</span>
                             </div>
                         </a>
                         <div class="m-margin-top-mini m-padded-mini">
@@ -73,7 +76,7 @@
                     </div>
                 </div>
                 <div class="ui ordered list">
-<!--                    <a class="item m-padded-small m-text-lined" th:each="video:${videos_new[videolist.key]}"
+                    <!--                    <a class="item m-padded-small m-text-lined" th:each="video:${videos_new[videolist.key]}"
                        th:text="${video.title}" th:href="@{/video/{id}(id=${video.id})}">起步</a>-->
                 </div>
             </div>

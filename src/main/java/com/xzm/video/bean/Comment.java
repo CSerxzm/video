@@ -5,17 +5,13 @@ import java.util.Date;
 public class Comment {
     private Integer id;
 
-    private String avatar;
+    private Integer videoId;
 
-    private String content;
+    private User user;
 
     private Date createTime;
 
-    private String email;
-
-    private Integer userId;
-
-    private Integer videoId;
+    private String content;
 
     public Integer getId() {
         return id;
@@ -25,20 +21,20 @@ public class Comment {
         this.id = id;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public Integer getVideoId() {
+        return videoId;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar == null ? null : avatar.trim();
+    public void setVideoId(Integer videoId) {
+        this.videoId = videoId;
     }
 
-    public String getContent() {
-        return content;
+    public User getUser() {
+        return user;
     }
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getCreateTime() {
@@ -49,27 +45,22 @@ public class Comment {
         this.createTime = createTime;
     }
 
-    public String getEmail() {
-        return email;
+    public String getContent() {
+        return content;
     }
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getVideoId() {
-        return videoId;
-    }
-
-    public void setVideoId(Integer videoId) {
-        this.videoId = videoId;
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", videoId=" + videoId +
+                ", user=" + user +
+                ", createTime=" + createTime +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

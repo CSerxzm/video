@@ -2,45 +2,47 @@
 
 <head>
     <meta charset="UTF-8" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <link rel="stylesheet" href="../../static/css/me.css" />
-    <script src="../../static/js/DPlayer.min.js"></script>
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
     <title>Video</title>
 </head>
 
 <body>
-<!--导航-->
-<nav class="ui inverted m-shadow-small">
-    <div class="ui container">
-        <div class="ui secondary menu m-padded-tb-mini">
-            <div class="item">
-                <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
-                     class="ui rounded image head" />
-            </div>
-            <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
-            <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}" th:href="@{/type/{id}(id=${type.id})}"
-               class="m-item item m-mobile-hide">类目1</a>
-            <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
-                  method="post" target="_blank">
-                <div class="ui icon transparent input m-margin-tb-tiny">
-                    <input type="text" name="query" placeholder="输入搜索标题……" th:value="${query}">
-                    <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+    <!--导航-->
+    <nav class="ui inverted m-shadow-small">
+        <div class="ui container">
+            <div class="ui secondary menu m-padded-tb-mini">
+                <div class="item">
+                    <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
+                        class="ui rounded image head" />
                 </div>
-            </form>
-            <div class="m-item item m-mobile-hide">
-                <img src="../../static/images/avatar.png" th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}" class="ui rounded head-big" />
+                <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
+                <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}"
+                    th:href="@{/type/{id}(id=${type.id})}" class="m-item item m-mobile-hide">类目1</a>
+                <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
+                    method="post" target="_blank">
+                    <div class="ui icon transparent input m-margin-tb-tiny">
+                        <input type="text" name="query" placeholder="输入搜索标题……" th:value="${query}">
+                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                    </div>
+                </form>
+                <div class="m-item item m-mobile-hide">
+                    <img src="../../static/images/avatar.png"
+                        th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}"
+                        class="ui rounded head-big" />
+                </div>
+                <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
+                <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
+                <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
+                <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
             </div>
-            <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
-            <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
-            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
-            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
-            <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
-            <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
         </div>
-    </div>
-</nav>
+    </nav>
     <div class="ui m-margin-top column grid container">
         <div class="eleven wide column">
             <div class="ui attached segment">
@@ -100,19 +102,19 @@
                 </div>
                 <div class="ui divider"></div>
                 <div class="ui comments">
-                    <div class="comment">
+                    <div class="comment" th:fragment="commentList" id="comments" th:each="comment:${comments}">
                         <a class="avatar">
-                            <img src="../../static/images/logo.png" class="head" />
+                            <img src="../../static/images/logo.png" class="head" th:src="${comment.user.avatar}"/>
                         </a>
                         <div class="content">
-                            <a class="author">Matt</a>
+                            <a class="author" th:text="${comment.user.nickname}">Matt</a>
                             <div class="metadata">
-                                <span class="date">今天下午 5:42</span>
+                                <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd hh:MM')}">今天下午 5:42</span>
                             </div>
-                            <div class="text">太赞了！ </div>
+                            <div class="text" th:text="${comment.content}">太赞了！ </div>
                         </div>
                     </div>
-                    <div class="comment">
+                    <div class="comment" th:if="${comments==null}">
                         <a class="avatar">
                             <img src="../../static/images/logo.png" class="head" />
                         </a>
@@ -127,10 +129,13 @@
                         </div>
                     </div>
                     <form class="ui reply form">
+                        <input type="hidden" name="videoId" th:value="${video.id}">
                         <div class="field">
-                            <textarea></textarea>
+                            <textarea name="content" placeholder="请输入评论信息..."></textarea>
                         </div>
-                        <div class="ui blue labeled submit icon button"><i class="icon edit"></i>评论</div>
+                        <div class="field  m-margin-bottom-small m-mobile-wide">
+                            <button id="commentpost-btn" type="button" class="ui blue button m-mobile-wide"><i class="edit icon"></i>评论</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -158,25 +163,10 @@
                 <a class="ui" id="toggle" style="float:right;">展开</a>
             </div>
             <div class="ui list barrage m-padded-tb-tiny" id="list">
-                <div class="ui three column grid container item">
-                    <span class="two wide column m-padded-mini">03:56</span>
-                    <span class="eight wide column m-padded-mini center">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
-                    <span class="five wide column m-padded-mini">2020-10-23 18:51</span>
-                </div>
-                <div class="ui three column grid container item">
-                    <span class="two wide column m-padded-mini">03:56</span>
-                    <span class="eight wide column m-padded-mini center">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
-                    <span class="five wide column m-padded-mini">2020-10-23 18:51</span>
-                </div>
-                <div class="ui three column grid container item">
-                    <span class="two wide column m-padded-mini">03:56</span>
-                    <span class="eight wide column m-padded-mini center">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
-                    <span class="five wide column m-padded-mini">2020-10-23 18:51</span>
-                </div>
-                <div class="ui three column grid container item">
-                    <span class="two wide column m-padded-mini">03:56</span>
-                    <span class="eight wide column m-padded-mini">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
-                    <span class="five wide column m-padded-mini">2020-10-23 18:51</span>
+                <div class="ui three column grid container item" th:each="barrage:${barrages}">
+                    <span class="two wide column m-padded-mini" th:text="${#numbers.formatDecimal(barrage.time,0,2)}">12.40</span>
+                    <span class="eight wide column m-padded-mini center" th:text="${#strings.abbreviate(barrage.text,15)}">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
+                    <span class="five wide column m-padded-mini" th:text="${#dates.format(barrage.createtime,'yyyy-MM-dd hh:MM')}">2020-10-23 18:51</span>
                 </div>
             </div>
             <!--推荐部分-->
@@ -196,9 +186,10 @@
         </div>
     </div>
     </div>
-    <input type="hidden" id="videoUrl" th:value="${video.videoUrl}">
-    <script>
-        var videoUrl = $("#videoUrl").val();
+    <script th:inline="javascript">
+        var videoUrl = [[${ video.videoUrl }]];
+        var videoId = [[${ video.id }]];
+        var userId = [[${ video.user.id }]];
         const dp = new DPlayer({
             container: document.getElementById('dplayer'),
             autoplay: false,
@@ -213,12 +204,49 @@
             video: {
                 url: videoUrl,
                 type: 'auto',
+            },
+            danmaku: {
+                id: videoId,
+                api: '/barrage/',
+                user: userId,
             }
         });
         $('#toggle').bind('click', function toggle() {
-            $('#list').toggle();
+            $('#list').slideToggle();
         });
 
+        $('#commentpost-btn').bind('click', function clickbutton() {
+            var boo = $('.ui.form').form('validate form');
+            if (boo) {
+                console.log('校验成功');
+                postdata();
+            } else {
+                console.log('校验失败');
+            }
+        });
+
+        function postdata() {
+            $("#comments").load('/addComment', {
+                "videoId": $("[name='videoId']").val(),
+                "content": $("[name='content']").val()
+            }, function (responseTxt, statusTxt, xhr) {
+                $("[name='content']").val('');
+                $("[name='content']").attr("placeholder", "请输入评论信息...");
+            });
+        }
+
+        //评论表单验证
+        $('.ui.form').form({
+            fields: {
+                content: {
+                    identifier: 'content',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请输入你的评论内容'
+                    }]
+                }
+            }
+        });
     </script>
 </body>
 

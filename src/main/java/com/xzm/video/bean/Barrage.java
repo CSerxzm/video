@@ -5,13 +5,19 @@ import java.util.Date;
 public class Barrage {
     private Integer id;
 
-    private String content;
+    private String text;
 
-    private Date createTime;
+    private Date createtime;
 
     private Integer videoId;
 
-    private Date videoTime;
+    private String time;
+
+    private Integer author;
+
+    private Integer color;
+
+    private Integer type;
 
     public Integer getId() {
         return id;
@@ -21,20 +27,20 @@ public class Barrage {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getText() {
+        return text;
     }
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+    public void setText(String text) {
+        this.text = text == null ? null : text.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreatetime() {
+        return createtime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
     public Integer getVideoId() {
@@ -45,11 +51,35 @@ public class Barrage {
         this.videoId = videoId;
     }
 
-    public Date getVideoTime() {
-        return videoTime;
+    public String getTime() {
+        return time;
     }
 
-    public void setVideoTime(Date videoTime) {
-        this.videoTime = videoTime;
+    public void setTime(String time) {
+        this.time = time == null ? null : time.trim();
+    }
+
+    public Integer getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Integer author) {
+        this.author = author;
+    }
+
+    public Integer getColor() {
+        return color;
+    }
+
+    public void setColor(Integer color) {
+        this.color = color;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

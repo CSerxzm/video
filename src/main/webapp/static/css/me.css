@@ -274,3 +274,7 @@ a{
     background-color:#DCDCDC !important;
     opacity:0.9 !important;
 }
+
+#list{
+    display:none;
+}
