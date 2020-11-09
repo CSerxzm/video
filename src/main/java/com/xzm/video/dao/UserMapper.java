@@ -3,6 +3,7 @@ package com.xzm.video.dao;
 import com.xzm.video.bean.User;
 
 public interface UserMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);
@@ -18,4 +19,5 @@ public interface UserMapper {
     User selectForLogin(User record);
 
     User selectByUsername(String username);
+
 }

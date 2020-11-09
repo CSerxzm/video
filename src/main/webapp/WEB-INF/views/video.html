@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head>
     <meta charset="UTF-8" />
@@ -128,7 +128,10 @@
                             </div>
                         </div>
                     </div>
-                    <form class="ui reply form">
+                    <div class="comment" shiro:guest="">
+                        <h3>登陆后才显示评论功能!</h3>
+                    </div>
+                    <form class="ui reply form" shiro:user="">
                         <input type="hidden" name="videoId" th:value="${video.id}">
                         <div class="field">
                             <textarea name="content" placeholder="请输入评论信息..."></textarea>
@@ -165,7 +168,12 @@
             <div class="ui list barrage m-padded-tb-tiny" id="list">
                 <div class="ui three column grid container item" th:each="barrage:${barrages}">
                     <span class="two wide column m-padded-mini" th:text="${#numbers.formatDecimal(barrage.time,0,2)}">12.40</span>
-                    <span class="eight wide column m-padded-mini center" th:text="${#strings.abbreviate(barrage.text,15)}">弹幕内容温热我认为犯得上发射点犯得上房贷首付</span>
+                    <span class="eight wide column m-padded-mini center" th:text="${#strings.abbreviate(barrage.text,15)}">Lombok的scope=provided，说明它只在编译阶段生效，不需要打入包中</span>
+                    <span class="five wide column m-padded-mini" th:text="${#dates.format(barrage.createtime,'yyyy-MM-dd hh:MM')}">2020-10-23 18:51</span>
+                </div>
+                <div class="ui three column grid container item" th:if="${barrages}==null">
+                    <span class="two wide column m-padded-mini" th:text="${#numbers.formatDecimal(barrage.time,0,2)}">12.40</span>
+                    <span class="eight wide column m-padded-mini center" th:text="${#strings.abbreviate(barrage.text,15)}">Lombok的scope=provided，说明它只在编译阶段生效，不需要打入包中</span>
                     <span class="five wide column m-padded-mini" th:text="${#dates.format(barrage.createtime,'yyyy-MM-dd hh:MM')}">2020-10-23 18:51</span>
                 </div>
             </div>
@@ -174,10 +182,30 @@
                 <span class="ui header" style="margin:auto;">相关推荐</span>
             </div>
             <div class="ui two column grid container m-margin-top-small" th:each="video:${videos_hot}">
-                <img class="seven wide column m-padded-mini" src="../../static/images/temp.png"
+                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
                     style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
                 <div class="nine column">
-                    <p class="title m-margin-tb-tiny" th:text="${video.title}">123242rwetrtgfddgfdgfd</p>
+                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
+                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
+                </div>
+            </div>
+            <div class="ui two column grid container m-margin-top-small" th:if="${videos_hot}==null">
+                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
+                    style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                <div class="nine column">
+                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
+                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
+                </div>
+            </div>
+            <div class="ui two column grid container m-margin-top-small" th:if="${videos_hot}==null">
+                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
+                    style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                <div class="nine column">
+                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
                     <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
                     <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
                     </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
@@ -226,7 +254,7 @@
         });
 
         function postdata() {
-            $("#comments").load('/addComment', {
+            $("#comments").load('/user/addComment', {
                 "videoId": $("[name='videoId']").val(),
                 "content": $("[name='content']").val()
             }, function (responseTxt, statusTxt, xhr) {

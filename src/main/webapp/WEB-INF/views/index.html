@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head>
     <meta charset="UTF-8" />
@@ -33,11 +33,12 @@
                         th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}"
                         class="ui rounded head-big" />
                 </div>
-                <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
-                <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
-                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
-                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
-                <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
+                <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" shiro:guest="">登录</a>
+                <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" shiro:guest="">注册</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" shiro:user="">收藏</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" shiro:user="">历史</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" shiro:hasRole="admin">后台</a>
+                <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" shiro:user="">退出</a>
                 <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
             </div>
         </div>
@@ -58,8 +59,8 @@
                 <div class="ui m-margin-top three column grid container">
                     <div class="column" th:each="video: ${videolist.value}">
                         <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${video.id})}">
-                            <img src="https://i.loli.net/2020/10/24/eRSmEkXnQrxw6gf.jpg"
-                                style="width:300px;height:168px;" th:src="${video.pictureUrl}">
+                            <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;"
+                                th:src="${video.pictureUrl}">
                             <div class="inverted shade">
                                 <i class="large youtube icon"></i><span style="color:black;vertical-align:middle;"
                                     th:text="${video.viewnum}">123</span>
@@ -69,11 +70,49 @@
                         </a>
                         <div class="m-margin-top-mini m-padded-mini">
                             <h3 class="ui header m-margin-tb-tiny title" th:text="${video.title}">
-                                123242rwetrtgfddgfdgfd</h3>
+                                加油！程序员</h3>
                             <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span
-                                    th:text="${video.user.nickname}">UP主/span></p>
+                                    th:text="${video.user.nickname}">UP主</span></p>
                         </div>
                     </div>
+                    <!--每个视频重复开始-->
+                    <div class="column" th:if="${videolist}==null">
+                        <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${video.id})}">
+                            <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;"
+                                th:src="${video.pictureUrl}">
+                            <div class="inverted shade">
+                                <i class="large youtube icon"></i><span style="color:black;vertical-align:middle;"
+                                    th:text="${video.viewnum}">123</span>
+                                <i class="large thumbs up outline icon"></i><span
+                                    style="color:black;vertical-align:middle;" th:text="${video.likenum}">123</span>
+                            </div>
+                        </a>
+                        <div class="m-margin-top-mini m-padded-mini">
+                            <h3 class="ui header m-margin-tb-tiny title" th:text="${video.title}">
+                                加油！程序员</h3>
+                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span
+                                    th:text="${video.user.nickname}">UP主</span></p>
+                        </div>
+                    </div>
+                    <div class="column" th:if="${videolist}==null">
+                        <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${video.id})}">
+                            <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;"
+                                th:src="${video.pictureUrl}">
+                            <div class="inverted shade">
+                                <i class="large youtube icon"></i><span style="color:black;vertical-align:middle;"
+                                    th:text="${video.viewnum}">123</span>
+                                <i class="large thumbs up outline icon"></i><span
+                                    style="color:black;vertical-align:middle;" th:text="${video.likenum}">123</span>
+                            </div>
+                        </a>
+                        <div class="m-margin-top-mini m-padded-mini">
+                            <h3 class="ui header m-margin-tb-tiny title" th:text="${video.title}">
+                                加油！程序员</h3>
+                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span
+                                    th:text="${video.user.nickname}">UP主</span></p>
+                        </div>
+                    </div>
+                    <!--每个视频重复结束-->
                 </div>
             </div>
         </div>
@@ -89,7 +128,13 @@
                 </div>
                 <div class="ui list">
                     <a class="item m-padded-small m-text-lined title-small" th:each="video:${videos_hot[videolist.key]}"
-                        th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">起步</a>
+                        th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">起步1</a>
+                    <a class="item m-padded-small m-text-lined title-small" th:if="${videos_hot}==null"
+                        th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">起步2</a>
+                    <a class="item m-padded-small m-text-lined title-small" th:if="${videos_hot}==null"
+                        th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">起步3</a>
+                    <a class="item m-padded-small m-text-lined title-small" th:if="${videos_hot}==null"
+                        th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">起步4</a>
                 </div>
             </div>
         </div>

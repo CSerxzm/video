@@ -19,12 +19,16 @@
     </bean>
     <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver"/>
+        <property name="additionalDialects" ref="shiroDialect" />
     </bean>
 
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="characterEncoding" value="UTF-8"/>
         <property name="templateEngine" ref="templateEngine"/>
     </bean>
+
+    <!--在thymeleaf中使用shiro的自定义tag-->
+    <bean id="shiroDialect" class="at.pollux.thymeleaf.shiro.dialect.ShiroDialect"/>
 
     <!-- 自动扫描装配 -->
     <context:component-scan base-package="com.xzm.video.controller"/>
@@ -35,11 +39,5 @@
     <!-- 配置注解驱动 可以将request参数与绑定到controller参数上 -->
     <mvc:annotation-driven/>
 
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="com.xzm.video.Interceptor.LoginInterceptor"></bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
 
 </beans>

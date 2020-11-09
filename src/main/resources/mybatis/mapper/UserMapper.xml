@@ -10,10 +10,10 @@
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="coinnum" jdbcType="INTEGER" property="coinnum" />
-    <result column="usertype" jdbcType="INTEGER" property="usertype" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, description, password, nickname, avatar, create_time, coinnum, usertype
+    id, username, description, password, nickname, avatar, create_time, coinnum, role
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,11 +28,11 @@
   <insert id="insert" parameterType="com.xzm.video.bean.User">
     insert into t_user (id, username, description, 
       password, nickname, avatar, 
-      create_time, coinnum, usertype
+      create_time, coinnum, role
       )
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{coinnum,jdbcType=INTEGER}, #{usertype,jdbcType=INTEGER}
+      #{createTime,jdbcType=TIMESTAMP}, #{coinnum,jdbcType=INTEGER}, #{role,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.xzm.video.bean.User">
@@ -62,8 +62,8 @@
       <if test="coinnum != null">
         coinnum,
       </if>
-      <if test="usertype != null">
-        usertype,
+      <if test="role != null">
+        role,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -91,8 +91,8 @@
       <if test="coinnum != null">
         #{coinnum,jdbcType=INTEGER},
       </if>
-      <if test="usertype != null">
-        #{usertype,jdbcType=INTEGER},
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -120,8 +120,8 @@
       <if test="coinnum != null">
         coinnum = #{coinnum,jdbcType=INTEGER},
       </if>
-      <if test="usertype != null">
-        usertype = #{usertype,jdbcType=INTEGER},
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -135,7 +135,7 @@
       avatar = #{avatar,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       coinnum = #{coinnum,jdbcType=INTEGER},
-      usertype = #{usertype,jdbcType=INTEGER}
+      role = #{role,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

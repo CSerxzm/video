@@ -2,6 +2,12 @@ package com.xzm.video.controller;
 
 import com.xzm.video.bean.User;
 import com.xzm.video.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,19 +39,24 @@ public class UserController {
                         @RequestParam String password,
                         HttpSession session,
                         RedirectAttributes attributes) {
-        User user = userService.selectForLogin(new User(username,password));
-        if(user!=null){
-            user.setPassword(null);
+
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken
+                (username,password);
+        try {
+            subject.login(token);
+            User user = (User) SecurityUtils.getSubject().getPrincipal();
             session.setAttribute("user",user);
-            if(user.getUsertype()==1){
+            if(subject.hasRole("admin")){
                 return "success";
-            }else{
-                return "redirect:/";
             }
-        }else{
-            attributes.addFlashAttribute("message", "用户名和密码错误");
-            return "redirect:/login";
+            return "redirect:/";
+        } catch (AuthenticationException e) {
+            attributes.addFlashAttribute("message", "用户名/密码错误,请检查后重试");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("message", "未知错误,请联系管理员");
         }
+        return "redirect:/login";
     }
 
     @PostMapping("/regist")
@@ -54,6 +65,9 @@ public class UserController {
         User res = userService.selectByUsername(username);
         if(res==null){
             user.setCreateTime(new Date());
+            ByteSource salt = ByteSource.Util.bytes(username);
+            Object password = new SimpleHash("MD5",user.getPassword(),salt,2);
+            user.setPassword(String.valueOf(password));
             userService.insertSelective(user);
             return "redirect:/";
         }else{
@@ -64,7 +78,13 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("user");
+        Subject subject = SecurityUtils.getSubject();
+        if (subject != null) {
+            try{
+                subject.logout();
+            }catch(Exception ex){
+            }
+        }
         return "redirect:/";
     }
 }

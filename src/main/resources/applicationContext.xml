@@ -45,4 +45,36 @@
 
     <tx:annotation-driven transaction-manager="transactionManager" />
 
+    <bean id="securityFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!--登录页的url-->
+        <property name="loginUrl" value="/login"/>
+        <!--未认证的跳转页面-->
+        <property name="unauthorizedUrl" value="/" />
+        <property name="filterChainDefinitions">
+            <value>
+                /user/** = authc
+                /** = anon
+            </value>
+        </property>
+    </bean>
+
+    <!--创建SecurityManager对象-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--将realm设置到securityManager主体中-->
+        <property name="realm" ref="realm"/>
+    </bean>
+
+    <bean class="com.xzm.video.realm.MyRealm" id="realm">
+        <!--将加密管理器对象，加入到自定义的Realm中-->
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
+
+    <!--加密管理器对象-->
+    <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher"
+          id="credentialsMatcher">
+        <property name="hashAlgorithmName" value="md5"/>
+        <property name="hashIterations" value="2"/>
+    </bean>
+
 </beans>

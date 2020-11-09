@@ -2,12 +2,16 @@ package com.xzm.video.bean;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class Tag {
+public class History {
     private Integer id;
 
-    private String content;
+    private Integer userId;
 
     private Integer videoId;
+
+    private Date createTime;
 
 }

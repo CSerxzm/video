@@ -26,7 +26,7 @@ public class CommentController {
         return "video :: commentList";
     }
 
-    @PostMapping("/addComment")
+    @PostMapping("/user/addComment")
     public String addComment(Comment comment, HttpSession session){
         //后期使用安全框架修改
         User user = (User)session.getAttribute("user");

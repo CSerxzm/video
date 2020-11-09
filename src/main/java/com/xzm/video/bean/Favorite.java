@@ -3,11 +3,15 @@ package com.xzm.video.bean;
 import lombok.Data;
 
 @Data
-public class Tag {
+public class Favorite {
     private Integer id;
 
-    private String content;
+    private Integer userId;
 
     private Integer videoId;
+
+    public Integer getId() {
+        return id;
+    }
 
 }
