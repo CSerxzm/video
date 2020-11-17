@@ -4,6 +4,8 @@ import com.xzm.video.bean.User;
 import com.xzm.video.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
@@ -47,13 +49,12 @@ public class UserController {
             subject.login(token);
             User user = (User) SecurityUtils.getSubject().getPrincipal();
             session.setAttribute("user",user);
-            if(subject.hasRole("admin")){
-                return "success";
-            }
             return "redirect:/";
-        } catch (AuthenticationException e) {
-            attributes.addFlashAttribute("message", "用户名/密码错误,请检查后重试");
-        } catch (Exception e) {
+        } catch (UnknownAccountException e) {
+            attributes.addFlashAttribute("message", "用户名出错,请检查后重试");
+        }catch (IncorrectCredentialsException e) {
+            attributes.addFlashAttribute("message", "密码出错,请检查后重试");
+        }  catch (Exception e) {
             attributes.addFlashAttribute("message", "未知错误,请联系管理员");
         }
         return "redirect:/login";
@@ -65,9 +66,6 @@ public class UserController {
         User res = userService.selectByUsername(username);
         if(res==null){
             user.setCreateTime(new Date());
-            ByteSource salt = ByteSource.Util.bytes(username);
-            Object password = new SimpleHash("MD5",user.getPassword(),salt,2);
-            user.setPassword(String.valueOf(password));
             userService.insertSelective(user);
             return "redirect:/";
         }else{

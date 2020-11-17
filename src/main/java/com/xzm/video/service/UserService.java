@@ -15,7 +15,5 @@ public interface UserService {
 
     int updateByPrimaryKey(User record);
 
-    User selectForLogin(User record);
-
     User selectByUsername(String username);
 }

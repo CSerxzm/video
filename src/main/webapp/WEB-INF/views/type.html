@@ -46,22 +46,85 @@
     <div class="ui m-margin-top-large column grid container">
         <div class="twelve wide column">
             <div class="ui attached segment">
+                <div class="ui middle aligned two column grid">
+                    <div class="column m-padded-tiny">
+                        <i class="video big icon"></i>
+                        <span class="ui header" style="vertical-align:middle">视频列表</span>
+                    </div>
+                    <div class="right aligned column m-padded-tiny">
+                        <a class="ui basic compact button">共<span th:text="${pageInfo.total}">200</span>个<i
+                                class="angle right icon"></i></a>
+                    </div>
+                </div>
                 <div class="ui m-margin-top three column grid container">
-                    <div class="column" th:each="video:${videos}">
+                    <div class="column" th:fragment="videos" th:each="video:${pageInfo.list}">
                         <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${video.id})}">
-                            <img src="https://i.loli.net/2020/10/24/eRSmEkXnQrxw6gf.jpg"
-                                style="width:300px;height:168px;" th:src="${video.pictureUrl}">
+                            <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;"
+                                th:src="${video.pictureUrl}">
                             <div class="inverted shade">
-                                <span style="color:black;"><i class="large youtube icon"></i>[[${video.viewnum}]]</span>
-                                <span style="color:black;"><i
-                                        class="large thumbs up outline icon"></i>[[${video.likenum}]]</span>
+                                <i class="large youtube icon"></i><span style="color:black;vertical-align:middle;"
+                                    th:text="${video.viewnum}">123</span>
+                                <i class="large thumbs up outline icon"></i><span
+                                    style="color:black;vertical-align:middle;" th:text="${video.likenum}">123</span>
                             </div>
                         </a>
                         <div class="m-margin-top-mini m-padded-mini">
                             <h3 class="ui header m-margin-tb-tiny title" th:text="${video.title}">
-                                123242rwetrtgfddgfdgfd</h3>
-                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i>[[${video.user.nickname}]]</p>
+                                加油！程序员</h3>
+                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span
+                                    th:text="${video.user.nickname}">UP主</span></p>
                         </div>
+                    </div>
+                    <!--每个视频重复开始-->
+                    <div class="column" th:if="${pageInfo}==null">
+                        <a class="ui medium image" href="#">
+                            <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;">
+                            <div class="inverted shade">
+                                <i class="large youtube icon"></i><span
+                                    style="color:black;vertical-align:middle;">123</span>
+                                <i class="large thumbs up outline icon"></i><span
+                                    style="color:black;vertical-align:middle;">123</span>
+                            </div>
+                        </a>
+                        <div class="m-margin-top-mini m-padded-mini">
+                            <h3 class="ui header m-margin-tb-tiny title">
+                                加油！程序员</h3>
+                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span>UP主</span></p>
+                        </div>
+                    </div>
+                    <div class="column" th:if="${pageInfo}==null">
+                        <a class="ui medium image" href="#">
+                            <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;">
+                            <div class="inverted shade">
+                                <i class="large youtube icon"></i><span
+                                    style="color:black;vertical-align:middle;">123</span>
+                                <i class="large thumbs up outline icon"></i><span
+                                    style="color:black;vertical-align:middle;">123</span>
+                            </div>
+                        </a>
+                        <div class="m-margin-top-mini m-padded-mini">
+                            <h3 class="ui header m-margin-tb-tiny title">
+                                加油！程序员</h3>
+                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span>UP主</span></p>
+                        </div>
+                    </div>
+                    <!--每个视频重复结束-->
+                </div>
+                <div class="m-margin-top container" style="text-align:center;">
+                    <div class=" ui buttons">
+                        <a class="ui basic blue button" th:if="${pageInfo.hasPreviousPage}"
+                            th:href="@{'/type/'+${type_id}+'?page='+${pageInfo.prePage}}">
+                            <font style="vertical-align: inherit;">上一页</font>
+                        </a>
+                        <a class="ui blue button" th:each="pageNo:${pageInfo.navigatepageNums}"
+                            th:classappend="${pageNo==pageInfo.pageNum}?'primary':'basic'"
+                            th:href="@{'/type/'+${type_id}+'?page='+${pageNo}}">
+                            <font style="vertical-align: inherit;" th:text="${pageNo}">1</font>
+                        </a>
+                        <a class="ui basic blue button" th:if="${pageInfo.hasNextPage}"
+                            th:href="@{'/type/'+${type_id}+'?page='+${pageInfo.nextPage}}">
+                            <font style="vertical-align: inherit;">下一页</font>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -70,15 +133,22 @@
             <div class="ui attached segment">
                 <div class="ui middle aligned two column grid">
                     <div class="column m-padded-tiny">
-                        <span class="ui" style="vertical-align:middle">排行榜</span>
-                    </div>
-                    <div class="right aligned column m-padded-tiny">
-                        <button class="ui small basic compact button">更多<i class="angle right icon"></i></button>
+                        <span class="ui header" style="vertical-align:middle">排行榜</span>
                     </div>
                 </div>
-                <div class="ui ordered list">
-                    <!--                    <a class="item m-padded-small m-text-lined" th:each="video:${videos_new[videolist.key]}"
-                       th:text="${video.title}" th:href="@{/video/{id}(id=${video.id})}">起步</a>-->
+                <div class="ui m-margin-top">
+                    <div class="item m-margin-top title-small" th:each="video,videoStat:${videos_hot}">
+                        <a class="ui circular label" th:classappend="${videoStat.count} lt '5' ? 'red'">
+                            <font style="vertical-align: inherit;" th:text="${videoStat.count}">1</font>
+                        </a>
+                        <a th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频1</a>
+                    </div>
+                    <div class="item m-margin-top  title-small" th:if="${videos_hot}==null">
+                        <a class="ui red circular label">
+                            <font style="vertical-align: inherit;" th:text="${videoStat.count}">2</font>
+                        </a>
+                        <a th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频2</a>
+                    </div>
                 </div>
             </div>
         </div>

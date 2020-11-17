@@ -84,7 +84,13 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public List<Video> selectByType(Integer type_id) {
+    public List<Video> selectByTypeId(Integer type_id) {
         return videoMapper.selectByType(type_id);
     }
+
+    @Override
+    public List<Video> selectHotByTypeId(Integer type_id,Integer size) {
+        return videoMapper.selectHotByTypeId(type_id,size);
+    }
+
 }

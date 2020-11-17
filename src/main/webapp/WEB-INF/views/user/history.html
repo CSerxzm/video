@@ -1,11 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
+
 <head>
     <meta charset="UTF-8" />
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <link rel="stylesheet" href="../../static/css/me.css" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <title>Video</title>
 </head>
 
@@ -33,31 +34,30 @@
                         th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}"
                         class="ui rounded head-big" />
                 </div>
-                <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" shiro:guest="">登录</a>
-                <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" shiro:guest="">注册</a>
-                <a href="#" th:href="@{/user/favorite}" class="m-item item m-mobile-hide" shiro:user="">收藏</a>
-                <a href="#" th:href="@{/user/history}" class="m-item item m-mobile-hide" shiro:user="">历史</a>
-                <a href="#" th:href="@{/admin}" class="m-item item m-mobile-hide" shiro:hasRole="admin">后台</a>
-                <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" shiro:user="">退出</a>
+                <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
+                <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
+                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
+                <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
                 <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
             </div>
         </div>
     </nav>
-    <div class="ui m-margin-top-large column grid container" th:each="type:${session.types}!=null?${session.types}">
+    <div class="ui m-margin-top-large column grid container">
         <div class="twelve wide column">
             <div class="ui attached segment">
                 <div class="ui middle aligned two column grid">
                     <div class="column m-padded-tiny">
                         <i class="video big icon"></i>
-                        <span class="ui header" style="vertical-align:middle" th:text="${type.name}">动画</span>
+                        <span class="ui header" style="vertical-align:middle">视频列表</span>
                     </div>
                     <div class="right aligned column m-padded-tiny">
-                        <a class="ui basic compact button" th:href="@{/type/{id}(id=${type.id})}">更多<i
+                        <a class="ui basic compact button">共<span th:text="${pageInfo.total}">200</span>个<i
                                 class="angle right icon"></i></a>
                     </div>
                 </div>
                 <div class="ui m-margin-top three column grid container">
-                    <div class="column" th:fragment="videos" th:each="video:${videos_new[type.name]}">
+                    <div class="column" th:fragment="videos" th:each="video:${pageInfo.list}">
                         <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${video.id})}">
                             <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;"
                                 th:src="${video.pictureUrl}">
@@ -110,22 +110,43 @@
                     </div>
                     <!--每个视频重复结束-->
                 </div>
+                <div class="m-margin-top container" style="text-align:center;">
+                    <div class=" ui buttons">
+                        <a class="ui basic blue button">
+                            <font style="vertical-align: inherit;">上一页</font>
+                        </a>
+                        <a class="ui basic blue button">
+                            <font style="vertical-align: inherit;">1</font>
+                        </a>
+                        <a class="ui basic blue button">
+                            <font style="vertical-align: inherit;">2</font>
+                        </a>
+                        <a class="ui basic blue button">
+                            <font style="vertical-align: inherit;">3</font>
+                        </a>
+                        <a class="ui basic blue button">
+                            <font style="vertical-align: inherit;">4</font>
+                        </a>
+                        <a class="ui basic blue button">
+                            <font style="vertical-align: inherit;">5</font>
+                        </a>
+                        <a class="ui basic blue button">
+                            <font style="vertical-align: inherit;">下一页</font>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="four wide column">
             <div class="ui attached segment">
                 <div class="ui middle aligned two column grid">
                     <div class="column m-padded-tiny">
-                        <span class="ui header" style="vertical-align:middle">最热排行榜</span>
-                    </div>
-                    <div class="right aligned column m-padded-tiny">
-                        <a class="ui basic compact button" th:href="@{/type/{id}(id=${type.id})}">更多<i
-                                class="angle right icon"></i></a>
+                        <span class="ui header" style="vertical-align:middle">排行榜</span>
                     </div>
                 </div>
                 <div class="ui m-margin-top">
-                    <div class="item m-margin-top title-small" th:each="video,videoStat:${videos_hot[type.name]}">
-                        <a class="ui circular label" th:classappend="${videoStat.count} lt '4' ? 'red' ">
+                    <div class="item m-margin-top title-small" th:each="video,videoStat:${videos_hot}">
+                        <a class="ui circular label" th:classappend="${videoStat.count} lt '5' ? 'red'">
                             <font style="vertical-align: inherit;" th:text="${videoStat.count}">1</font>
                         </a>
                         <a th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频1</a>
@@ -140,6 +161,7 @@
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

@@ -2,6 +2,7 @@ package com.xzm.video.realm;
 
 import com.xzm.video.bean.User;
 import com.xzm.video.dao.UserMapper;
+import com.xzm.video.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -19,7 +20,7 @@ import javax.management.relation.Role;
 public class MyRealm extends AuthorizingRealm {
 
     @Autowired
-    UserMapper userMapper;
+    UserService userService;
 
     //授权
     @Override
@@ -27,7 +28,6 @@ public class MyRealm extends AuthorizingRealm {
         //获取登录用户名
         User user = (User) principalCollection.getPrimaryPrincipal();
         //添加角色和权限
-        System.out.println(user);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.addRole(String.valueOf(user.getRole()));
         return simpleAuthorizationInfo;
@@ -38,17 +38,18 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         //获得用户名
         String userName = (String)authenticationToken.getPrincipal();
+        System.out.println("——————认证用户——————");
 
         //2查询数据库
-        User user = userMapper.selectByUsername(userName);
-        if (user == null){
-            return null;
+        User user = userService.selectByUsername(userName);
+        if (user != null){
+            ByteSource salt = ByteSource.Util.bytes(userName);
+
+            SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo
+                    (user,user.getPassword(),salt,this.getName());
+
+            return authenticationInfo;
         }
-        ByteSource salt = ByteSource.Util.bytes(userName);
-
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo
-                (user,user.getPassword(),salt,"myRealm");
-
-        return authenticationInfo;
+        return null;
     }
 }

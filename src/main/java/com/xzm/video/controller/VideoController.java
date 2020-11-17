@@ -1,5 +1,7 @@
 package com.xzm.video.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xzm.video.bean.*;
 import com.xzm.video.service.BarrageService;
 import com.xzm.video.service.CommentService;
@@ -7,6 +9,7 @@ import com.xzm.video.service.TypeService;
 import com.xzm.video.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,15 +56,22 @@ public class VideoController {
 
     //根据种类选id
     @GetMapping("/type/{id}")
-    public String videoByType(@PathVariable Integer id, ModelMap model) {
-        List<Video> videos = videoService.selectByType(id);
-        model.put("videos",videos);
+    public String videoByType(@RequestParam(value = "page", defaultValue = "1") Integer page, @PathVariable Integer id, ModelMap model) {
+        List<Video> videos_hot = videoService.selectHotByTypeId(id,10);
+
+        PageHelper.startPage(page, 9);
+        List<Video> videos = videoService.selectByTypeId(id);
+        PageInfo pageInfo = new PageInfo(videos, 5);
+        model.addAttribute("pageInfo", pageInfo);
+
+        model.put("videos_hot",videos_hot);
+        model.put("type_id",id);
         return "type";
     }
 
     @GetMapping("/user/upload")
     public String toupload(){
-        return "upload";
+        return "user/upload";
     }
 
     @PostMapping("/user/addvideo")

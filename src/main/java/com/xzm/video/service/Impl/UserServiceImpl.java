@@ -3,7 +3,8 @@ package com.xzm.video.service.Impl;
 import com.xzm.video.bean.User;
 import com.xzm.video.dao.UserMapper;
 import com.xzm.video.service.UserService;
-import com.xzm.video.util.MD5Utils;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +21,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int insert(User record) {
-        String password = MD5Utils.code(record.getPassword());
-        record.setPassword(password);
+        String username = record.getUsername();
+        ByteSource salt = ByteSource.Util.bytes(username);
+        Object password = new SimpleHash("MD5",record.getPassword(),salt,2);
+        record.setPassword(String.valueOf(password));
         return userMapper.insert(record);
     }
 
     @Override
     public int insertSelective(User record) {
-        String password = MD5Utils.code(record.getPassword());
-        record.setPassword(password);
+        String username = record.getUsername();
+        ByteSource salt = ByteSource.Util.bytes(username);
+        Object password = new SimpleHash("MD5",record.getPassword(),salt,2);
+        record.setPassword(String.valueOf(password));
         return userMapper.insertSelective(record);
     }
 
@@ -47,12 +52,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateByPrimaryKey(record);
     }
 
-    @Override
-    public User selectForLogin(User record) {
-        String password = record.getPassword();
-        record.setPassword(MD5Utils.code(password));
-        return userMapper.selectForLogin(record);
-    }
 
     @Override
     public User selectByUsername(String username){

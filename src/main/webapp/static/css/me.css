@@ -222,9 +222,9 @@ img{
 
 .title-small{
     font-size: 16px !important;
-    height: 26px !important;
-    line-height: 18px !important;
-    margin-bottom: 6px !important;
+    height: 24px !important;
+    line-height: 16px !important;
+    margin-left:10px !important;
     word-break: break-word !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//com.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xzm.video.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.xzm.video.bean.User">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -138,15 +138,6 @@
       role = #{role,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-  <!--User selectForLogin(User record);-->
-  <select id="selectForLogin" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_user
-    where username = #{username,jdbcType=VARCHAR}
-    and password = #{password,jdbcType=VARCHAR}
-  </select>
 
   <!--User selectByUsername(String username);-->
   <select id="selectByUsername" resultMap="BaseResultMap">

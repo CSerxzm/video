@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xzm.video.dao.FavoriteMapper">
-  <resultMap id="BaseResultMap" type="com.xzm.video.bean.Favorite">
+<!DOCTYPE mapper PUBLIC "-//com.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzm.video.dao.HistoryMapper">
+  <resultMap id="BaseResultMap" type="com.xzm.video.bean.History">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="video_id" jdbcType="INTEGER" property="videoId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, video_id
+    id, user_id, video_id, create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_favorite
+    from t_history
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_favorite
+    delete from t_history
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xzm.video.bean.Favorite">
-    insert into t_favorite (id, user_id, video_id
-      )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{videoId,jdbcType=INTEGER}
-      )
+  <insert id="insert" parameterType="com.xzm.video.bean.History">
+    insert into t_history (id, user_id, video_id, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{videoId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.xzm.video.bean.Favorite">
-    insert into t_favorite
+  <insert id="insertSelective" parameterType="com.xzm.video.bean.History">
+    insert into t_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -36,6 +37,9 @@
       </if>
       <if test="videoId != null">
         video_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -48,10 +52,13 @@
       <if test="videoId != null">
         #{videoId,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xzm.video.bean.Favorite">
-    update t_favorite
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzm.video.bean.History">
+    update t_history
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -59,13 +66,17 @@
       <if test="videoId != null">
         video_id = #{videoId,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xzm.video.bean.Favorite">
-    update t_favorite
+  <update id="updateByPrimaryKey" parameterType="com.xzm.video.bean.History">
+    update t_history
     set user_id = #{userId,jdbcType=INTEGER},
-      video_id = #{videoId,jdbcType=INTEGER}
+      video_id = #{videoId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

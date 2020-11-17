@@ -27,7 +27,7 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
-        <property name="configLocation" value="classpath:mybatis/mybatis-conf.xml"></property>
+        <property name="configLocation" value="classpath:mybatis-conf.xml"></property>
     </bean>
 
     <bean id="multipartResolver"

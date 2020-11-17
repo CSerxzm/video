@@ -1,6 +1,7 @@
 package com.xzm.video.service;
 
 import com.xzm.video.bean.Video;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,5 +30,8 @@ public interface VideoService {
 
     List<Video> selectHot(Integer size);
 
-    List<Video> selectByType(Integer type_id);
+    List<Video> selectByTypeId(Integer type_id);
+
+    List<Video> selectHotByTypeId(Integer type_id,Integer size);
+
 }

@@ -27,4 +27,5 @@ public interface VideoMapper {
     List<Video> selectHot(Integer size);
 
     List<Video> selectByType(Integer type_id);
+
 }
