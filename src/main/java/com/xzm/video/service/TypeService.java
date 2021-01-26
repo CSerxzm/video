@@ -1,21 +1,19 @@
 package com.xzm.video.service;
 
 import com.xzm.video.bean.Type;
+import com.xzm.video.utils.ResultInfo;
 
 import java.util.List;
 
 public interface TypeService {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Type record);
+    ResultInfo deleteByPrimaryKey(Integer id);
 
-    int insertSelective(Type record);
+    ResultInfo insertSelective(Type record);
 
     Type selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Type record);
-
-    int updateByPrimaryKey(Type record);
+    ResultInfo updateByPrimaryKeySelective(Type record);
 
     List<Type> selectAll();
 }

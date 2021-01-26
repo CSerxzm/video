@@ -18,20 +18,20 @@ public class Video {
 
     private String videoUrl;
 
-    private Integer viewnum;
+    private Integer viewnum;//观看数
 
-    private Integer barrnum;
+    private Integer barrnum;//弹幕数
 
-    private Integer starnum;
+    private Integer starnum;//收藏数
 
-    private Integer coinnum;
+    private Integer coinnum;//投币数
 
-    private Integer likenum;
+    private Integer likenum;//点赞数
 
-    private Integer trannum;
+    private Integer trannum;//转发数
 
     private Integer typeId;
 
     private String pictureUrl;
-
+    
 }

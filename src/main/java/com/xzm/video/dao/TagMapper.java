@@ -2,6 +2,8 @@ package com.xzm.video.dao;
 
 import com.xzm.video.bean.Tag;
 
+import java.util.List;
+
 public interface TagMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TagMapper {
     int updateByPrimaryKeySelective(Tag record);
 
     int updateByPrimaryKey(Tag record);
+
+    List<Tag> selectByVideoId(Integer videoId);
 }

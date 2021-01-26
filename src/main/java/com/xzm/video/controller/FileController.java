@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * 视频上传接口
+ */
 @Controller
 public class FileController {
 

@@ -74,5 +74,10 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.16.18" level="project" />
     <orderEntry type="library" name="Maven: com.github.pagehelper:pagehelper:5.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.github.jsqlparser:jsqlparser:1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: binaryage:devtools:0.9.10" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: binaryage:env-config:0.2.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.clojure:tools.reader:1.0.5" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.clojure:clojure:1.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.liquibase:liquibase-core:1.9.1" level="project" />
   </component>
 </module>

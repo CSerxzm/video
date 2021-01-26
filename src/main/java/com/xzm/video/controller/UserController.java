@@ -2,6 +2,7 @@ package com.xzm.video.controller;
 
 import com.xzm.video.bean.User;
 import com.xzm.video.service.UserService;
+import com.xzm.video.utils.ResultInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -63,7 +64,7 @@ public class UserController {
     @PostMapping("/regist")
     public String regist(User user,RedirectAttributes attributes){
         String username = user.getUsername();
-        User res = userService.selectByUsername(username);
+        ResultInfo res = userService.selectByUsername(username);
         if(res==null){
             user.setCreateTime(new Date());
             userService.insertSelective(user);

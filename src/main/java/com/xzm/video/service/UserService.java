@@ -1,19 +1,17 @@
 package com.xzm.video.service;
 
 import com.xzm.video.bean.User;
+import com.xzm.video.utils.ResultInfo;
 
 public interface UserService {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(User record);
+    ResultInfo deleteByPrimaryKey(Integer id);
 
-    int insertSelective(User record);
+    ResultInfo insertSelective(User record);
 
     User selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(User record);
+    ResultInfo updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(User record);
-
-    User selectByUsername(String username);
+    ResultInfo selectByUsername(String username);
 }

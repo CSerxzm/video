@@ -1,17 +1,24 @@
 package com.xzm.video.service;
 
 import com.xzm.video.bean.Tag;
+import com.xzm.video.utils.ResultInfo;
+
+import java.util.List;
 
 public interface TagService {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Tag record);
+    ResultInfo deleteByPrimaryKey(Integer id);
 
-    int insertSelective(Tag record);
+    ResultInfo insertSelective(Tag record);
 
     Tag selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Tag record);
+    ResultInfo updateByPrimaryKeySelective(Tag record);
 
-    int updateByPrimaryKey(Tag record);
+    /**
+     * 通过blog标识查找所有的标签
+     * @param videoId
+     * @return
+     */
+    List<Tag> selectByVideoId(Integer videoId);
 }

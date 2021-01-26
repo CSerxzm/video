@@ -3,7 +3,9 @@ package com.xzm.video.service.Impl;
 import com.xzm.video.bean.Barrage;
 import com.xzm.video.bean.Video;
 import com.xzm.video.dao.BarrageMapper;
+import com.xzm.video.dao.VideoMapper;
 import com.xzm.video.service.BarrageService;
+import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,51 +20,38 @@ public class BarrageServiceImpl implements BarrageService {
     @Autowired
     BarrageMapper barrageMapper;
 
+    @Autowired
+    VideoMapper videoMapper;
+
     @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return barrageMapper.deleteByPrimaryKey(id);
+    public ResultInfo deleteByPrimaryKey(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = barrageMapper.deleteByPrimaryKey(id);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
-    public int insert(Map<String,String> record) {
-        Barrage barrage = new Barrage();
-        barrage.setVideoId(Integer.valueOf(record.get("id")));
-        barrage.setAuthor(Integer.valueOf(record.get("author")));
-        barrage.setTime(record.get("time"));
-        barrage.setText(record.get("text"));
-        barrage.setColor(Integer.valueOf(record.get("color")));
-        barrage.setType(Integer.valueOf(record.get("type")));
-        barrage.setCreatetime(new Date());
-        return barrageMapper.insert(barrage);
-    }
-
-    @Override
-    public int insertSelective(Map<String,String> record) {
+    public ResultInfo insertSelective(Map<String,String> record) {
+        ResultInfo resultInfo = new ResultInfo(true);
         Barrage barrage = new Barrage();
         //{id=1, author=DIYgod, time=5.534275, text=123, color=15024726, type=0}
-        barrage.setVideoId(Integer.valueOf(record.get("id")));
+        Integer videoId = Integer.valueOf(record.get("id"));
+        barrage.setVideoId(videoId);
         barrage.setAuthor(Integer.valueOf(record.get("author")));
         barrage.setTime(record.get("time"));
         barrage.setText(record.get("text"));
         barrage.setColor(Integer.valueOf(record.get("color")));
         barrage.setType(Integer.valueOf(record.get("type")));
         barrage.setCreatetime(new Date());
-        return barrageMapper.insertSelective(barrage);
-    }
+        int index = barrageMapper.insertSelective(barrage);
 
-    @Override
-    public Barrage selectByPrimaryKey(Integer id) {
-        return barrageMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(Barrage record) {
-        return barrageMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public int updateByPrimaryKey(Barrage record) {
-        return 0;
+        //更新系统的弹幕数目
+        Video video = videoMapper.selectByPrimaryKey(videoId);
+        video.setBarrnum(video.getBarrnum()+1);
+        videoMapper.updateByPrimaryKey(video);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override

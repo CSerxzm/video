@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 弹幕的相关接口
+ */
 @Controller
 public class BarrageController {
 

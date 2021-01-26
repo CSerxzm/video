@@ -3,6 +3,7 @@ package com.xzm.video.service.Impl;
 import com.xzm.video.bean.Type;
 import com.xzm.video.dao.TypeMapper;
 import com.xzm.video.service.TypeService;
+import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,33 +16,33 @@ public class TypeServiceImpl implements TypeService{
     TypeMapper typeMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return typeMapper.deleteByPrimaryKey(id);
+    public ResultInfo deleteByPrimaryKey(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = typeMapper.deleteByPrimaryKey(id);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
-    public int insert(Type record) {
-        return typeMapper.insert(record);
-    }
-
-    @Override
-    public int insertSelective(Type record) {
-        return typeMapper.insertSelective(record);
+    public ResultInfo insertSelective(Type record) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = typeMapper.insertSelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
     public Type selectByPrimaryKey(Integer id) {
-        return typeMapper.selectByPrimaryKey(id);
+        Type type = typeMapper.selectByPrimaryKey(id);
+        return type;
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Type record) {
-        return typeMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public int updateByPrimaryKey(Type record) {
-        return typeMapper.updateByPrimaryKey(record);
+    public ResultInfo updateByPrimaryKeySelective(Type record) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = typeMapper.updateByPrimaryKeySelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override

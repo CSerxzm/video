@@ -89,15 +89,10 @@
                             <option value="4">教育</option>
                         </select>
                     </div>
-                    <!--                    <div class="field">
-                            <label>标签</label>
-                            <select class="ui fluid search dropdown" multiple="">
-                                <option value="1">动画</option>
-                                <option value="2">游戏</option>
-                                <option value="3">番剧</option>
-                                <option value="4">教育</option>
-                            </select>
-                        </div>-->
+                    <div class="field">
+                        <label>标签</label>
+                        <input name="tags" id="tags" type="text" placeholder="标签，多标签用逗号隔开">
+                    </div>
                     <div class="field">
                         <label>封面链接</label>
                         <input name="pictureUrl" id="pictureUrl" type="text" placeholder="封面图片" readonly>
@@ -148,7 +143,6 @@
             console.log(newsrc);
             //$('#video').src = newsrc;,这种方法不能实现
             document.getElementById('video').src = newsrc;
-            console.log("123");
         }
 
         function dataURLtoFile(dataurl, filename) {
@@ -216,7 +210,6 @@
                 var dataUrl = canvas.toDataURL("image/png");
                 // 获取图片的base64格式
                 pic = dataUrl;
-                document.getElementById("pictureUrl").value = '123';
             }, 500);
         });
     </script>

@@ -61,13 +61,13 @@
                 </div>
                 <div class="ui seven column grid m-margin" style="font-size: 16px;">
                     <div class="column m-padded-tiny" style="margin-left:2rem">
-                        <i class="large star outline icon"></i><span th:text="${video.starnum}">1888</span>
+                        <i class="large star outline icon" id="star"></i><span th:text="${video.starnum}">1888</span>
                     </div>
                     <div class="column m-padded-tiny">
-                        <i class="large yen sign icon"></i><span th:text="${video.coinnum}">1888</span>
+                        <i class="large yen sign icon" id="coin"></i><span th:text="${video.coinnum}">1888</span>
                     </div>
                     <div class="column m-padded-tiny">
-                        <i class="large thumbs up outline icon"></i><span th:text="${video.likenum}">1888</span>
+                        <i class="large thumbs up outline icon" id="like"></i><span th:text="${video.likenum}">1888</span>
                     </div>
                     <div class="column m-padded-tiny">
                         <i class="large share icon"></i><span th:text="${video.trannum}">1888</span>
@@ -91,9 +91,8 @@
                 </div>
                 <!--标签-->
                 <div class="label m-margin-top">
-                    <a class="ui blue label large">搞笑</a>
-                    <a class="ui blue label large">亲子</a>
-                    <a class="ui blue label large">编程</a>
+                    <a class="ui blue label large"  th:each="tag:${tags}"
+                       th:text="${tag.content}">搞笑</a>
                 </div>
                 <div class="ui divider"></div>
                 <!--评论-->
@@ -181,35 +180,41 @@
             <div class="ui m-padded">
                 <span class="ui header" style="margin:auto;">相关推荐</span>
             </div>
-            <div class="ui two column grid container m-margin-top-small" th:each="video:${videos_hot}">
-                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
-                    style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
-                <div class="nine column">
-                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
-                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
-                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+            <div th:each="video:${videos_hot}">
+                <a class="ui two column grid container m-margin-top-small" href="#" th:href="@{/video/{id}(id=${video.id})}">
+                    <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
+                         style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                    <div class="nine column">
+                        <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
+                        <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                        <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
                     </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
-                </div>
+                    </div>
+                </a>
             </div>
-            <div class="ui two column grid container m-margin-top-small" th:if="${videos_hot}==null">
-                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
-                    style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
-                <div class="nine column">
-                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
-                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
-                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+            <div th:if="${videos_hot}==null">
+                <a class="ui two column grid container m-margin-top-small" href="#" th:href="@{/video/{id}(id=${video.id})}">
+                    <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
+                         style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                    <div class="nine column">
+                        <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
+                        <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                        <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
                     </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
-                </div>
+                    </div>
+                </a>
             </div>
-            <div class="ui two column grid container m-margin-top-small" th:if="${videos_hot}==null">
-                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
-                    style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
-                <div class="nine column">
-                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
-                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
-                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+            <div th:if="${videos_hot}==null">
+                <a class="ui two column grid container m-margin-top-small" href="#" th:href="@{/video/{id}(id=${video.id})}">
+                    <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
+                         style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                    <div class="nine column">
+                        <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
+                        <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                        <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
                     </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
-                </div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -241,6 +246,31 @@
         });
         $('#toggle').bind('click', function toggle() {
             $('#list').slideToggle();
+        });
+
+        /**
+         * 点赞
+         */
+        $("#star").bind('click',function(){
+            var id = [[${video.id}]];
+            $.post('/video/addstarnum',{"id":id},function (result) {
+                $("#star").next().html(result.data.star);
+            });
+        });
+
+        $("#coin").bind('click',function(){
+            var id = [[${video.id}]];
+            $.post('/video/addcoinnum',{"id":id},function (result) {
+                $("#coin").next().html(result.data.coin);
+            });
+        });
+
+        $("#like").bind('click',function(){
+            var id = [[${video.id}]];
+            $.post('/video/addlikenum',{"id":id},function (result) {
+                console.log(result.data);
+                $("#like").next().html(result.data.like);
+            });
         });
 
         $('#commentpost-btn').bind('click', function clickbutton() {

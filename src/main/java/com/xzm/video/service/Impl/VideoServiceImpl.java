@@ -1,10 +1,14 @@
 package com.xzm.video.service.Impl;
 
+import com.xzm.video.bean.Tag;
 import com.xzm.video.bean.Type;
 import com.xzm.video.bean.Video;
+import com.xzm.video.dao.TagMapper;
 import com.xzm.video.dao.TypeMapper;
 import com.xzm.video.dao.VideoMapper;
+import com.xzm.video.service.TagService;
 import com.xzm.video.service.VideoService;
+import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,34 +25,45 @@ public class VideoServiceImpl implements VideoService{
     @Autowired
     TypeMapper typeMapper;
 
+    @Autowired
+    TagMapper tagMapper;
+
     @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return videoMapper.deleteByPrimaryKey(id);
+    public ResultInfo deleteByPrimaryKey(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = videoMapper.deleteByPrimaryKey(id);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
-    public int insert(Video record) {
-        return videoMapper.insert(record);
-    }
-
-    @Override
-    public int insertSelective(Video record) {
-        return videoMapper.insertSelective(record);
+    public ResultInfo insertSelective(Video record,String tags) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        String tagStr = tags.replaceAll("，",",");
+        String[] tagStrs = tagStr.split(",");
+        int index = videoMapper.insertSelective(record);
+        for(String temp : tagStrs){
+            tagMapper.insertSelective(new Tag(temp,index));
+        }
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
     public Video selectByPrimaryKey(Integer id) {
-        return videoMapper.selectByPrimaryKey(id);
+        ResultInfo resultInfo = new ResultInfo(true);
+        Video video = videoMapper.selectByPrimaryKey(id);
+        video.setViewnum(video.getViewnum()+1);
+        videoMapper.updateByPrimaryKey(video);
+        return video;
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Video record) {
-        return videoMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public int updateByPrimaryKey(Video record) {
-        return videoMapper.updateByPrimaryKey(record);
+    public ResultInfo updateByPrimaryKeySelective(Video record) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = videoMapper.updateByPrimaryKeySelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
@@ -91,6 +106,36 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public List<Video> selectHotByTypeId(Integer type_id,Integer size) {
         return videoMapper.selectHotByTypeId(type_id,size);
+    }
+
+    @Override
+    public ResultInfo addStarNum(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        Video video = videoMapper.selectByPrimaryKey(id);
+        video.setStarnum(video.getStarnum()+1);
+        videoMapper.updateByPrimaryKey(video);
+        resultInfo.setData("star",video.getStarnum());
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo addCoinNum(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        Video video = videoMapper.selectByPrimaryKey(id);
+        video.setCoinnum(video.getCoinnum()+1);
+        videoMapper.updateByPrimaryKey(video);
+        resultInfo.setData("coin",video.getCoinnum());
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo addLikeNum(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        Video video = videoMapper.selectByPrimaryKey(id);
+        video.setLikenum(video.getLikenum()+1);
+        videoMapper.updateByPrimaryKey(video);
+        resultInfo.setData("like",video.getLikenum());
+        return resultInfo;
     }
 
 }

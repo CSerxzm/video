@@ -3,8 +3,11 @@ package com.xzm.video.service.Impl;
 import com.xzm.video.bean.Tag;
 import com.xzm.video.dao.TagMapper;
 import com.xzm.video.service.TagService;
+import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -13,32 +16,38 @@ public class TagServiceImpl implements TagService {
     TagMapper tagMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return tagMapper.deleteByPrimaryKey(id);
+    public ResultInfo deleteByPrimaryKey(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = tagMapper.deleteByPrimaryKey(id);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
-    public int insert(Tag record) {
-        return tagMapper.insert(record);
-    }
-
-    @Override
-    public int insertSelective(Tag record) {
-        return tagMapper.insertSelective(record);
+    public ResultInfo insertSelective(Tag record) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = tagMapper.insertSelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
     public Tag selectByPrimaryKey(Integer id) {
-        return tagMapper.selectByPrimaryKey(id);
+        Tag tag = tagMapper.selectByPrimaryKey(id);
+        return tag;
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Tag record) {
-        return tagMapper.updateByPrimaryKeySelective(record);
+    public ResultInfo updateByPrimaryKeySelective(Tag record) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = tagMapper.updateByPrimaryKeySelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
-    public int updateByPrimaryKey(Tag record) {
-        return tagMapper.updateByPrimaryKey(record);
+    public List<Tag> selectByVideoId(Integer videoId) {
+        return tagMapper.selectByVideoId(videoId);
     }
+
 }

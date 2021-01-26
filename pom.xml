@@ -198,6 +198,23 @@
       <version>5.1.2</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/binaryage/devtools -->
+    <dependency>
+      <groupId>binaryage</groupId>
+      <artifactId>devtools</artifactId>
+      <version>0.9.10</version>
+      <scope>test</scope>
+    </dependency>
+
+
+    <!--添加liquibase-->
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>

@@ -3,6 +3,7 @@ package com.xzm.video.service.Impl;
 import com.xzm.video.bean.User;
 import com.xzm.video.dao.UserMapper;
 import com.xzm.video.service.UserService;
+import com.xzm.video.utils.ResultInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,46 +16,47 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return userMapper.deleteByPrimaryKey(id);
+    public ResultInfo deleteByPrimaryKey(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = userMapper.deleteByPrimaryKey(id);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
+
     @Override
-    public int insert(User record) {
+    public ResultInfo insertSelective(User record) {
+        ResultInfo resultInfo = new ResultInfo(true);
         String username = record.getUsername();
         ByteSource salt = ByteSource.Util.bytes(username);
         Object password = new SimpleHash("MD5",record.getPassword(),salt,2);
         record.setPassword(String.valueOf(password));
-        return userMapper.insert(record);
-    }
-
-    @Override
-    public int insertSelective(User record) {
-        String username = record.getUsername();
-        ByteSource salt = ByteSource.Util.bytes(username);
-        Object password = new SimpleHash("MD5",record.getPassword(),salt,2);
-        record.setPassword(String.valueOf(password));
-        return userMapper.insertSelective(record);
+        int index = userMapper.insertSelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
     public User selectByPrimaryKey(Integer id) {
-        return userMapper.selectByPrimaryKey(id);
+        User user = userMapper.selectByPrimaryKey(id);
+        return user;
     }
 
     @Override
-    public int updateByPrimaryKeySelective(User record) {
-        return userMapper.updateByPrimaryKeySelective(record);
+    public ResultInfo updateByPrimaryKeySelective(User record) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = userMapper.updateByPrimaryKeySelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
-    public int updateByPrimaryKey(User record) {
-        return userMapper.updateByPrimaryKey(record);
-    }
-
-
-    @Override
-    public User selectByUsername(String username){
-        return userMapper.selectByUsername(username);
+    public ResultInfo selectByUsername(String username){
+        ResultInfo resultInfo = new ResultInfo(true);
+        User user = userMapper.selectByUsername(username);
+        if(user==null)
+            return null;
+        resultInfo.setData("user",user);
+        return resultInfo;
     }
 }

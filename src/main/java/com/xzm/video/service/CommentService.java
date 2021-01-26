@@ -1,21 +1,20 @@
 package com.xzm.video.service;
 
 import com.xzm.video.bean.Comment;
+import com.xzm.video.utils.ResultInfo;
 
+import java.awt.*;
 import java.util.List;
 
 public interface CommentService {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Comment record);
+    ResultInfo deleteByPrimaryKey(Integer id);
 
-    int insertSelective(Comment record);
+    ResultInfo insertSelective(Comment record);
 
     Comment selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Comment record);
-
-    int updateByPrimaryKey(Comment record);
+    ResultInfo updateByPrimaryKeySelective(Comment record);
 
     List<Comment> selectByVideoId(Integer video_id);
 }

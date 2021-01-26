@@ -3,6 +3,7 @@ package com.xzm.video.service.Impl;
 import com.xzm.video.bean.Comment;
 import com.xzm.video.dao.CommentMapper;
 import com.xzm.video.service.CommentService;
+import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,33 +16,34 @@ public class CommentServiceImpl implements CommentService {
     CommentMapper commentMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return commentMapper.deleteByPrimaryKey(id);
+    public ResultInfo deleteByPrimaryKey(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = commentMapper.deleteByPrimaryKey(id);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override
-    public int insert(Comment record) {
-        return commentMapper.insert(record);
-    }
+    public ResultInfo insertSelective(Comment record) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = commentMapper.insertSelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
 
-    @Override
-    public int insertSelective(Comment record) {
-        return commentMapper.insertSelective(record);
     }
 
     @Override
     public Comment selectByPrimaryKey(Integer id) {
-        return commentMapper.selectByPrimaryKey(id);
+        Comment comment = commentMapper.selectByPrimaryKey(id);
+        return comment;
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Comment record) {
-        return commentMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public int updateByPrimaryKey(Comment record) {
-        return commentMapper.updateByPrimaryKey(record);
+    public ResultInfo updateByPrimaryKeySelective(Comment record) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        int index = commentMapper.updateByPrimaryKeySelective(record);
+        resultInfo.setData("index",index);
+        return resultInfo;
     }
 
     @Override

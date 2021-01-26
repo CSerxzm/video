@@ -20,7 +20,7 @@ import javax.management.relation.Role;
 public class MyRealm extends AuthorizingRealm {
 
     @Autowired
-    UserService userService;
+    UserMapper userMapper;
 
     //授权
     @Override
@@ -41,7 +41,7 @@ public class MyRealm extends AuthorizingRealm {
         System.out.println("——————认证用户——————");
 
         //2查询数据库
-        User user = userService.selectByUsername(userName);
+        User user = userMapper.selectByUsername(userName);
         if (user != null){
             ByteSource salt = ByteSource.Util.bytes(userName);
 
