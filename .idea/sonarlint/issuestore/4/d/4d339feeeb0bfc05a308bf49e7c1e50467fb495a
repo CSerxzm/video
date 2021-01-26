@@ -1,0 +1,13 @@
+
+z
+java:S1128	"_Remove this unused import 'org.springframework.web.multipart.commons.CommonsMultipartResolver'.(ˆäÀûÿÿÿÿ
+€
+java:S11301"jRemove the declaration of thrown exception 'java.lang.IllegalStateException' which is a runtime exception.(ŠœÉë
+€
+java:S1130"jRemove the declaration of thrown exception 'java.lang.IllegalStateException' which is a runtime exception.(ŠœÉë
+S	java:S106)"9Replace this use of System.out or System.err by a logger.(×”îØùÿÿÿÿ
+p
+java:S1128"ZRemove this unused import 'org.springframework.web.multipart.MultipartHttpServletRequest'.(”¨Ö¿
+b
+java:S1192"GDefine a constant instead of duplicating this literal "/file/" 4 times.(À—ÄŞÿÿÿÿÿ
+S	java:S106?"9Replace this use of System.out or System.err by a logger.(×”îØùÿÿÿÿ

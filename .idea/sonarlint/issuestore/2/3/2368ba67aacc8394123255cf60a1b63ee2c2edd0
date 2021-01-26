@@ -1,0 +1,19 @@
+
+J
+java:S3740A"/Provide the parametrized type for this generic.(äò »úÿÿÿÿ
+?
+java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å
+j
+java:S3252?"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ÛÈú şÿÿÿÿ
+r	java:S1170"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(È‘½Êùÿÿÿÿ8¢Ìşõò.
+T
+java:S1128"9Remove this unused import 'org.springframework.ui.Model'.(ê†ıÿÿÿÿ
+f	java:S117="QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ö†œí
+J
+java:S3740A"/Provide the parametrized type for this generic.(äò »úÿÿÿÿ
+
+java:S1130Y"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(°Ââèÿÿÿÿÿ8“Êó.
+g
+java:S1128"LRemove this unused import 'org.springframework.web.multipart.MultipartFile'.(ôŸœÿÿÿÿÿ
+M
+java:S1128"7Remove this unused import 'java.text.SimpleDateFormat'.(ú¡ÙÛ

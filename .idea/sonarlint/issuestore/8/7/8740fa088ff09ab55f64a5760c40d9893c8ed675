@@ -1,0 +1,8 @@
+
+k	java:S117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ‡‰úÿÿÿÿ
+f	java:S117E"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(²Ëı
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(îÏ»ª
+P
+java:S1128"5Remove this unused import 'com.xzm.video.bean.Video'.(Üè±óûÿÿÿÿ
+V	java:S125L"<This block of commented-out lines of code should be removed.(æÀö€øÿÿÿÿ
+V	java:S125*"<This block of commented-out lines of code should be removed.(»Óçğúÿÿÿÿ

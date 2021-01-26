@@ -1,0 +1,12 @@
+
+N	java:S106&"9Replace this use of System.out or System.err by a logger.(Ô‘³
+J
+java:S3740%"/Provide the parametrized type for this generic.(™Ş­Ôşÿÿÿÿ
+J
+java:S3740%"/Provide the parametrized type for this generic.(™Ş­Ôşÿÿÿÿ
+[	java:S112$"FDefine and throw a dedicated exception instead of using a generic one.(‰Âø
+z
+java:S1488*"_Immediately return this expression instead of assigning it to the temporary variable "jsonStr".(‹Ããùÿÿÿÿ
+‚
+java:S1130$"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(‰Âø
+S	java:S106"9Replace this use of System.out or System.err by a logger.(»«Åûÿÿÿÿ

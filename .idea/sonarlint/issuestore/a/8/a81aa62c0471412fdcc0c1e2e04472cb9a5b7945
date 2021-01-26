@@ -1,0 +1,15 @@
+
+a
+java:S11924"KDefine a constant instead of duplicating this literal "redirect:/" 3 times.(äÔ¶½
+Z
+java:S1128
+"DRemove this unused import 'org.apache.shiro.crypto.hash.SimpleHash'.(®ƒÄ
+^
+java:S11926"HDefine a constant instead of duplicating this literal "message" 4 times.(¾Ş°ø
+a
+java:S1128"KRemove this unused import 'org.apache.shiro.authc.AuthenticationException'.(Áöó©
+\
+java:S24413":Make "User" serializable or don't store it in the session.(£™Õàûÿÿÿÿ8“›õò.
+X
+java:S1128"=Remove this unused import 'org.apache.shiro.util.ByteSource'.(€Ñ§úşÿÿÿÿ
+C	java:S108S")Either remove or fill this block of code.(±Ÿ—±ÿÿÿÿÿ
