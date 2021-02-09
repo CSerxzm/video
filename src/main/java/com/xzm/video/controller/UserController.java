@@ -11,6 +11,8 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
@@ -45,31 +48,31 @@ public class UserController {
 
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken
-                (username,password);
+                (username, password);
         try {
             subject.login(token);
             User user = (User) SecurityUtils.getSubject().getPrincipal();
-            session.setAttribute("user",user);
+            session.setAttribute("user", user);
             return "redirect:/";
         } catch (UnknownAccountException e) {
             attributes.addFlashAttribute("message", "用户名出错,请检查后重试");
-        }catch (IncorrectCredentialsException e) {
+        } catch (IncorrectCredentialsException e) {
             attributes.addFlashAttribute("message", "密码出错,请检查后重试");
-        }  catch (Exception e) {
+        } catch (Exception e) {
             attributes.addFlashAttribute("message", "未知错误,请联系管理员");
         }
         return "redirect:/login";
     }
 
     @PostMapping("/regist")
-    public String regist(User user,RedirectAttributes attributes){
+    public String regist(User user, RedirectAttributes attributes) {
         String username = user.getUsername();
         ResultInfo res = userService.selectByUsername(username);
-        if(res==null){
+        if (res == null) {
             user.setCreateTime(new Date());
             userService.insertSelective(user);
             return "redirect:/";
-        }else{
+        } else {
             attributes.addFlashAttribute("message", "用户名已经被占用，请更换");
             return "redirect:/regist";
         }
@@ -79,9 +82,9 @@ public class UserController {
     public String logout(HttpSession session) {
         Subject subject = SecurityUtils.getSubject();
         if (subject != null) {
-            try{
+            try {
                 subject.logout();
-            }catch(Exception ex){
+            } catch (Exception ex) {
             }
         }
         return "redirect:/";

@@ -79,5 +79,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.clojure:tools.reader:1.0.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.clojure:clojure:1.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.liquibase:liquibase-core:1.9.1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.3" level="project" />
   </component>
 </module>

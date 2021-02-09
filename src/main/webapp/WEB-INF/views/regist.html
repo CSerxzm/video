@@ -1,88 +1,90 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8" />
-  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-  <link rel="stylesheet" href="../../static/css/me.css" />
-  <title>Video</title>
+    <meta charset="UTF-8"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/me.css"/>
+    <title>Video</title>
 </head>
 
 <body>
-  <div class="m-container-small m-padded-tb-massive" style="max-width: 30em !important;">
+<div class="m-container-small m-padded-tb-massive" style="max-width: 30em !important;">
     <div class="ur container">
-      <div class="ui middle aligned center aligned grid">
-        <div class="column">
-          <h2 class="ui blue image header">
-            <div class="content">
-              Video注册
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui blue image header">
+                    <div class="content">
+                        Video注册
+                    </div>
+                </h2>
+                <form class="ui large form" method="post" action="#" th:action="@{/regist}">
+                    <div class="ui  segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="username" placeholder="用户名" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="password" placeholder="密码" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="text" name="description" placeholder="描述" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="text" name="nickname" placeholder="昵称" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="text" name="avatar" placeholder="头像" required>
+                            </div>
+                        </div>
+                        <button class="ui fluid large blue submit button">注 册</button>
+                    </div>
+
+                    <div class="ui error mini message"></div>
+                    <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">
+                        用户名和密码错误
+                    </div>
+
+                </form>
+
             </div>
-          </h2>
-          <form class="ui large form" method="post" action="#" th:action="@{/regist}">
-            <div class="ui  segment">
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="user icon"></i>
-                  <input type="text" name="username" placeholder="用户名" required>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="lock icon"></i>
-                  <input type="password" name="password" placeholder="密码" required>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="lock icon"></i>
-                  <input type="text" name="description" placeholder="描述" required>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="lock icon"></i>
-                  <input type="text" name="nickname" placeholder="昵称" required>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="lock icon"></i>
-                  <input type="text" name="avatar" placeholder="头像" required>
-                </div>
-              </div>
-              <button class="ui fluid large blue submit button">注 册</button>
-            </div>
-
-            <div class="ui error mini message"></div>
-            <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">用户名和密码错误</div>
-
-         </form>
-
-       </div>
-     </div>
-   </div>
- </div>
+        </div>
+    </div>
+</div>
 
 <script>
-  $('.ui.form').form({
-    fields: {
-      username: {
-        identifier: 'username',
-        rules: [{
-          type: 'empty',
-          prompt: '请输入用户名'
-        }]
-      },
-      password: {
-        identifier: 'password',
-        rules: [{
-          type: 'empty',
-          prompt: '请输入密码'
-        }]
-      }
-    }
-  });
+    $('.ui.form').form({
+        fields: {
+            username: {
+                identifier: 'username',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入用户名'
+                }]
+            },
+            password: {
+                identifier: 'password',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入密码'
+                }]
+            }
+        }
+    });
 </script>
 
 </body>

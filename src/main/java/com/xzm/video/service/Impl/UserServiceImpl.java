@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = userMapper.deleteByPrimaryKey(id);
-        resultInfo.setData("index",index);
+        resultInfo.setData("index", index);
         return resultInfo;
     }
 
@@ -29,10 +29,10 @@ public class UserServiceImpl implements UserService {
         ResultInfo resultInfo = new ResultInfo(true);
         String username = record.getUsername();
         ByteSource salt = ByteSource.Util.bytes(username);
-        Object password = new SimpleHash("MD5",record.getPassword(),salt,2);
+        Object password = new SimpleHash("MD5", record.getPassword(), salt, 2);
         record.setPassword(String.valueOf(password));
         int index = userMapper.insertSelective(record);
-        resultInfo.setData("index",index);
+        resultInfo.setData("index", index);
         return resultInfo;
     }
 
@@ -46,17 +46,17 @@ public class UserServiceImpl implements UserService {
     public ResultInfo updateByPrimaryKeySelective(User record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = userMapper.updateByPrimaryKeySelective(record);
-        resultInfo.setData("index",index);
+        resultInfo.setData("index", index);
         return resultInfo;
     }
 
     @Override
-    public ResultInfo selectByUsername(String username){
+    public ResultInfo selectByUsername(String username) {
         ResultInfo resultInfo = new ResultInfo(true);
         User user = userMapper.selectByUsername(username);
-        if(user==null)
+        if (user == null)
             return null;
-        resultInfo.setData("user",user);
+        resultInfo.setData("user", user);
         return resultInfo;
     }
 }

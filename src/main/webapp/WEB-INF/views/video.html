@@ -1,311 +1,385 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head>
-    <meta charset="UTF-8" />
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-    <link rel="stylesheet" href="../../static/css/me.css" />
+    <meta charset="UTF-8"/>
+    <script src="../../static/js/jquery/jquery.min.js"></script>
+    <link href="../../static/semantic/semantic.min.css" rel="stylesheet">
+    <script src="../../static/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/me.css"/>
     <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
     <title>Video</title>
 </head>
 
 <body>
-    <!--导航-->
-    <nav class="ui inverted m-shadow-small">
-        <div class="ui container">
-            <div class="ui secondary menu m-padded-tb-mini">
-                <div class="item">
-                    <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
-                        class="ui rounded image head" />
+<!--导航-->
+<nav class="ui inverted m-shadow-small">
+    <div class="ui container">
+        <div class="ui secondary menu m-padded-tb-mini">
+            <div class="item">
+                <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
+                     class="ui rounded image head"/>
+            </div>
+            <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
+            <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}"
+               th:href="@{/type/{id}(id=${type.id})}" class="m-item item m-mobile-hide">类目1</a>
+            <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
+                  method="post" target="_blank">
+                <div class="ui icon transparent input m-margin-tb-tiny">
+                    <input type="text" name="query" placeholder="输入搜索标题……" th:value="${query}">
+                    <i onclick="document.forms['search'].submit()" class="search link icon"></i>
                 </div>
-                <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
-                <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}"
-                    th:href="@{/type/{id}(id=${type.id})}" class="m-item item m-mobile-hide">类目1</a>
-                <form class="right m-item item m-mobile-hide" name="search" action="#" th:action="@{/search}"
-                    method="post" target="_blank">
-                    <div class="ui icon transparent input m-margin-tb-tiny">
-                        <input type="text" name="query" placeholder="输入搜索标题……" th:value="${query}">
-                        <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+            </form>
+            <div class="m-item item m-mobile-hide">
+                <img src="../../static/images/avatar.png"
+                     th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}"
+                     class="ui rounded head-big"/>
+            </div>
+            <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
+            <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
+            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
+            <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
+            <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
+            <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
+        </div>
+    </div>
+</nav>
+<div class="ui m-margin-top column grid container">
+    <div class="eleven wide column">
+        <div class="ui attached segment">
+            <div class="ui">
+                <div class="ui header title-big" th:text="${video.title}">123242rwetrtgfddgfdgfd</div>
+                <div>
+                    <span th:text="${video.viewnum}">7900</span>人播放
+                    &nbsp;&nbsp;
+                    <span th:text="${video.barrnum}">543</span>弹幕
+                    &nbsp;&nbsp;
+                    <span th:text="${#dates.format(video.createTime,'yyyy-MM-dd hh:mm:ss')}">2020-10-23 18:51</span>
+                </div>
+            </div>
+            <div class="ui m-margin-top" style="height: 400px;">
+                <div id="dplayer"></div>
+            </div>
+            <div class="ui seven column grid m-margin" style="font-size: 16px;" shiro:user="">
+                <div class="column m-padded-tiny" style="margin-left:2rem">
+                    <i class="large star outline icon" id="star"></i><span th:text="${video.starnum}">1888</span>
+                </div>
+                <div class="column m-padded-tiny">
+                    <i class="large yen sign icon" id="coin"></i><span th:text="${video.coinnum}">1888</span>
+                </div>
+                <div class="column m-padded-tiny">
+                    <i class="large thumbs up outline icon" id="like"></i><span th:text="${video.likenum}">1888</span>
+                </div>
+                <div class="column m-padded-tiny">
+                    <i class="large share icon"></i><span th:text="${video.trannum}">1888</span>
+                </div>
+            </div>
+            <div class="ui seven column grid m-margin" style="font-size: 16px;" shiro:guest="">
+                <div class="column m-padded-tiny" style="margin-left:2rem">
+                    <i class="large star outline icon"></i><span th:text="${video.starnum}">1888</span>
+                </div>
+                <div class="column m-padded-tiny">
+                    <i class="large yen sign icon"></i><span th:text="${video.coinnum}">1888</span>
+                </div>
+                <div class="column m-padded-tiny">
+                    <i class="large thumbs up outline icon"></i><span th:text="${video.likenum}">1888</span>
+                </div>
+                <div class="column m-padded-tiny">
+                    <i class="large share icon"></i><span th:text="${video.trannum}">1888</span>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <!--介绍信息-->
+            <div class="description" th:text="${video.description}">
+                这个花嫁不想肝了orz，配布老规矩硬币走起
+                过276硬币放链接∠( ᐛ 」∠)_ 给个三连呗x
+                ——————————————
+                model
+                TDA/mihoyo/REe/iRon0129/机动战士牛肉
+                camera/motion:
+                AHK（注：动作使用已授权）/予沉7
+                stage:
+                糖斯
+                mme:
+                less 下腹p 針金p データＰそぼろ mqdl 摩丝ikeno
+                BGM:No tears left to cry
+            </div>
+            <!--标签-->
+            <div class="label m-margin-top">
+                <a class="ui blue label large" th:each="tag:${tags}"
+                   th:text="${tag.content}">搞笑</a>
+            </div>
+            <div class="ui divider"></div>
+            <!--评论-->
+            <div class="m-margin-top">
+                <h3 class="ui header">评论</h3>
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui comments" id="comments_id">
+                <div class="comment" th:fragment="commentList" th:each="comment:${comments}">
+                    <a class="avatar">
+                        <img src="../../static/images/logo.png" class="head" th:src="${comment.user.avatar}"/>
+                    </a>
+                    <div class="content">
+                        <a class="author" th:text="${comment.user.nickname}">Matt</a>
+                        <div class="metadata">
+                            <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd hh:MM')}">今天下午 5:42</span>
+                        </div>
+                        <div class="text" th:text="${comment.content}">太赞了！</div>
+                    </div>
+                </div>
+                <div class="comment" th:if="${comments==null}">
+                    <a class="avatar">
+                        <img src="../../static/images/logo.png" class="head"/>
+                    </a>
+                    <div class="content">
+                        <a class="author">Elliot Fu</a>
+                        <div class="metadata">
+                            <span class="date">昨天上午12:30</span>
+                        </div>
+                        <div class="text">
+                            <p>這對我的研究是非常有用.謝謝!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment" shiro:guest="">
+                    <h3>登陆后才显示评论功能!</h3>
+                </div>
+                <form class="ui reply form" shiro:user="">
+                    <input type="hidden" name="videoId" th:value="${video.id}">
+                    <div class="field">
+                        <textarea name="content" placeholder="请输入评论信息..."></textarea>
+                    </div>
+                    <div class="field  m-margin-bottom-small m-mobile-wide">
+                        <button id="commentpost-btn" type="button" class="ui blue button m-mobile-wide"><i
+                                class="edit icon"></i>评论
+                        </button>
                     </div>
                 </form>
-                <div class="m-item item m-mobile-hide">
-                    <img src="../../static/images/avatar.png"
-                        th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}"
-                        class="ui rounded head-big" />
-                </div>
-                <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" th:if="${session.user}==null">登录</a>
-                <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" th:if="${session.user}==null">注册</a>
-                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">收藏</a>
-                <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">历史</a>
-                <a href="#" th:href="@{/logout}" class="m-item item m-mobile-hide" th:if="${session.user}!=null">退出</a>
-                <a href="#" th:href="@{/user/upload}" class="m-item item m-mobile-hide">投稿</a>
-            </div>
-        </div>
-    </nav>
-    <div class="ui m-margin-top column grid container">
-        <div class="eleven wide column">
-            <div class="ui attached segment">
-                <div class="ui">
-                    <div class="ui header title-big" th:text="${video.title}">123242rwetrtgfddgfdgfd</div>
-                    <div>
-                        <span th:text="${video.viewnum}">7900</span>人播放
-                        &nbsp;&nbsp;
-                        <span th:text="${video.barrnum}">543</span>弹幕
-                        &nbsp;&nbsp;
-                        <span th:text="${#dates.format(video.createTime,'yyyy-MM-dd hh:mm:ss')}">2020-10-23 18:51</span>
-                    </div>
-                </div>
-                <div class="ui m-margin-top" style="height: 400px;">
-                    <div id="dplayer"></div>
-                </div>
-                <div class="ui seven column grid m-margin" style="font-size: 16px;">
-                    <div class="column m-padded-tiny" style="margin-left:2rem">
-                        <i class="large star outline icon" id="star"></i><span th:text="${video.starnum}">1888</span>
-                    </div>
-                    <div class="column m-padded-tiny">
-                        <i class="large yen sign icon" id="coin"></i><span th:text="${video.coinnum}">1888</span>
-                    </div>
-                    <div class="column m-padded-tiny">
-                        <i class="large thumbs up outline icon" id="like"></i><span th:text="${video.likenum}">1888</span>
-                    </div>
-                    <div class="column m-padded-tiny">
-                        <i class="large share icon"></i><span th:text="${video.trannum}">1888</span>
-                    </div>
-                </div>
-                <div class="ui divider"></div>
-                <!--介绍信息-->
-                <div class="description" th:text="${video.description}">
-                    这个花嫁不想肝了orz，配布老规矩硬币走起
-                    过276硬币放链接∠( ᐛ 」∠)_ 给个三连呗x
-                    ——————————————
-                    model
-                    TDA/mihoyo/REe/iRon0129/机动战士牛肉
-                    camera/motion:
-                    AHK（注：动作使用已授权）/予沉7
-                    stage:
-                    糖斯
-                    mme:
-                    less 下腹p 針金p データＰそぼろ mqdl 摩丝ikeno
-                    BGM:No tears left to cry
-                </div>
-                <!--标签-->
-                <div class="label m-margin-top">
-                    <a class="ui blue label large"  th:each="tag:${tags}"
-                       th:text="${tag.content}">搞笑</a>
-                </div>
-                <div class="ui divider"></div>
-                <!--评论-->
-                <div class="m-margin-top">
-                    <h3 class="ui header">评论</h3>
-                </div>
-                <div class="ui divider"></div>
-                <div class="ui comments">
-                    <div class="comment" th:fragment="commentList" id="comments" th:each="comment:${comments}">
-                        <a class="avatar">
-                            <img src="../../static/images/logo.png" class="head" th:src="${comment.user.avatar}"/>
-                        </a>
-                        <div class="content">
-                            <a class="author" th:text="${comment.user.nickname}">Matt</a>
-                            <div class="metadata">
-                                <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd hh:MM')}">今天下午 5:42</span>
-                            </div>
-                            <div class="text" th:text="${comment.content}">太赞了！ </div>
-                        </div>
-                    </div>
-                    <div class="comment" th:if="${comments==null}">
-                        <a class="avatar">
-                            <img src="../../static/images/logo.png" class="head" />
-                        </a>
-                        <div class="content">
-                            <a class="author">Elliot Fu</a>
-                            <div class="metadata">
-                                <span class="date">昨天上午12:30</span>
-                            </div>
-                            <div class="text">
-                                <p>這對我的研究是非常有用.謝謝!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment" shiro:guest="">
-                        <h3>登陆后才显示评论功能!</h3>
-                    </div>
-                    <form class="ui reply form" shiro:user="">
-                        <input type="hidden" name="videoId" th:value="${video.id}">
-                        <div class="field">
-                            <textarea name="content" placeholder="请输入评论信息..."></textarea>
-                        </div>
-                        <div class="field  m-margin-bottom-small m-mobile-wide">
-                            <button id="commentpost-btn" type="button" class="ui blue button m-mobile-wide"><i class="edit icon"></i>评论</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!--右侧-->
-        <div class="five wide column">
-            <div class="ui attached segment">
-                <div class="ui column grid container">
-                    <div class="three wide column m-margin-tb-tiny">
-                        <img src="../../static/images/logo.png" class="ui rounded image head head-big " th:src="${video.user.avatar}">
-                    </div>
-                    <div class="thirteen wide column left">
-                        <h3 class="ui header m-margin-tb-tiny" th:text="${video.user.nickname}">xzm</h3>
-                        <p class="m-margin-tb-tiny" th:text="${video.user.description}">高效，我们是专业的</p>
-                    </div>
-                </div>
-                <div class="ui container m-margin-top" style="overflow: hidden;">
-                    <button class="ui primary button" style="float:right;"><i
-                            class="large plus icon"></i>关注<span th:text="${video.user.coinnum}">13000</span></button>
-                </div>
-            </div>
-            <!--弹幕部分-->
-            <div class="ui m-padded" style="background-color:#F5F5F5">
-                <span class="ui header" style="margin-right: 4px;">弹幕列表</span>
-                <a class="ui" id="toggle" style="float:right;">展开</a>
-            </div>
-            <div class="ui list barrage m-padded-tb-tiny" id="list">
-                <div class="ui three column grid container item" th:each="barrage:${barrages}">
-                    <span class="two wide column m-padded-mini" th:text="${#numbers.formatDecimal(barrage.time,0,2)}">12.40</span>
-                    <span class="eight wide column m-padded-mini center" th:text="${#strings.abbreviate(barrage.text,15)}">Lombok的scope=provided，说明它只在编译阶段生效，不需要打入包中</span>
-                    <span class="five wide column m-padded-mini" th:text="${#dates.format(barrage.createtime,'yyyy-MM-dd hh:MM')}">2020-10-23 18:51</span>
-                </div>
-                <div class="ui three column grid container item" th:if="${barrages}==null">
-                    <span class="two wide column m-padded-mini" th:text="${#numbers.formatDecimal(barrage.time,0,2)}">12.40</span>
-                    <span class="eight wide column m-padded-mini center" th:text="${#strings.abbreviate(barrage.text,15)}">Lombok的scope=provided，说明它只在编译阶段生效，不需要打入包中</span>
-                    <span class="five wide column m-padded-mini" th:text="${#dates.format(barrage.createtime,'yyyy-MM-dd hh:MM')}">2020-10-23 18:51</span>
-                </div>
-            </div>
-            <!--推荐部分-->
-            <div class="ui m-padded">
-                <span class="ui header" style="margin:auto;">相关推荐</span>
-            </div>
-            <div th:each="video:${videos_hot}">
-                <a class="ui two column grid container m-margin-top-small" href="#" th:href="@{/video/{id}(id=${video.id})}">
-                    <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
-                         style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
-                    <div class="nine column">
-                        <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
-                        <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
-                        <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
-                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
-                    </div>
-                </a>
-            </div>
-            <div th:if="${videos_hot}==null">
-                <a class="ui two column grid container m-margin-top-small" href="#" th:href="@{/video/{id}(id=${video.id})}">
-                    <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
-                         style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
-                    <div class="nine column">
-                        <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
-                        <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
-                        <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
-                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
-                    </div>
-                </a>
-            </div>
-            <div th:if="${videos_hot}==null">
-                <a class="ui two column grid container m-margin-top-small" href="#" th:href="@{/video/{id}(id=${video.id})}">
-                    <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
-                         style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
-                    <div class="nine column">
-                        <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
-                        <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
-                        <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
-                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
-                    </div>
-                </a>
             </div>
         </div>
     </div>
+    <!--右侧-->
+    <div class="five wide column">
+        <div class="ui attached segment">
+            <div class="ui column grid container">
+                <div class="three wide column m-margin-tb-tiny">
+                    <img src="../../static/images/logo.png" class="ui rounded image head head-big "
+                         th:src="${video.user.avatar}">
+                </div>
+                <div class="thirteen wide column left">
+                    <h3 class="ui header m-margin-tb-tiny" th:text="${video.user.nickname}">xzm</h3>
+                    <p class="m-margin-tb-tiny" th:text="${video.user.description}">高效，我们是专业的</p>
+                </div>
+            </div>
+            <div class="ui container m-margin-top" style="overflow: hidden;">
+                <button class="ui primary button" style="float:right;"><i
+                        class="large plus icon"></i>关注<span th:text="${video.user.coinnum}">13000</span></button>
+            </div>
+        </div>
+        <!--弹幕部分-->
+        <div class="ui m-padded" style="background-color:#F5F5F5">
+            <span class="ui header" style="margin-right: 4px;">弹幕列表</span>
+            <a class="ui" id="toggle" style="float:right;">展开</a>
+        </div>
+        <div class="ui list barrage m-padded-tb-tiny" id="list">
+            <div class="ui three column grid container item" th:each="barrage:${barrages}">
+                <span class="two wide column m-padded-mini"
+                      th:text="${#numbers.formatDecimal(barrage.time,0,2)}">12.40</span>
+                <span class="eight wide column m-padded-mini center" th:text="${#strings.abbreviate(barrage.text,15)}">Lombok的scope=provided，说明它只在编译阶段生效，不需要打入包中</span>
+                <span class="five wide column m-padded-mini"
+                      th:text="${#dates.format(barrage.createtime,'yyyy-MM-dd hh:MM')}">2020-10-23 18:51</span>
+            </div>
+            <div class="ui three column grid container item" th:if="${barrages}==null">
+                <span class="two wide column m-padded-mini"
+                      th:text="${#numbers.formatDecimal(barrage.time,0,2)}">12.40</span>
+                <span class="eight wide column m-padded-mini center" th:text="${#strings.abbreviate(barrage.text,15)}">Lombok的scope=provided，说明它只在编译阶段生效，不需要打入包中</span>
+                <span class="five wide column m-padded-mini"
+                      th:text="${#dates.format(barrage.createtime,'yyyy-MM-dd hh:MM')}">2020-10-23 18:51</span>
+            </div>
+        </div>
+        <!--推荐部分-->
+        <div class="ui m-padded">
+            <span class="ui header" style="margin:auto;">相关推荐</span>
+        </div>
+        <div th:each="video:${videos_hot}">
+            <a class="ui two column grid container m-margin-top-small" href="#"
+               th:href="@{/video/{id}(id=${video.id})}">
+                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
+                     style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                <div class="nine column">
+                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
+                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
+                </div>
+            </a>
+        </div>
+        <div th:if="${videos_hot}==null">
+            <a class="ui two column grid container m-margin-top-small" href="#"
+               th:href="@{/video/{id}(id=${video.id})}">
+                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
+                     style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                <div class="nine column">
+                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
+                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
+                </div>
+            </a>
+        </div>
+        <div th:if="${videos_hot}==null">
+            <a class="ui two column grid container m-margin-top-small" href="#"
+               th:href="@{/video/{id}(id=${video.id})}">
+                <img class="seven wide column m-padded-mini" src="../../static/images/20201103113816254.png"
+                     style="width:168px;height:95px;" th:src="${video.pictureUrl}"/>
+                <div class="nine column">
+                    <p class="title m-margin-tb-tiny" th:text="${video.title}">加油！攻城狮</p>
+                    <p class="m-margin-tb-tiny count" th:text="${video.user.nickname}">Up主</p>
+                    <p class="m-margin-tb-tiny count"><span th:text="${video.viewnum}">
+                    </span>播放&nbsp;&nbsp;<span th:text="${video.barrnum}">234</span>弹幕</p>
+                </div>
+            </a>
+        </div>
     </div>
-    <script th:inline="javascript">
-        var videoUrl = [[${ video.videoUrl }]];
-        var videoId = [[${ video.id }]];
-        var userId = [[${ video.user.id }]];
-        const dp = new DPlayer({
-            container: document.getElementById('dplayer'),
-            autoplay: false,
-            theme: '#FADFA3',
-            loop: true,
-            lang: 'zh-cn',
-            screenshot: true,
-            hotkey: true,
-            preload: 'auto',
-            volume: 0.7,
-            mutex: true,
-            video: {
-                url: videoUrl,
-                type: 'auto',
-            },
-            danmaku: {
-                id: videoId,
-                api: '/barrage/',
-                user: userId,
-            }
-        });
-        $('#toggle').bind('click', function toggle() {
-            $('#list').slideToggle();
-        });
+</div>
+</div>
 
-        /**
-         * 点赞
-         */
-        $("#star").bind('click',function(){
-            var id = [[${video.id}]];
-            $.post('/video/addstarnum',{"id":id},function (result) {
-                $("#star").next().html(result.data.star);
-            });
-        });
+<div class="ui tiny basic modal">
+    <div class="header title">提示消息</div>
+    <div class="prompt_text">
+    </div>
+    <div class="actions">
+        <button class="ui negative button">确定</button>
+    </div>
+</div>
 
-        $("#coin").bind('click',function(){
-            var id = [[${video.id}]];
-            $.post('/video/addcoinnum',{"id":id},function (result) {
-                $("#coin").next().html(result.data.coin);
-            });
-        });
-
-        $("#like").bind('click',function(){
-            var id = [[${video.id}]];
-            $.post('/video/addlikenum',{"id":id},function (result) {
-                console.log(result.data);
-                $("#like").next().html(result.data.like);
-            });
-        });
-
-        $('#commentpost-btn').bind('click', function clickbutton() {
-            var boo = $('.ui.form').form('validate form');
-            if (boo) {
-                console.log('校验成功');
-                postdata();
-            } else {
-                console.log('校验失败');
-            }
-        });
-
-        function postdata() {
-            $("#comments").load('/user/addComment', {
-                "videoId": $("[name='videoId']").val(),
-                "content": $("[name='content']").val()
-            }, function (responseTxt, statusTxt, xhr) {
-                $("[name='content']").val('');
-                $("[name='content']").attr("placeholder", "请输入评论信息...");
-            });
+<script th:inline="javascript">
+    var videoUrl = [[${ video.videoUrl }]];
+    var videoId = [[${ video.id }]];
+    var userId = [[${ video.user.id }]];
+    const dp = new DPlayer({
+        container: document.getElementById('dplayer'),
+        autoplay: false,
+        theme: '#FADFA3',
+        loop: true,
+        lang: 'zh-cn',
+        screenshot: true,
+        hotkey: true,
+        preload: 'auto',
+        volume: 0.7,
+        mutex: true,
+        video: {
+            url: videoUrl,
+            type: 'auto',
+        },
+        danmaku: {
+            id: videoId,
+            api: '/barrage/',
+            user: userId,
         }
+    });
+    $('#toggle').bind('click', function toggle() {
+        $('#list').slideToggle();
+    });
 
-        //评论表单验证
-        $('.ui.form').form({
-            fields: {
-                content: {
-                    identifier: 'content',
-                    rules: [{
-                        type: 'empty',
-                        prompt: '请输入你的评论内容'
-                    }]
-                }
+    /**
+     * 点赞
+     */
+    $("#star").bind('click', function () {
+        var id = [[${video.id}]];
+        $.post('/user/addstarnum', {"id": id}, function (result) {
+            if (result.success == true) {
+                $("#star").next().html(result.data.star);
+            } else {
+                $('.basic.modal').modal('show');
+                $('.prompt_text').text(result.message);
             }
         });
-    </script>
+    });
+
+    $("#coin").bind('click', function () {
+        var id = [[${video.id}]];
+        $.post('/user/addcoinnum', {"id": id}, function (result) {
+            if (result.success == true) {
+                $("#coin").next().html(result.data.coin);
+            } else {
+                $('.basic.modal').modal('show');
+                $('.prompt_text').text(result.message);
+            }
+        });
+    });
+
+    $("#like").bind('click', function () {
+        var id = [[${video.id}]];
+        $.post('/user/addlikenum', {"id": id}, function (result) {
+            if (result.success == true) {
+                $("#like").next().html(result.data.like);
+            } else {
+                $('.basic.modal').modal('show');
+                $('.prompt_text').text(result.message);
+            }
+        });
+    });
+
+    $('#commentpost-btn').bind('click', function clickbutton() {
+        var boo = $('.ui.form').form('validate form');
+        if (boo) {
+            console.log('校验成功');
+            postdata();
+        } else {
+            console.log('校验失败');
+        }
+    });
+
+    function postdata() {
+        $.post("/user/addcomment", {
+            "videoId": $("[name='videoId']").val(),
+            "content": $("[name='content']").val()
+        }, function (result) {
+            $("[name='content']").val('');
+            $("[name='content']").attr("placeholder", "请输入评论信息...");
+            var comment = result.data.comment;
+            $("#comments_id").prepend(
+                "<div class='comment'>" +
+                "  <a class='avatar'>" +
+                "    <img class='head' src='" + comment.user.avatar + "'/>" +
+                "  </a>" +
+                "  <div class='content'>" +
+                "    <a class='author'>" + comment.user.nickname + "</a>" +
+                "    <div class='metadata'>" +
+                "    <span class='date'>" + timeStamp2String(comment.createTime) + "</span>" +
+                "    </div>" +
+                "    <div class='text'>" + comment.content + "</div>" +
+                "  </div>" +
+                "</div>");
+        });
+    }
+
+    //评论表单验证
+    $('.ui.form').form({
+        fields: {
+            content: {
+                identifier: 'content',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入你的评论内容'
+                }]
+            }
+        }
+    });
+
+    //格式化日期函数
+    function timeStamp2String(date) {
+        var datetime = new Date(Date.parse(date));
+        var year = datetime.getFullYear();
+        var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+        var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+        var hour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
+        var minute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+        var second = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+        return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+    }
+</script>
 </body>
 
 </html>

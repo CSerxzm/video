@@ -33,5 +33,5 @@ public class Video {
     private Integer typeId;
 
     private String pictureUrl;
-    
+
 }

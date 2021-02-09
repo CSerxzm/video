@@ -5,12 +5,12 @@
     <changeSet author="xiangzhimin" id="20210123-1922">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="start_history"/>
+                <tableExists tableName="star_history"/>
             </not>
         </preConditions>
         <comment>添加收藏表</comment>
-        <createTable tableName="start_history">
-            <column name="id" type="int(11)">
+        <createTable tableName="star_history">
+            <column name="id" type="int(11)" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="int(11)"/>
@@ -26,12 +26,12 @@
         </preConditions>
         <comment>添加投币表</comment>
         <createTable tableName="coin_history">
-            <column name="id" type="int(11)">
+            <column name="id" type="int(11)" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="int(11)"/>
             <column name="video_id" type="int(11)"/>
-            <column name="nums" type="int(11)"  remarks="投币数"/>
+            <column name="nums" type="int(11)" remarks="投币数"/>
             <column name="create_time" type="datetime"/>
         </createTable>
     </changeSet>
@@ -43,7 +43,7 @@
         </preConditions>
         <comment>添加点赞表</comment>
         <createTable tableName="like_history">
-            <column name="id" type="int(11)">
+            <column name="id" type="int(11)" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="int(11)"/>

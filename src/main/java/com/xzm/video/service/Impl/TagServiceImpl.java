@@ -19,7 +19,7 @@ public class TagServiceImpl implements TagService {
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = tagMapper.deleteByPrimaryKey(id);
-        resultInfo.setData("index",index);
+        resultInfo.setData("index", index);
         return resultInfo;
     }
 
@@ -27,7 +27,7 @@ public class TagServiceImpl implements TagService {
     public ResultInfo insertSelective(Tag record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = tagMapper.insertSelective(record);
-        resultInfo.setData("index",index);
+        resultInfo.setData("index", index);
         return resultInfo;
     }
 
@@ -41,7 +41,7 @@ public class TagServiceImpl implements TagService {
     public ResultInfo updateByPrimaryKeySelective(Tag record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = tagMapper.updateByPrimaryKeySelective(record);
-        resultInfo.setData("index",index);
+        resultInfo.setData("index", index);
         return resultInfo;
     }
 

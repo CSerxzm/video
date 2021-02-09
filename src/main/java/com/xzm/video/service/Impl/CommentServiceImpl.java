@@ -19,7 +19,7 @@ public class CommentServiceImpl implements CommentService {
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = commentMapper.deleteByPrimaryKey(id);
-        resultInfo.setData("index",index);
+        resultInfo.setData("index", index);
         return resultInfo;
     }
 
@@ -27,7 +27,8 @@ public class CommentServiceImpl implements CommentService {
     public ResultInfo insertSelective(Comment record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = commentMapper.insertSelective(record);
-        resultInfo.setData("index",index);
+        record.setId(index);
+        resultInfo.setData("comment", record);
         return resultInfo;
 
     }
@@ -42,12 +43,12 @@ public class CommentServiceImpl implements CommentService {
     public ResultInfo updateByPrimaryKeySelective(Comment record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = commentMapper.updateByPrimaryKeySelective(record);
-        resultInfo.setData("index",index);
+        resultInfo.setData("index", index);
         return resultInfo;
     }
 
     @Override
-    public List<Comment> selectByVideoId(Integer video_id){
+    public List<Comment> selectByVideoId(Integer video_id) {
         return commentMapper.selectByVideoId(video_id);
     }
 }

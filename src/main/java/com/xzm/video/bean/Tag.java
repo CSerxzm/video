@@ -11,13 +11,13 @@ public class Tag {
 
     private Integer videoId;
 
-    public Tag(){
+    public Tag() {
 
     }
 
-    public Tag(String content,Integer videoId){
-        this.content=content;
-        this.videoId=videoId;
+    public Tag(String content, Integer videoId) {
+        this.content = content;
+        this.videoId = videoId;
     }
 
 }
