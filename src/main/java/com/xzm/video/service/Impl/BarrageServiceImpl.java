@@ -18,10 +18,10 @@ import java.util.Map;
 public class BarrageServiceImpl implements BarrageService {
 
     @Autowired
-    BarrageMapper barrageMapper;
+    private BarrageMapper barrageMapper;
 
     @Autowired
-    VideoMapper videoMapper;
+    private VideoMapper videoMapper;
 
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {

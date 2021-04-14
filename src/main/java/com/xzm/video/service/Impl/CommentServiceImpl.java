@@ -13,7 +13,7 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
-    CommentMapper commentMapper;
+    private CommentMapper commentMapper;
 
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {

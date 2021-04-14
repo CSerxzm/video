@@ -93,37 +93,5 @@ public class VideoController {
         model.put("query",query);
         return "search";
     }
-    /**
-     * 收藏
-     * @param id
-     * @return
-     */
-    @PostMapping("/addstarnum")
-    @ResponseBody
-    public ResultInfo addStarNum(Integer id){
-        return videoService.addStarNum(id);
-    }
-
-    /**
-     * 投币
-     * @param id
-     * @return
-     */
-    @PostMapping("/addcoinnum")
-    @ResponseBody
-    public ResultInfo addCoinNum(Integer id){
-        return videoService.addCoinNum(id);
-    }
-
-    /**
-     * 点赞
-     * @param id
-     * @return
-     */
-    @PostMapping("/addlikenum")
-    @ResponseBody
-    public ResultInfo addLikeNum(Integer id){
-        return videoService.addLikeNum(id);
-    }
 
 }

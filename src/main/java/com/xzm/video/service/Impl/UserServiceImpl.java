@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {
@@ -54,8 +54,9 @@ public class UserServiceImpl implements UserService {
     public ResultInfo selectByUsername(String username){
         ResultInfo resultInfo = new ResultInfo(true);
         User user = userMapper.selectByUsername(username);
-        if(user==null)
+        if(user==null){
             return null;
+        }
         resultInfo.setData("user",user);
         return resultInfo;
     }

@@ -13,7 +13,7 @@ import java.util.List;
 public class TypeServiceImpl implements TypeService{
 
     @Autowired
-    TypeMapper typeMapper;
+    private TypeMapper typeMapper;
 
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {

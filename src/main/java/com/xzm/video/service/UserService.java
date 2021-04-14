@@ -14,4 +14,5 @@ public interface UserService {
     ResultInfo updateByPrimaryKeySelective(User record);
 
     ResultInfo selectByUsername(String username);
+
 }

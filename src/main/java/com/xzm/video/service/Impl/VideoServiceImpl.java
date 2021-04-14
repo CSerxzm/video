@@ -1,8 +1,7 @@
 package com.xzm.video.service.Impl;
 
-import com.xzm.video.bean.Tag;
-import com.xzm.video.bean.Type;
-import com.xzm.video.bean.Video;
+import com.xzm.video.bean.*;
+import com.xzm.video.dao.FavoriteMapper;
 import com.xzm.video.dao.TagMapper;
 import com.xzm.video.dao.TypeMapper;
 import com.xzm.video.dao.VideoMapper;
@@ -12,6 +11,7 @@ import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +20,16 @@ import java.util.Map;
 public class VideoServiceImpl implements VideoService{
 
     @Autowired
-    VideoMapper videoMapper;
+    private VideoMapper videoMapper;
 
     @Autowired
-    TypeMapper typeMapper;
+    private TypeMapper typeMapper;
 
     @Autowired
-    TagMapper tagMapper;
+    private TagMapper tagMapper;
+
+    @Autowired
+    private FavoriteMapper favoriteMapper;
 
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {
@@ -109,17 +112,31 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public ResultInfo addStarNum(Integer id) {
+    public ResultInfo addFavoriteNum(User user, Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
-        Video video = videoMapper.selectByPrimaryKey(id);
-        video.setStarnum(video.getStarnum()+1);
-        videoMapper.updateByPrimaryKey(video);
-        resultInfo.setData("star",video.getStarnum());
+        //检查是否已经收藏
+        Favorite favorite = favoriteMapper.selectByUserIdAndVideoId(user.getId(), id);
+        if(favorite!=null){
+            resultInfo.setSuccess(false);
+            resultInfo.setMessage("已经收藏过");
+        }else{
+            favorite = new Favorite();
+            favorite.setUserId(user.getId());
+            Video videoTemp = new Video();
+            videoTemp.setId(id);
+            favorite.setVideo(videoTemp);
+            favorite.setCreateTime(new Date());
+            favoriteMapper.insert(favorite);
+            Video video = videoMapper.selectByPrimaryKey(id);
+            video.setStarnum(video.getStarnum()+1);
+            videoMapper.updateByPrimaryKey(video);
+            resultInfo.setData("star",video.getStarnum());
+        }
         return resultInfo;
     }
 
     @Override
-    public ResultInfo addCoinNum(Integer id) {
+    public ResultInfo addCoinNum(User user, Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         Video video = videoMapper.selectByPrimaryKey(id);
         video.setCoinnum(video.getCoinnum()+1);
@@ -129,7 +146,7 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public ResultInfo addLikeNum(Integer id) {
+    public ResultInfo addLikeNum(User user, Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         Video video = videoMapper.selectByPrimaryKey(id);
         video.setLikenum(video.getLikenum()+1);

@@ -223,21 +223,25 @@
          */
         $("#star").bind('click',function(){
             var id = [[${video.id}]];
-            $.post('/video/addstarnum',{"id":id},function (result) {
-                $("#star").next().html(result.data.star);
+            $.post('/user/addfavoritenum',{"id":id},function (result) {
+                if(result.success==true){
+                    $("#star").next().html(result.data.star);
+                }else{
+                    console.log(result.message);
+                }
             });
         });
 
         $("#coin").bind('click',function(){
             var id = [[${video.id}]];
-            $.post('/video/addcoinnum',{"id":id},function (result) {
+            $.post('/user/addcoinnum',{"id":id},function (result) {
                 $("#coin").next().html(result.data.coin);
             });
         });
 
         $("#like").bind('click',function(){
             var id = [[${video.id}]];
-            $.post('/video/addlikenum',{"id":id},function (result) {
+            $.post('/user/addlikenum',{"id":id},function (result) {
                 console.log(result.data);
                 $("#like").next().html(result.data.like);
             });

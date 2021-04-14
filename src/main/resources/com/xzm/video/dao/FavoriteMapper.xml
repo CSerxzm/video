@@ -4,10 +4,14 @@
   <resultMap id="BaseResultMap" type="com.xzm.video.bean.Favorite">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="video_id" jdbcType="INTEGER" property="videoId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <association property="video"
+                 select="com.xzm.video.dao.VideoMapper.selectByPrimaryKey"
+                 column="video_id">
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, video_id
+    id, user_id, video_id,create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -20,9 +24,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.xzm.video.bean.Favorite">
-    insert into t_favorite (id, user_id, video_id
+    insert into t_favorite (id, user_id, video_id,create_time
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{videoId,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{video.id,jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.xzm.video.bean.Favorite">
@@ -34,8 +38,11 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="videoId != null">
+      <if test="video.id != null">
         video_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -45,8 +52,11 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="videoId != null">
-        #{videoId,jdbcType=INTEGER},
+      <if test="video.id != null">
+        #{video.id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -56,8 +66,11 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="videoId != null">
-        video_id = #{videoId,jdbcType=INTEGER},
+      <if test="video.id != null">
+        video_id = #{video.id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -65,7 +78,26 @@
   <update id="updateByPrimaryKey" parameterType="com.xzm.video.bean.Favorite">
     update t_favorite
     set user_id = #{userId,jdbcType=INTEGER},
-      video_id = #{videoId,jdbcType=INTEGER}
+      video_id = #{video.id,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--Favorite selectByUserIdAndvideo.id(@Param("userId") Integer userId, @Param("video.id") Integer video.id);-->
+  <select id="selectByUserIdAndvideo.id" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_favorite
+    where user_id = #{userId,jdbcType=INTEGER} and video_id = #{video.id,jdbcType=INTEGER}
+  </select>
+
+  <!--List<Favorite> selectAllByUserId(Integer userId);-->
+  <select id="selectAllByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_favorite
+    where user_id = #{userId,jdbcType=INTEGER}
+    order by create_time desc
+  </select>
+
 </mapper>

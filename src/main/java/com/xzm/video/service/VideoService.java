@@ -1,5 +1,6 @@
 package com.xzm.video.service;
 
+import com.xzm.video.bean.User;
 import com.xzm.video.bean.Video;
 import com.xzm.video.utils.ResultInfo;
 import org.apache.ibatis.annotations.Param;
@@ -36,21 +37,23 @@ public interface VideoService {
      * @param id
      * @return
      */
-    ResultInfo addStarNum(Integer id);
+    ResultInfo addFavoriteNum(User user, Integer id);
 
     /**
      * 投币
+     * @param user
      * @param id
      * @return
      */
-    ResultInfo addCoinNum(Integer id);
+    ResultInfo addCoinNum(User user,Integer id);
 
     /**
      * 点赞
+     * @param user
      * @param id
+     * @return
      */
-    ResultInfo addLikeNum(Integer id);
-
+    ResultInfo addLikeNum(User user,Integer id);
     /**
      * 搜索获得相关的video列表
      * @param query

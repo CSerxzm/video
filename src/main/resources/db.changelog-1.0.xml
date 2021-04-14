@@ -9,7 +9,7 @@
             </not>
         </preConditions>
         <comment>添加收藏表</comment>
-        <createTable tableName="start_history">
+        <createTable tableName="t_favorite">
             <column name="id" type="int(11)" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>

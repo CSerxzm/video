@@ -27,7 +27,7 @@ public class Test extends AbstractJUnit4SpringContextTests {
     public void test01(){
         String hashAlgorithmName = "MD5";
         Object password = "password";
-        ByteSource salt = ByteSource.Util.bytes("root1");
+        ByteSource salt = ByteSource.Util.bytes("admin");
         int hashIterations = 2;
         Object result = new SimpleHash(hashAlgorithmName,password,salt,hashIterations);
         System.out.println(result);

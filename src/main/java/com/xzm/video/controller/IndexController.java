@@ -31,7 +31,7 @@ public class IndexController {
     @Autowired
     private TypeService typeService;
 
-    @RequestMapping( "/" )
+    @RequestMapping("/")
     public String index(ModelMap model, HttpSession session) {
         List<Type> types = typeService.selectAll();
         Map<String, List<Video>> videos_new = videoService.selectNewByType(3);
