@@ -1,0 +1,11 @@
+
+…
+java:S1488/"jImmediately return this expression instead of assigning it to the temporary variable "authenticationInfo".(şé™Îşÿÿÿÿ
+”
+java:S1130&"yRemove the declaration of thrown exception 'org.apache.shiro.authc.AuthenticationException' which is a runtime exception.(¡ïË»ùÿÿÿÿ
+Q
+java:S1128";Remove this unused import 'javax.management.relation.Role'.(ëÎåè
+Y
+java:S1128">Remove this unused import 'org.apache.shiro.authz.Permission'.( ¤‹Ûøÿÿÿÿ
+`
+java:S1128">Remove this unused import 'com.xzm.video.service.UserService'.(éö²Ïüÿÿÿÿ8‹¥çêó.

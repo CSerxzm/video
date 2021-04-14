@@ -1,0 +1,5 @@
+
+|
+java:S1488&"_Immediately return this expression instead of assigning it to the temporary variable "comment".(äóÉ¶8ÔÙ´ëó.
+m	java:S1173"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß²ËÌ8ÖÈòêó.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(îÏ»ª
