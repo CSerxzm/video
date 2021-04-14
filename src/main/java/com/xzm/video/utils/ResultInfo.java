@@ -12,7 +12,7 @@ import java.util.Map;
  * @create 2021-01-25 9:47
  */
 
-public class ResultInfo {
+public class ResultInfo{
 
     /**
      * 操作成功
@@ -49,66 +49,65 @@ public class ResultInfo {
      */
     private List<String> strings;
 
-    public ResultInfo() {
+    public ResultInfo(){
     }
 
-    public ResultInfo(boolean success) {
+    public ResultInfo(boolean success){
         this();
         this.success = success;
     }
 
-    public ResultInfo(String key, Object object) {
+    public ResultInfo(String key, Object object){
         this();
         this.success = true;
         this.data.put(key, object);
     }
 
-    public ResultInfo(boolean success, String key, Object object) {
+    public ResultInfo(boolean success, String key, Object object){
         this();
         this.success = success;
         this.data.put(key, object);
     }
-
-    public ResultInfo(boolean success, String key1, Object object1, String key2, Object object2) {
+    public ResultInfo(boolean success, String key1, Object object1,String key2, Object object2){
         this();
         this.success = success;
         this.data.put(key1, object1);
-        this.data.put(key2, object2);
+        this.data.put(key2,object2);
     }
 
 
-    public ResultInfo(int code) {
+    public ResultInfo(int code){
         this();
         this.code = code;
     }
 
-    public ResultInfo(boolean success, int code) {
+    public ResultInfo(boolean success, int code){
         this();
         this.success = success;
         this.code = code;
     }
 
-    public ResultInfo(boolean success, int code, String message) {
+    public ResultInfo(boolean success, int code, String message){
         this();
         this.success = success;
         this.code = code;
         this.message = message;
     }
 
-    public ResultInfo(boolean success, String message) {
+    public ResultInfo(boolean success, String message){
         this();
         this.success = success;
         this.message = message;
     }
 
-    public ResultInfo(boolean success, String message, Map<String, Object> data) {
+    public ResultInfo(boolean success, String message, Map<String, Object> data){
         this();
         this.success = success;
         this.message = message;
         this.data = data;
     }
 
-    public ResultInfo(boolean success, String message, String key, Object object) {
+    public ResultInfo(boolean success, String message, String key, Object object){
         this.success = success;
         this.message = message;
         this.data.put(key, object);
@@ -120,47 +119,47 @@ public class ResultInfo {
         this.StackTrace = ExceptionUtils.getFullStackTrace(e);
     }
 
-    public void setSuccess(boolean success) {
+    public void setSuccess(boolean success){
         this.success = success;
     }
 
-    public boolean isSuccess() {
+    public boolean isSuccess(){
         return success;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(String message){
         this.message = message;
     }
 
-    public String getMessage() {
+    public String getMessage(){
         return message;
     }
 
-    public Map<String, Object> getData() {
+    public Map<String, Object> getData(){
         return data;
     }
 
-    public void setData(Map<String, Object> data) {
+    public void setData(Map<String, Object> data){
         this.data = data;
     }
 
-    public void setData(String key, Object data) {
+    public void setData(String key, Object data){
         this.data.put(key, data);
     }
 
-    public void addData(String key, Object data) {
+    public void addData(String key, Object data){
         this.data.put(key, data);
     }
 
-    public Object getData(String key) {
+    public Object getData(String key){
         return data.get(key);
     }
 
-    public Integer getCode() {
+    public Integer getCode(){
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Integer code){
         this.code = code;
     }
 
@@ -180,12 +179,8 @@ public class ResultInfo {
         StackTrace = stackTrace;
     }
 
-    public List<String> getStrings() {
-        return strings;
-    }
+    public List<String> getStrings(){ return strings; }
 
-    public void setStrings(List<String> strings) {
-        this.strings = strings;
-    }
+    public void setStrings(List<String> strings){ this.strings = strings; }
 
 }

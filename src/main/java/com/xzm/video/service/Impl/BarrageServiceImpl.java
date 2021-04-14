@@ -27,12 +27,12 @@ public class BarrageServiceImpl implements BarrageService {
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = barrageMapper.deleteByPrimaryKey(id);
-        resultInfo.setData("index", index);
+        resultInfo.setData("index",index);
         return resultInfo;
     }
 
     @Override
-    public ResultInfo insertSelective(Map<String, String> record) {
+    public ResultInfo insertSelective(Map<String,String> record) {
         ResultInfo resultInfo = new ResultInfo(true);
         Barrage barrage = new Barrage();
         //{id=1, author=DIYgod, time=5.534275, text=123, color=15024726, type=0}
@@ -48,14 +48,14 @@ public class BarrageServiceImpl implements BarrageService {
 
         //更新系统的弹幕数目
         Video video = videoMapper.selectByPrimaryKey(videoId);
-        video.setBarrnum(video.getBarrnum() + 1);
+        video.setBarrnum(video.getBarrnum()+1);
         videoMapper.updateByPrimaryKey(video);
-        resultInfo.setData("index", index);
+        resultInfo.setData("index",index);
         return resultInfo;
     }
 
     @Override
-    public List<List<Object>> selectByVideoId_api(Integer video_id) {
+    public List<List<Object>> selectByVideoId_api(Integer video_id){
         /* 注意弹幕的字段不能改变，顺序分别为时间，种类，颜色，作者，内容，否则不能显示
         {   "code":0,
             "data":[
@@ -66,7 +66,7 @@ public class BarrageServiceImpl implements BarrageService {
          */
         List<Barrage> barrages = barrageMapper.selectByVideoId(video_id);
         List<List<Object>> data = new ArrayList<>();
-        for (Barrage temp : barrages) {
+        for(Barrage temp:barrages){
             List<Object> demo = new ArrayList<>();
             demo.add(temp.getTime());
             demo.add(temp.getType());
@@ -79,7 +79,7 @@ public class BarrageServiceImpl implements BarrageService {
     }
 
     @Override
-    public List<Barrage> selectByVideoId(Integer video_id) {
+    public List<Barrage> selectByVideoId(Integer video_id){
         return barrageMapper.selectByVideoId(video_id);
     }
 }

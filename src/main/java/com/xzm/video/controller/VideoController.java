@@ -26,112 +26,104 @@ import java.util.List;
  */
 
 @Controller
+@RequestMapping("/video")
 public class VideoController {
 
     @Autowired
-    VideoService videoService;
+    private VideoService videoService;
 
     @Autowired
-    TypeService typeService;
+    private TypeService typeService;
 
     @Autowired
-    BarrageService barrageService;
+    private BarrageService barrageService;
 
     @Autowired
-    CommentService commentService;
+    private CommentService commentService;
 
     @Autowired
-    TagService tagService;
+    private HistoryService historyService;
 
-    @GetMapping("/video/{id}")
-    public String video(@PathVariable Integer id, ModelMap model) {
+    @Autowired
+    private TagService tagService;
+
+    @GetMapping("/{id}")
+    public String video(HttpSession session,@PathVariable Integer id, ModelMap model) {
+        User user = (User) session.getAttribute("user");
+        if(user!=null){
+            historyService.addHistory(user.getId(),id);
+        }
         Video video = videoService.selectByPrimaryKey(id);
         List<Video> videos_hot = videoService.selectHot(5);
-        List<Barrage> barrages = barrageService.selectByVideoId(id);
+        List <Barrage> barrages = barrageService.selectByVideoId(id);
         List<Comment> comments = commentService.selectByVideoId(id);
         List<Tag> tags = tagService.selectByVideoId(id);
-        model.put("video", video);
-        model.put("tags", tags);
-        model.put("videos_hot", videos_hot);
-        model.put("barrages", barrages);
-        model.put("comments", comments);
+        model.put("video",video);
+        model.put("tags",tags);
+        model.put("videos_hot",videos_hot);
+        model.put("barrages",barrages);
+        model.put("comments",comments);
         return "video";
     }
 
     //根据种类选id
     @GetMapping("/type/{id}")
     public String videoByType(@RequestParam(value = "page", defaultValue = "1") Integer page, @PathVariable Integer id, ModelMap model) {
-        List<Video> videos_hot = videoService.selectHotByTypeId(id, 10);
+        List<Video> videos_hot = videoService.selectHotByTypeId(id,10);
+        Type type = typeService.selectByPrimaryKey(id);
 
         PageHelper.startPage(page, 9);
         List<Video> videos = videoService.selectByTypeId(id);
         PageInfo pageInfo = new PageInfo(videos, 5);
         model.addAttribute("pageInfo", pageInfo);
 
-        model.put("videos_hot", videos_hot);
-        model.put("type_id", id);
+        model.put("videos_hot",videos_hot);
+        model.put("type",type);
         return "type";
     }
 
-    @GetMapping("/user/upload")
-    public String toupload() {
-        return "user/upload";
+    @RequestMapping("/search")
+    public String videoSearch(@RequestParam(value = "page", defaultValue = "1") Integer page,String query,ModelMap model){
+        List<Video> videos_hot = videoService.selectHot(5);
+        PageHelper.startPage(page, 9);
+        List<Video> videos = videoService.selectByTitleLike(query);
+        PageInfo pageInfo = new PageInfo(videos, 5);
+        model.addAttribute("pageInfo", pageInfo);
+        model.put("videos_hot",videos_hot);
+        model.put("query",query);
+        return "search";
     }
-
-    /**
-     * 添加视频，此时保存数据中视频的链接
-     *
-     * @param video
-     * @param session
-     * @param request
-     * @return
-     * @throws IOException
-     */
-    @PostMapping("/user/addvideo")
-    public String addvideo(Video video, String tags,
-                           HttpSession session,
-                           HttpServletRequest request) throws IOException {
-        User user = (User) session.getAttribute("user");
-        video.setUser(user);
-        video.setCreateTime(new Date());
-        videoService.insertSelective(video, tags);
-        return "success";
-    }
-
     /**
      * 收藏
-     *
      * @param id
      * @return
      */
-    @PostMapping("/user/addstarnum")
+    @PostMapping("/addstarnum")
     @ResponseBody
-    public ResultInfo addStarNum(HttpSession session, Integer id) {
-        return videoService.addStarNum(session, id);
+    public ResultInfo addStarNum(Integer id){
+        return videoService.addStarNum(id);
     }
 
     /**
      * 投币
-     *
      * @param id
      * @return
      */
-    @PostMapping("/user/addcoinnum")
+    @PostMapping("/addcoinnum")
     @ResponseBody
-    public ResultInfo addCoinNum(HttpSession session, Integer id) {
-        return videoService.addCoinNum(session, id);
+    public ResultInfo addCoinNum(Integer id){
+        return videoService.addCoinNum(id);
     }
 
     /**
      * 点赞
-     *
      * @param id
      * @return
      */
-    @PostMapping("/user/addlikenum")
+    @PostMapping("/addlikenum")
     @ResponseBody
-    public ResultInfo addLikeNum(HttpSession session, Integer id) {
-        return videoService.addLikeNum(session, id);
+    public ResultInfo addLikeNum(Integer id){
+        return videoService.addLikeNum(id);
     }
 
 }

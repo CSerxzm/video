@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TypeServiceImpl implements TypeService {
+public class TypeServiceImpl implements TypeService{
 
     @Autowired
     TypeMapper typeMapper;
@@ -19,7 +19,7 @@ public class TypeServiceImpl implements TypeService {
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = typeMapper.deleteByPrimaryKey(id);
-        resultInfo.setData("index", index);
+        resultInfo.setData("index",index);
         return resultInfo;
     }
 
@@ -27,7 +27,7 @@ public class TypeServiceImpl implements TypeService {
     public ResultInfo insertSelective(Type record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = typeMapper.insertSelective(record);
-        resultInfo.setData("index", index);
+        resultInfo.setData("index",index);
         return resultInfo;
     }
 
@@ -41,7 +41,7 @@ public class TypeServiceImpl implements TypeService {
     public ResultInfo updateByPrimaryKeySelective(Type record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = typeMapper.updateByPrimaryKeySelective(record);
-        resultInfo.setData("index", index);
+        resultInfo.setData("index",index);
         return resultInfo;
     }
 

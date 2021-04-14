@@ -14,6 +14,4 @@ public interface CoinHistoryMapper {
     int updateByPrimaryKeySelective(CoinHistory record);
 
     int updateByPrimaryKey(CoinHistory record);
-
-    CoinHistory selectHistoryById(Integer userId, Integer videoId);
 }

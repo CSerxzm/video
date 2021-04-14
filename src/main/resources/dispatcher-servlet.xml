@@ -8,7 +8,7 @@
     <mvc:resources mapping="/css/**" location="/static/css/"/>
     <mvc:resources mapping="/js/**" location="/static/js/"/>
     <mvc:resources mapping="/images/**" location="/static/images/"/>
-    <mvc:default-servlet-handler/>
+    <mvc:default-servlet-handler />
 
     <!-- thymeleaf视图解析器 -->
     <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
@@ -19,7 +19,7 @@
     </bean>
     <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver"/>
-        <property name="additionalDialects" ref="shiroDialect"/>
+        <property name="additionalDialects" ref="shiroDialect" />
     </bean>
 
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">

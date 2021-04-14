@@ -23,44 +23,44 @@ public class FileController {
     @PostMapping("/user/uploadvideo")
     @ResponseBody
     public String uploadvideo(@RequestParam("video") MultipartFile video,
-                              HttpServletRequest request)
+                         HttpServletRequest request)
             throws IllegalStateException, IOException {
 
-        String serverPath = request.getScheme() + "://" + request.getServerName() + ":" +
+        String serverPath = request.getScheme() + "://"+request.getServerName()+":" +
                 request.getServerPort() + request.getContextPath() + "/file/";
         String path = request.getServletContext().getRealPath("/file/");
         String videoNameCode = (new SimpleDateFormat("yyyyMMddHHmmssSSS")).format(new Date());
         String videoName = video.getOriginalFilename();
-        String[] videos = videoName.split("\\.");
-        videoNameCode = videoNameCode + "." + videos[1];
+        String [] videos = videoName.split("\\.");
+        videoNameCode=videoNameCode+"."+videos[1];
         File filePath = new File(path, videoNameCode);
         if (!filePath.getParentFile().exists()) {
             filePath.getParentFile().mkdirs();
         }
         video.transferTo(filePath);
         System.out.println(filePath);
-        return serverPath + videoNameCode;
+        return serverPath+videoNameCode;
     }
 
     @PostMapping("/user/uploadpic")
     @ResponseBody
     public String uploadpic(@RequestParam("pic") MultipartFile pic,
-                            HttpServletRequest request)
+                         HttpServletRequest request)
             throws IllegalStateException, IOException {
 
-        String serverPath = request.getScheme() + "://" + request.getServerName() + ":" +
+        String serverPath = request.getScheme() + "://"+request.getServerName()+":" +
                 request.getServerPort() + request.getContextPath() + "/file/";
         String path = request.getServletContext().getRealPath("/file/");
         String picNameCode = (new SimpleDateFormat("yyyyMMddHHmmssSSS")).format(new Date());
         String picName = pic.getOriginalFilename();
-        String[] videos = picName.split("\\.");
-        picNameCode = picNameCode + "." + videos[1];
+        String [] videos = picName.split("\\.");
+        picNameCode=picNameCode+"."+videos[1];
         File filePath = new File(path, picNameCode);
         if (!filePath.getParentFile().exists()) {
             filePath.getParentFile().mkdirs();
         }
         pic.transferTo(filePath);
         System.out.println(filePath);
-        return serverPath + picNameCode;
+        return serverPath+picNameCode;
     }
 }

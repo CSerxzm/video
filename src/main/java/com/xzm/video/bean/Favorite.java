@@ -2,6 +2,9 @@ package com.xzm.video.bean;
 
 import lombok.Data;
 
+/**
+ * 收藏记录
+ */
 @Data
 public class Favorite {
     private Integer id;

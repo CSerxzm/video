@@ -18,26 +18,26 @@ import java.util.Map;
 public class BarrageController {
 
     @Autowired
-    BarrageService barrageService;
+    private BarrageService barrageService;
 
     @GetMapping("/barrage/v3")
     @ResponseBody
-    public Map<String, Object> getBarrage(@RequestParam("id") Integer id) {
-        System.out.println("id=" + id);
+    public Map<String,Object>  getBarrage(@RequestParam("id") Integer id){
+        System.out.println("id="+id);
         List<List<Object>> barrages = barrageService.selectByVideoId_api(id);
-        Map<String, Object> map = new HashMap<>();
-        map.put("code", 0);
-        map.put("data", barrages);
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",0);
+        map.put("data",barrages);
         return map;
     }
 
     @ResponseBody
     @PostMapping("/barrage/v3")
-    public String addBarrage(@RequestBody Map<String, String> param, HttpServletRequest request) throws Exception {
+    public String addBarrage(@RequestBody Map<String,String> param, HttpServletRequest request) throws Exception {
         Map map = new HashMap();
         System.out.println(param);
         barrageService.insertSelective(param);
-        map.put("code", 0);
+        map.put("code",0);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(map);
         return jsonStr;

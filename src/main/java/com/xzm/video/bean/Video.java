@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 视频实体类
+ */
 @Data
 public class Video {
     private Integer id;
@@ -33,5 +36,5 @@ public class Video {
     private Integer typeId;
 
     private String pictureUrl;
-
+    
 }

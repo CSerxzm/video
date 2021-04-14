@@ -43,14 +43,14 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
     <bean id="securityFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <!--登录页的url-->
         <property name="loginUrl" value="/login"/>
         <!--未认证的跳转页面-->
-        <property name="unauthorizedUrl" value="/"/>
+        <property name="unauthorizedUrl" value="/" />
         <property name="filterChainDefinitions">
             <value>
                 /user/** = authc
@@ -78,9 +78,9 @@
     </bean>
 
     <bean id="liquibase" class="liquibase.spring.SpringLiquibase">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="changeLog" value="classpath:db.changelog-1.0.xml"/>
-        <property name="contexts" value="test, production"/>
+        <property name ="dataSource"  ref ="dataSource"   />
+        <property name ="changeLog"  value ="classpath:db.changelog-1.0.xml"   />
+        <property name ="contexts"  value ="test, production"   />
     </bean>
 
 </beans>

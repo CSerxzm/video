@@ -37,19 +37,19 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         //获得用户名
-        String userName = (String) authenticationToken.getPrincipal();
+        String userName = (String)authenticationToken.getPrincipal();
+        System.out.println("——————认证用户——————");
 
         //2查询数据库
         User user = userMapper.selectByUsername(userName);
-        if (user != null) {
+        if (user != null){
             ByteSource salt = ByteSource.Util.bytes(userName);
 
             SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo
-                    (user, user.getPassword(), salt, this.getName());
+                    (user,user.getPassword(),salt,this.getName());
 
             return authenticationInfo;
         }
-
         return null;
     }
 }

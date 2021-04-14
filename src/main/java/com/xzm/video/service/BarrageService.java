@@ -13,7 +13,7 @@ public interface BarrageService {
 
     ResultInfo deleteByPrimaryKey(Integer id);
 
-    ResultInfo insertSelective(Map<String, String> record);
+    ResultInfo insertSelective(Map<String,String> record);
 
     List<List<Object>> selectByVideoId_api(Integer video_id);
 

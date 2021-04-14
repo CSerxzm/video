@@ -1,241 +1,251 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//com.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xzm.video.dao.VideoMapper">
-    <resultMap id="BaseResultMap" type="com.xzm.video.bean.Video">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="title" jdbcType="VARCHAR" property="title"/>
-        <result column="description" jdbcType="VARCHAR" property="description"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="video_url" jdbcType="VARCHAR" property="videoUrl"/>
-        <result column="viewnum" jdbcType="INTEGER" property="viewnum"/>
-        <result column="barrnum" jdbcType="INTEGER" property="barrnum"/>
-        <result column="starnum" jdbcType="INTEGER" property="starnum"/>
-        <result column="coinnum" jdbcType="INTEGER" property="coinnum"/>
-        <result column="likenum" jdbcType="INTEGER" property="likenum"/>
-        <result column="trannum" jdbcType="INTEGER" property="trannum"/>
-        <result column="type_id" jdbcType="INTEGER" property="typeId"/>
-        <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl"/>
-        <association property="user"
-                     select="com.xzm.video.dao.UserMapper.selectByPrimaryKey"
-                     column="user_id">
-        </association>
-    </resultMap>
-    <sql id="Base_Column_List">
-        id, title, user_id, description, create_time, video_url, viewnum, barrnum, starnum,
-        coinnum, likenum, trannum, type_id, picture_url
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_video
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from t_video
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" parameterType="com.xzm.video.bean.Video">
-        insert into t_video (id, title, user_id,
-        description, create_time, video_url,
-        viewnum, barrnum, starnum,
-        coinnum, likenum, trannum,
-        type_id, picture_url)
-        values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{user.id,jdbcType=INTEGER},
-        #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{videoUrl,jdbcType=VARCHAR},
-        #{viewnum,jdbcType=INTEGER}, #{barrnum,jdbcType=INTEGER}, #{starnum,jdbcType=INTEGER},
-        #{coinnum,jdbcType=INTEGER}, #{likenum,jdbcType=INTEGER}, #{trannum,jdbcType=INTEGER},
-        #{typeId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR})
-    </insert>
-    <insert id="insertSelective" parameterType="com.xzm.video.bean.Video">
-        insert into t_video
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="title != null">
-                title,
-            </if>
-            <if test="user != null and user.id!=null">
-                user_id,
-            </if>
-            <if test="description != null">
-                description,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="videoUrl != null">
-                video_url,
-            </if>
-            <if test="viewnum != null">
-                viewnum,
-            </if>
-            <if test="barrnum != null">
-                barrnum,
-            </if>
-            <if test="starnum != null">
-                starnum,
-            </if>
-            <if test="coinnum != null">
-                coinnum,
-            </if>
-            <if test="likenum != null">
-                likenum,
-            </if>
-            <if test="trannum != null">
-                trannum,
-            </if>
-            <if test="typeId != null">
-                type_id,
-            </if>
-            <if test="pictureUrl != null">
-                picture_url,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="title != null">
-                #{title,jdbcType=VARCHAR},
-            </if>
-            <if test="user != null and user.id!=null">
-                #{user.id,jdbcType=INTEGER},
-            </if>
-            <if test="description != null">
-                #{description,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="videoUrl != null">
-                #{videoUrl,jdbcType=VARCHAR},
-            </if>
-            <if test="viewnum != null">
-                #{viewnum,jdbcType=INTEGER},
-            </if>
-            <if test="barrnum != null">
-                #{barrnum,jdbcType=INTEGER},
-            </if>
-            <if test="starnum != null">
-                #{starnum,jdbcType=INTEGER},
-            </if>
-            <if test="coinnum != null">
-                #{coinnum,jdbcType=INTEGER},
-            </if>
-            <if test="likenum != null">
-                #{likenum,jdbcType=INTEGER},
-            </if>
-            <if test="trannum != null">
-                #{trannum,jdbcType=INTEGER},
-            </if>
-            <if test="typeId != null">
-                #{typeId,jdbcType=INTEGER},
-            </if>
-            <if test="pictureUrl != null">
-                #{pictureUrl,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.xzm.video.bean.Video">
-        update t_video
-        <set>
-            <if test="title != null">
-                title = #{title,jdbcType=VARCHAR},
-            </if>
-            <if test="user!=null and user.id != null">
-                user_id = #{user.id,jdbcType=INTEGER},
-            </if>
-            <if test="description != null">
-                description = #{description,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="videoUrl != null">
-                video_url = #{videoUrl,jdbcType=VARCHAR},
-            </if>
-            <if test="viewnum != null">
-                viewnum = #{viewnum,jdbcType=INTEGER},
-            </if>
-            <if test="barrnum != null">
-                barrnum = #{barrnum,jdbcType=INTEGER},
-            </if>
-            <if test="starnum != null">
-                starnum = #{starnum,jdbcType=INTEGER},
-            </if>
-            <if test="coinnum != null">
-                coinnum = #{coinnum,jdbcType=INTEGER},
-            </if>
-            <if test="likenum != null">
-                likenum = #{likenum,jdbcType=INTEGER},
-            </if>
-            <if test="trannum != null">
-                trannum = #{trannum,jdbcType=INTEGER},
-            </if>
-            <if test="typeId != null">
-                type_id = #{typeId,jdbcType=INTEGER},
-            </if>
-            <if test="pictureUrl != null">
-                picture_url = #{pictureUrl,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.xzm.video.bean.Video">
-        update t_video
-        set title = #{title,jdbcType=VARCHAR},
+  <resultMap id="BaseResultMap" type="com.xzm.video.bean.Video">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="viewnum" jdbcType="INTEGER" property="viewnum" />
+    <result column="barrnum" jdbcType="INTEGER" property="barrnum" />
+    <result column="starnum" jdbcType="INTEGER" property="starnum" />
+    <result column="coinnum" jdbcType="INTEGER" property="coinnum" />
+    <result column="likenum" jdbcType="INTEGER" property="likenum" />
+    <result column="trannum" jdbcType="INTEGER" property="trannum" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <association property="user"
+                 select="com.xzm.video.dao.UserMapper.selectByPrimaryKey"
+                 column="user_id">
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, user_id, description, create_time, video_url, viewnum, barrnum, starnum, 
+    coinnum, likenum, trannum, type_id, picture_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_video
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xzm.video.bean.Video">
+    insert into t_video (id, title, user_id, 
+      description, create_time, video_url, 
+      viewnum, barrnum, starnum, 
+      coinnum, likenum, trannum, 
+      type_id, picture_url)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{user.id,jdbcType=INTEGER},
+      #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{videoUrl,jdbcType=VARCHAR}, 
+      #{viewnum,jdbcType=INTEGER}, #{barrnum,jdbcType=INTEGER}, #{starnum,jdbcType=INTEGER}, 
+      #{coinnum,jdbcType=INTEGER}, #{likenum,jdbcType=INTEGER}, #{trannum,jdbcType=INTEGER}, 
+      #{typeId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzm.video.bean.Video">
+    insert into t_video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="user != null and user.id!=null">
+        user_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="videoUrl != null">
+        video_url,
+      </if>
+      <if test="viewnum != null">
+        viewnum,
+      </if>
+      <if test="barrnum != null">
+        barrnum,
+      </if>
+      <if test="starnum != null">
+        starnum,
+      </if>
+      <if test="coinnum != null">
+        coinnum,
+      </if>
+      <if test="likenum != null">
+        likenum,
+      </if>
+      <if test="trannum != null">
+        trannum,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="pictureUrl != null">
+        picture_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="user != null and user.id!=null">
+        #{user.id,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoUrl != null">
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="viewnum != null">
+        #{viewnum,jdbcType=INTEGER},
+      </if>
+      <if test="barrnum != null">
+        #{barrnum,jdbcType=INTEGER},
+      </if>
+      <if test="starnum != null">
+        #{starnum,jdbcType=INTEGER},
+      </if>
+      <if test="coinnum != null">
+        #{coinnum,jdbcType=INTEGER},
+      </if>
+      <if test="likenum != null">
+        #{likenum,jdbcType=INTEGER},
+      </if>
+      <if test="trannum != null">
+        #{trannum,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureUrl != null">
+        #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzm.video.bean.Video">
+    update t_video
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="user!=null and user.id != null">
         user_id = #{user.id,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoUrl != null">
         video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="viewnum != null">
         viewnum = #{viewnum,jdbcType=INTEGER},
+      </if>
+      <if test="barrnum != null">
         barrnum = #{barrnum,jdbcType=INTEGER},
+      </if>
+      <if test="starnum != null">
         starnum = #{starnum,jdbcType=INTEGER},
+      </if>
+      <if test="coinnum != null">
         coinnum = #{coinnum,jdbcType=INTEGER},
+      </if>
+      <if test="likenum != null">
         likenum = #{likenum,jdbcType=INTEGER},
+      </if>
+      <if test="trannum != null">
         trannum = #{trannum,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
         type_id = #{typeId,jdbcType=INTEGER},
-        picture_url = #{pictureUrl,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <!--List<Video> selectAll();-->
-    <select id="selectAll" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_video
-    </select>
-    <!--List<Video> selectNewByTypeId(@Param("type_id") Integer type_id, @Param("size") Integer size);-->
-    <select id="selectNewByTypeId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_video
-        where type_id = #{type_id,jdbcType=INTEGER} order by create_time desc limit #{size}
-    </select>
+      </if>
+      <if test="pictureUrl != null">
+        picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xzm.video.bean.Video">
+    update t_video
+    set title = #{title,jdbcType=VARCHAR},
+      user_id = #{user.id,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      viewnum = #{viewnum,jdbcType=INTEGER},
+      barrnum = #{barrnum,jdbcType=INTEGER},
+      starnum = #{starnum,jdbcType=INTEGER},
+      coinnum = #{coinnum,jdbcType=INTEGER},
+      likenum = #{likenum,jdbcType=INTEGER},
+      trannum = #{trannum,jdbcType=INTEGER},
+      type_id = #{typeId,jdbcType=INTEGER},
+      picture_url = #{pictureUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--List<Video> selectAll();-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_video
+  </select>
+  <!--List<Video> selectNewByTypeId(@Param("type_id") Integer type_id, @Param("size") Integer size);-->
+  <select id="selectNewByTypeId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_video
+    where type_id = #{type_id,jdbcType=INTEGER} order by create_time desc limit #{size}
+  </select>
 
-    <!--List<Video> selectHotByTypeId(@Param("type_id") Integer type_id, @Param("size") Integer size);-->
-    <select id="selectHotByTypeId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_video
-        where type_id = #{type_id,jdbcType=INTEGER} order by viewnum desc limit #{size}
-    </select>
+  <!--List<Video> selectHotByTypeId(@Param("type_id") Integer type_id, @Param("size") Integer size);-->
+  <select id="selectHotByTypeId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_video
+    where type_id = #{type_id,jdbcType=INTEGER} order by viewnum desc limit #{size}
+  </select>
 
-    <!--List<Video> selectHot(Integer size);-->
-    <select id="selectHot" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_video
-        order by viewnum desc limit #{size}
-    </select>
+  <!--List<Video> selectHot(Integer size);-->
+  <select id="selectHot" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_video
+     order by viewnum desc limit #{size}
+  </select>
 
-    <!--List<Video> selectByType(Integer type_id);-->
-    <select id="selectByType" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_video
-        where type_id=#{type_id}
-        order by viewnum desc
-    </select>
+  <!--List<Video> selectByType(Integer type_id);-->
+  <select id="selectByType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_video
+    where type_id=#{type_id}
+    order by viewnum desc
+  </select>
+
+  <!--List<Video> selectByTitleLike(String query);-->
+  <select id="selectByTitleLike" resultMap="BaseResultMap">
+    <bind name="pattern" value="'%'+query+'%'" />
+    select
+    <include refid="Base_Column_List" />
+    from t_video
+    where title like #{pattern}
+    order by viewnum desc
+  </select>
 
 </mapper>

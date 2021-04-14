@@ -7,10 +7,9 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
-
 import javax.sql.DataSource;
 
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+@ContextConfiguration(locations={"classpath:applicationContext.xml"})
 public class Test extends AbstractJUnit4SpringContextTests {
 
     @Autowired
@@ -20,17 +19,17 @@ public class Test extends AbstractJUnit4SpringContextTests {
     VideoService videoService;
 
     @org.junit.Test
-    public void test() {
+    public void test(){
         System.out.println(dataSource);
     }
 
     @org.junit.Test
-    public void test01() {
+    public void test01(){
         String hashAlgorithmName = "MD5";
         Object password = "password";
         ByteSource salt = ByteSource.Util.bytes("root1");
         int hashIterations = 2;
-        Object result = new SimpleHash(hashAlgorithmName, password, salt, hashIterations);
+        Object result = new SimpleHash(hashAlgorithmName,password,salt,hashIterations);
         System.out.println(result);
     }
 }

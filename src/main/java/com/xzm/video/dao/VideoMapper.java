@@ -28,4 +28,5 @@ public interface VideoMapper {
 
     List<Video> selectByType(Integer type_id);
 
+    List<Video> selectByTitleLike(@Param("query") String query);
 }

@@ -5,11 +5,11 @@
     <changeSet author="xiangzhimin" id="20210123-1922">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="star_history"/>
+                <tableExists tableName="start_history"/>
             </not>
         </preConditions>
         <comment>添加收藏表</comment>
-        <createTable tableName="star_history">
+        <createTable tableName="start_history">
             <column name="id" type="int(11)" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -31,7 +31,7 @@
             </column>
             <column name="user_id" type="int(11)"/>
             <column name="video_id" type="int(11)"/>
-            <column name="nums" type="int(11)" remarks="投币数"/>
+            <column name="nums" type="int(11)"  remarks="投币数"/>
             <column name="create_time" type="datetime"/>
         </createTable>
     </changeSet>

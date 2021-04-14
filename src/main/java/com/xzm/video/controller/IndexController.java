@@ -27,18 +27,18 @@ import java.util.Map;
 public class IndexController {
 
     @Autowired
-    VideoService videoService;
+    private VideoService videoService;
     @Autowired
-    TypeService typeService;
+    private TypeService typeService;
 
-    @RequestMapping("/")
+    @RequestMapping( "/" )
     public String index(ModelMap model, HttpSession session) {
         List<Type> types = typeService.selectAll();
         Map<String, List<Video>> videos_new = videoService.selectNewByType(3);
         Map<String, List<Video>> videos_hot = videoService.selectHotByType(6);
-        session.setAttribute("types", types);
-        model.put("videos_new", videos_new);
-        model.put("videos_hot", videos_hot);
+        session.setAttribute("types",types);
+        model.put("videos_new",videos_new);
+        model.put("videos_hot",videos_hot);
         return "index";
     }
 

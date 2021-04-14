@@ -2,6 +2,9 @@ package com.xzm.video.bean;
 
 import lombok.Data;
 
+/**
+ * 标签
+ */
 @Data
 public class Tag {
 
@@ -11,13 +14,13 @@ public class Tag {
 
     private Integer videoId;
 
-    public Tag() {
+    public Tag(){
 
     }
 
-    public Tag(String content, Integer videoId) {
-        this.content = content;
-        this.videoId = videoId;
+    public Tag(String content,Integer videoId){
+        this.content=content;
+        this.videoId=videoId;
     }
 
 }

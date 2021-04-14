@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 弹幕类
+ */
 @Data
 public class Barrage {
     private Integer id;
