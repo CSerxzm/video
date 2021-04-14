@@ -47,11 +47,22 @@ public class VideoController {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private FavoriteService favoriteService;
+
     @GetMapping("/{id}")
     public String video(HttpSession session,@PathVariable Integer id, ModelMap model) {
         User user = (User) session.getAttribute("user");
         if(user!=null){
-            historyService.addHistory(user.getId(),id);
+            Integer userId = user.getId();
+            historyService.addHistory(userId,id);
+            //看是否点赞
+            Favorite favorite = favoriteService.selectByUserIdAndVideoId(userId, id);
+            if(favorite==null){
+                model.put("enableFavorite",true);
+            }else{
+                model.put("enableFavorite",false);
+            }
         }
         Video video = videoService.selectByPrimaryKey(id);
         List<Video> videos_hot = videoService.selectHot(5);

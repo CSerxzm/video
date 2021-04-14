@@ -1,6 +1,7 @@
 package com.xzm.video.service.Impl;
 
 import com.xzm.video.bean.*;
+import com.xzm.video.constant.ResultCode;
 import com.xzm.video.dao.FavoriteMapper;
 import com.xzm.video.dao.TagMapper;
 import com.xzm.video.dao.TypeMapper;
@@ -116,9 +117,11 @@ public class VideoServiceImpl implements VideoService{
         ResultInfo resultInfo = new ResultInfo(true);
         //检查是否已经收藏
         Favorite favorite = favoriteMapper.selectByUserIdAndVideoId(user.getId(), id);
+        Video video = videoMapper.selectByPrimaryKey(id);
         if(favorite!=null){
-            resultInfo.setSuccess(false);
-            resultInfo.setMessage("已经收藏过");
+            favoriteMapper.deleteByPrimaryKey(favorite.getId());
+            video.setStarnum(video.getStarnum()-1);
+            resultInfo.setCode(ResultCode.CANCEL.getCode());
         }else{
             favorite = new Favorite();
             favorite.setUserId(user.getId());
@@ -127,11 +130,11 @@ public class VideoServiceImpl implements VideoService{
             favorite.setVideo(videoTemp);
             favorite.setCreateTime(new Date());
             favoriteMapper.insert(favorite);
-            Video video = videoMapper.selectByPrimaryKey(id);
             video.setStarnum(video.getStarnum()+1);
-            videoMapper.updateByPrimaryKey(video);
-            resultInfo.setData("star",video.getStarnum());
+            resultInfo.setCode(ResultCode.DO.getCode());
         }
+        videoMapper.updateByPrimaryKey(video);
+        resultInfo.setData("star",video.getStarnum());
         return resultInfo;
     }
 

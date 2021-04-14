@@ -77,6 +77,7 @@
         <property name="hashIterations" value="2"/>
     </bean>
 
+    <!--Liquibase-->
     <bean id="liquibase" class="liquibase.spring.SpringLiquibase">
         <property name ="dataSource"  ref ="dataSource"   />
         <property name ="changeLog"  value ="classpath:db.changelog-1.0.xml"   />

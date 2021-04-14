@@ -31,7 +31,7 @@
                 </div>
                 <div class="ui seven column grid m-margin" style="font-size: 16px;">
                     <div class="column m-padded-tiny" style="margin-left:2rem">
-                        <i class="large star outline icon" id="star"></i><span th:text="${video.starnum}">1888</span>
+                        <i class="large star icon" id="star" th:classappend="${enableFavorite}?'black outline':'blue'"></i><span th:text="${video.starnum}">1888</span>
                     </div>
                     <div class="column m-padded-tiny">
                         <i class="large yen sign icon" id="coin"></i><span th:text="${video.coinnum}">1888</span>
@@ -224,10 +224,11 @@
         $("#star").bind('click',function(){
             var id = [[${video.id}]];
             $.post('/user/addfavoritenum',{"id":id},function (result) {
-                if(result.success==true){
-                    $("#star").next().html(result.data.star);
-                }else{
-                    console.log(result.message);
+                $("#star").next().html(result.data.star);
+                if(result.code==201){
+                    $("#star").removeClass("black outline").addClass("blue");
+                }else if(result.code=202){
+                    $("#star").removeClass("blue").addClass("black outline");
                 }
             });
         });

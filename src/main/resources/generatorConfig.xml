@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
+
   <properties resource="jdbc.properties"/>
 
   <context id="testTables" targetRuntime="MyBatis3">
@@ -37,8 +38,6 @@
       <property name="enableSubPackages" value="false"/>
     </javaClientGenerator>
 
-
-<!--
     <table tableName="t_barrage" domainObjectName="Barrage"
            enableCountByExample="false"
            enableUpdateByExample="false"
@@ -106,7 +105,6 @@
              enableDeleteByExample="false"
              enableSelectByExample="false"
              selectByExampleQueryId="false"></table>
-      -->
 
   </context>
 </generatorConfiguration>
