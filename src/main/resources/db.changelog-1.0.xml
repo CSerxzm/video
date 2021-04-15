@@ -5,7 +5,7 @@
     <changeSet author="xiangzhimin" id="20210123-1922">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="start_history"/>
+                <tableExists tableName="t_favorite"/>
             </not>
         </preConditions>
         <comment>添加收藏表</comment>
@@ -51,4 +51,18 @@
             <column name="create_time" type="datetime"/>
         </createTable>
     </changeSet>
+
+    <changeSet author="xiangzhimin" id="20210415-1533">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="t_user"/>
+            <not>
+                <columnExists tableName="t_user" columnName ="attention_num"/>
+            </not>
+        </preConditions>
+        <comment>用户表添加关注数量</comment>
+        <addColumn tableName="t_user">
+            <column name="attention_num" type="int(11)" defaultValue="0" remarks="关注数量"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

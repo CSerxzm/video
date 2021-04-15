@@ -8,6 +8,7 @@ import com.xzm.video.bean.User;
 import com.xzm.video.bean.Video;
 import com.xzm.video.service.FavoriteService;
 import com.xzm.video.service.HistoryService;
+import com.xzm.video.service.UserService;
 import com.xzm.video.service.VideoService;
 import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class UserController {
 
     @Autowired
     private FavoriteService favoriteService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/upload")
     public String toupload(){
@@ -137,5 +141,18 @@ public class UserController {
     public ResultInfo addLikeNum(HttpSession session,Integer id){
         User user = (User) session.getAttribute("user");
         return videoService.addLikeNum(user,id);
+    }
+
+    /**
+     * 关注用户
+     * @param session
+     * @param id
+     * @return
+     */
+    @RequestMapping("/attention")
+    @ResponseBody
+    public ResultInfo addAttention(HttpSession session,Integer id){
+        User user = (User) session.getAttribute("user");
+        return userService.addAttention(user,id);
     }
 }

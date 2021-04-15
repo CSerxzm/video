@@ -68,4 +68,13 @@
       atten_userid = #{attenUserid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--Attention selectAttention(@Param("userId") Integer userId, @Param("attenUserid") Integer attenUserid);-->
+  <select id="selectAttention" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_attention
+    where user_id = #{userId,jdbcType=INTEGER} and atten_userid = #{attenUserid,jdbcType=INTEGER}
+  </select>
+
 </mapper>

@@ -48,16 +48,6 @@
                 <div class="description" th:text="${video.description}">
                     这个花嫁不想肝了orz，配布老规矩硬币走起
                     过276硬币放链接∠( ᐛ 」∠)_ 给个三连呗x
-                    ——————————————
-                    model
-                    TDA/mihoyo/REe/iRon0129/机动战士牛肉
-                    camera/motion:
-                    AHK（注：动作使用已授权）/予沉7
-                    stage:
-                    糖斯
-                    mme:
-                    less 下腹p 針金p データＰそぼろ mqdl 摩丝ikeno
-                    BGM:No tears left to cry
                 </div>
                 <!--标签-->
                 <div class="label m-margin-top">
@@ -71,16 +61,13 @@
                 </div>
                 <div class="ui divider"></div>
                 <div class="ui comments">
-                    <div class="comment" th:fragment="commentList" id="myCommentList" th:each="comment:${comments}">
-                        <a class="avatar">
-                            <img src="../../static/images/logo.png" class="head" th:src="${comment.user.avatar}"/>
-                        </a>
-                        <div class="content">
-                            <a class="author" th:text="${comment.user.nickname}">Matt</a>
-                            <div class="metadata">
-                                <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd hh:MM')}">今天下午 5:42</span>
-                            </div>
-                            <div class="text" th:text="${comment.content}">太赞了！ </div>
+                    <div class="comment" th:fragment="commentList" id="commentList">
+                        <div class="ui m-margin-tb-small grey" th:each="comment:${comments}">
+                            <h4 class="ui header"><img src="../../static/images/logo.png" th:src="${comment.user.avatar}" class="head">
+                                <span style="font-size: 16px;text-align:center !important;">[[${comment.user.nickname}]]</span>
+                                <span class="date" style="margin-right: 80px !important;font-size: 10px;text-align:center !important;" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd hh:MM')}">今天下午 5:42</span>
+                            </h4>
+                            <div class="text" style="min-height:30px !important;padding-right: 14px !important;" th:text="${comment.content}">太赞了！ </div>
                         </div>
                     </div>
                     <div class="comment" th:if="${comments==null}">
@@ -125,8 +112,10 @@
                     </div>
                 </div>
                 <div class="ui container m-margin-top" style="overflow: hidden;">
-                    <button class="ui primary button" style="float:right;"><i
-                            class="large plus icon"></i>关注<span th:text="${video.user.coinnum}">13000</span></button>
+                    <button class="ui button" id="attention-btn" style="float:right;" th:classappend="${enableAttention}?'grey':'primary'">
+                        <span id="attentiontext" th:text="${enableAttention}?'关注':'已关注'"></span>
+                        <span id="attentionnum" th:text="${video.user.attentionNum}">13000</span>
+                    </button>
                 </div>
             </div>
             <!--弹幕部分-->
@@ -267,16 +256,27 @@
             }
         });
 
+        $('#attention-btn').bind('click', function clickbutton() {
+            $.post('/user/attention',{"id":userId},function (result) {
+                $("#attentionnum").html(result.data.attentionNum);
+                if(result.code==201){
+                    $("#attention-btn").removeClass("grey").addClass("primary");
+                    $("#attentiontext").html("已关注");
+                }else if(result.code==202){
+                    $("#attention-btn").removeClass("primary").addClass("grey");
+                    $("#attentiontext").html("关注");
+                }
+            });
+        });
+
         function postdata() {
-            console.log('发送前');
-            $.post('/user/addComment',{
+            $('#commentList').load('/user/addComment',{
                 "videoId": videoId,
                 "content": $("[name='content']").val()
             },function (result) {
                 $("[name='content']").val('');
                 $("[name='content']").attr("placeholder", "请输入评论信息...");
             });
-            console.log('发送后');
         }
 
         //评论表单验证

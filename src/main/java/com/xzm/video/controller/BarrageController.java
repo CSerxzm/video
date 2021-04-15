@@ -23,7 +23,6 @@ public class BarrageController {
     @GetMapping("/barrage/v3")
     @ResponseBody
     public Map<String,Object>  getBarrage(@RequestParam("id") Integer id){
-        System.out.println("id="+id);
         List<List<Object>> barrages = barrageService.selectByVideoId_api(id);
         Map<String,Object> map = new HashMap<>();
         map.put("code",0);

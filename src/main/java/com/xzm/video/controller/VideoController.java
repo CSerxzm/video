@@ -50,12 +50,17 @@ public class VideoController {
     @Autowired
     private FavoriteService favoriteService;
 
+    @Autowired
+    private AttentionService attentionService;
+
     @GetMapping("/{id}")
     public String video(HttpSession session,@PathVariable Integer id, ModelMap model) {
         User user = (User) session.getAttribute("user");
+        Video video = videoService.selectByPrimaryKey(id);
         model.put("enableFavorite",true);
         model.put("enableCoin",true);
         model.put("enableLike",true);
+        model.put("enableAttention",true);
         if(user!=null){
             Integer userId = user.getId();
             historyService.addHistory(userId,id);
@@ -72,8 +77,12 @@ public class VideoController {
             if(likeHistory!=null){
                 model.put("enableLike",false);
             }
+            //查看是否已经关注作者
+            Attention attention = attentionService.selectAttention(user.getId(), video.getUser().getId());
+            if(attention!=null){
+                model.put("enableAttention",false);
+            }
         }
-        Video video = videoService.selectByPrimaryKey(id);
         List<Video> videos_hot = videoService.selectHot(5);
         List <Barrage> barrages = barrageService.selectByVideoId(id);
         List<Comment> comments = commentService.selectByVideoId(id);

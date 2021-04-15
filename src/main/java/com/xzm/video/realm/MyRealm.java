@@ -38,7 +38,6 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         //获得用户名
         String userName = (String)authenticationToken.getPrincipal();
-        System.out.println("——————认证用户——————");
 
         //2查询数据库
         User user = userMapper.selectByUsername(userName);

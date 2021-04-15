@@ -44,18 +44,14 @@ public class MyLockAspect {
         Object proceed=null;
         if(type==LockType.READ){
             ReentrantReadWriteLock.ReadLock lock = readWriteLock.readLock();
-            System.out.println("加读锁");
             lock.lock();
             proceed = joinPoint.proceed();
             lock.unlock();
-            System.out.println("释放读锁");
         }else{
             ReentrantReadWriteLock.WriteLock lock = readWriteLock.writeLock();
-            System.out.println("加写锁");
             lock.lock();
             proceed = joinPoint.proceed();
             lock.unlock();
-            System.out.println("释放写锁");
         }
         return proceed;
     }

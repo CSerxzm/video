@@ -29,4 +29,6 @@ public class User {
 
     private transient String role;
 
+    private Integer attentionNum;
+
 }

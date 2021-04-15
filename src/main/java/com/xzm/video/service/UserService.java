@@ -15,4 +15,5 @@ public interface UserService {
 
     ResultInfo selectByUsername(String username);
 
+    ResultInfo addAttention(User user, Integer id);
 }

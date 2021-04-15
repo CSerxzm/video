@@ -1,6 +1,7 @@
 package com.xzm.video.dao;
 
 import com.xzm.video.bean.Attention;
+import org.apache.ibatis.annotations.Param;
 
 public interface AttentionMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface AttentionMapper {
     int updateByPrimaryKeySelective(Attention record);
 
     int updateByPrimaryKey(Attention record);
+
+    Attention selectAttention(@Param("userId") Integer userId, @Param("attenUserid") Integer attenUserid);
 }

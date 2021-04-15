@@ -1,6 +1,9 @@
 package com.xzm.video.service.Impl;
 
+import com.xzm.video.bean.Attention;
 import com.xzm.video.bean.User;
+import com.xzm.video.constant.ResultCode;
+import com.xzm.video.dao.AttentionMapper;
 import com.xzm.video.dao.UserMapper;
 import com.xzm.video.service.UserService;
 import com.xzm.video.utils.ResultInfo;
@@ -14,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private AttentionMapper attentionMapper;
 
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {
@@ -58,6 +64,29 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         resultInfo.setData("user",user);
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo addAttention(User user, Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        //检查是否已经关注
+        Attention attention = attentionMapper.selectAttention(user.getId(), id);
+        User userTemp = userMapper.selectByPrimaryKey(id);
+        if(attention!=null){
+            attentionMapper.deleteByPrimaryKey(attention.getId());
+            userTemp.setAttentionNum(userTemp.getAttentionNum()-1);
+            resultInfo.setCode(ResultCode.CANCEL.getCode());
+        }else{
+            attention = new Attention();
+            attention.setUserId(user.getId());
+            attention.setAttenUserid(id);
+            userTemp.setAttentionNum(userTemp.getAttentionNum()+1);
+            attentionMapper.insert(attention);
+            resultInfo.setCode(ResultCode.DO.getCode());
+        }
+        userMapper.updateByPrimaryKey(userTemp);
+        resultInfo.setData("attentionNum",userTemp.getAttentionNum());
         return resultInfo;
     }
 }
