@@ -50,7 +50,8 @@
               <div class="field">
                 <div class="ui left icon input">
                   <i class="user circle icon"></i>
-                  <input type="text" name="avatar" placeholder="头像" required>
+                  <input type="file" id="file" accept="image/*"  placeholder="头像" onchange="uploadFile(this)" required>
+                  <input type="text" name="avatar" id="avatar" hidden="hidden">
                 </div>
               </div>
               <button class="ui fluid large blue submit button">注 册</button>
@@ -82,9 +83,49 @@
           type: 'empty',
           prompt: '请输入密码'
         }]
+      },
+      file: {
+          identifier: 'file',
+          rules: [{
+              type: 'empty',
+              prompt: '请选择头像'
+          }]
+      },
+      description: {
+          identifier: 'description',
+              rules: [{
+              type: 'empty',
+              prompt: '请输入描述'
+          }]
+      },
+      nickname: {
+          identifier: 'nickname',
+              rules: [{
+              type: 'empty',
+              prompt: '请选择头像'
+          }]
       }
     }
   });
+
+  function uploadFile(obj) {
+      console.log("触发函数");
+      var datatemp = new FormData();
+      var imgFile = obj.files[0];
+      datatemp.append("pic", imgFile);
+      $.ajax({
+          url: '/uploadpicwithoutlogin',
+          type: 'post',
+          processData: false,
+          contentType: false,
+          data: datatemp,
+          success: function (data) {
+              alert(data);
+              $("#avatar").val(data)
+          }
+      });
+  }
+
 </script>
 
 </body>

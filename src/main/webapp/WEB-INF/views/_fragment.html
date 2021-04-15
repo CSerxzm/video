@@ -27,10 +27,9 @@
                         <i onclick="document.forms['search'].submit()" class="search link icon"></i>
                     </div>
                 </form>
-                <div class="m-item item m-mobile-hide">
+                <div class="m-item item">
                     <img src="../../static/images/avatar.png"
-                         th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}"
-                         class="ui rounded head-big" />
+                         th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}" class="ui rounded head-big" />
                 </div>
                 <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" shiro:guest="">登录</a>
                 <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" shiro:guest="">注册</a>
