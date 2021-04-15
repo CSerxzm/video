@@ -53,15 +53,24 @@ public class VideoController {
     @GetMapping("/{id}")
     public String video(HttpSession session,@PathVariable Integer id, ModelMap model) {
         User user = (User) session.getAttribute("user");
+        model.put("enableFavorite",true);
+        model.put("enableCoin",true);
+        model.put("enableLike",true);
         if(user!=null){
             Integer userId = user.getId();
             historyService.addHistory(userId,id);
             //看是否点赞
             Favorite favorite = favoriteService.selectByUserIdAndVideoId(userId, id);
-            if(favorite==null){
-                model.put("enableFavorite",true);
-            }else{
+            if(favorite!=null){
                 model.put("enableFavorite",false);
+            }
+            CoinHistory coinHistory = historyService.selectCoinHistoryByUserIdAndVideoId(userId, id);
+            if(coinHistory!=null){
+                model.put("enableCoin",false);
+            }
+            LikeHistory likeHistory = historyService.selectLikeHistoryByUserIdAndVideoId(userId, id);
+            if(likeHistory!=null){
+                model.put("enableLike",false);
             }
         }
         Video video = videoService.selectByPrimaryKey(id);

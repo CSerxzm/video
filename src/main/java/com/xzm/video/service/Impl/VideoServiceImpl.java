@@ -1,11 +1,11 @@
 package com.xzm.video.service.Impl;
 
+import com.xzm.video.annotation.MyLock;
 import com.xzm.video.bean.*;
+import com.xzm.video.constant.LockName;
+import com.xzm.video.constant.LockType;
 import com.xzm.video.constant.ResultCode;
-import com.xzm.video.dao.FavoriteMapper;
-import com.xzm.video.dao.TagMapper;
-import com.xzm.video.dao.TypeMapper;
-import com.xzm.video.dao.VideoMapper;
+import com.xzm.video.dao.*;
 import com.xzm.video.service.TagService;
 import com.xzm.video.service.VideoService;
 import com.xzm.video.utils.ResultInfo;
@@ -31,6 +31,12 @@ public class VideoServiceImpl implements VideoService{
 
     @Autowired
     private FavoriteMapper favoriteMapper;
+
+    @Autowired
+    private CoinHistoryMapper coinHistoryMapper;
+
+    @Autowired
+    private LikeHistoryMapper likeHistoryMapper;
 
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {
@@ -113,6 +119,7 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
+    @MyLock(name= LockName.FAVORITE,type= LockType.WRITE) //该部分有待测试
     public ResultInfo addFavoriteNum(User user, Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         //检查是否已经收藏
@@ -141,8 +148,21 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public ResultInfo addCoinNum(User user, Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
+        //检查是否已经投币
+        CoinHistory coinHistory = coinHistoryMapper.selectByUserIdAndVideoId(user.getId(), id);
         Video video = videoMapper.selectByPrimaryKey(id);
-        video.setCoinnum(video.getCoinnum()+1);
+        if(coinHistory!=null){
+            coinHistoryMapper.deleteByPrimaryKey(coinHistory.getId());
+            video.setCoinnum(video.getCoinnum()-1);
+            resultInfo.setCode(ResultCode.CANCEL.getCode());
+        }else{
+            coinHistory = new CoinHistory();
+            coinHistory.setUserId(user.getId());
+            coinHistory.setVideoId(id);
+            coinHistoryMapper.insert(coinHistory);
+            video.setCoinnum(video.getCoinnum()+1);
+            resultInfo.setCode(ResultCode.DO.getCode());
+        }
         videoMapper.updateByPrimaryKey(video);
         resultInfo.setData("coin",video.getCoinnum());
         return resultInfo;
@@ -151,8 +171,21 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public ResultInfo addLikeNum(User user, Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
+        //检查是否已经点赞
+        LikeHistory likeHistory = likeHistoryMapper.selectByUserIdAndVideoId(user.getId(), id);
         Video video = videoMapper.selectByPrimaryKey(id);
-        video.setLikenum(video.getLikenum()+1);
+        if(likeHistory!=null){
+            likeHistoryMapper.deleteByPrimaryKey(likeHistory.getId());
+            video.setLikenum(video.getLikenum()-1);
+            resultInfo.setCode(ResultCode.CANCEL.getCode());
+        }else{
+            likeHistory = new LikeHistory();
+            likeHistory.setUserId(user.getId());
+            likeHistory.setVideoId(id);
+            likeHistoryMapper.insert(likeHistory);
+            video.setLikenum(video.getLikenum()+1);
+            resultInfo.setCode(ResultCode.DO.getCode());
+        }
         videoMapper.updateByPrimaryKey(video);
         resultInfo.setData("like",video.getLikenum());
         return resultInfo;

@@ -34,10 +34,10 @@
                         <i class="large star icon" id="star" th:classappend="${enableFavorite}?'black outline':'blue'"></i><span th:text="${video.starnum}">1888</span>
                     </div>
                     <div class="column m-padded-tiny">
-                        <i class="large yen sign icon" id="coin"></i><span th:text="${video.coinnum}">1888</span>
+                        <i class="large yen sign icon" id="coin" th:classappend="${enableCoin}?'black':'blue'"></i><span th:text="${video.coinnum}">1888</span>
                     </div>
                     <div class="column m-padded-tiny">
-                        <i class="large thumbs up outline icon" id="like"></i><span th:text="${video.likenum}">1888</span>
+                        <i class="large thumbs up outline icon" id="like" th:classappend="${enableLike}?'black':'blue'"></i><span th:text="${video.likenum}">1888</span>
                     </div>
                     <div class="column m-padded-tiny">
                         <i class="large share icon"></i><span th:text="${video.trannum}">1888</span>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="ui divider"></div>
                 <div class="ui comments">
-                    <div class="comment" th:fragment="commentList" id="comments" th:each="comment:${comments}">
+                    <div class="comment" th:fragment="commentList" id="myCommentList" th:each="comment:${comments}">
                         <a class="avatar">
                             <img src="../../static/images/logo.png" class="head" th:src="${comment.user.avatar}"/>
                         </a>
@@ -237,14 +237,23 @@
             var id = [[${video.id}]];
             $.post('/user/addcoinnum',{"id":id},function (result) {
                 $("#coin").next().html(result.data.coin);
+                if(result.code==201){
+                    $("#coin").removeClass("black").addClass("blue");
+                }else if(result.code==202){
+                    $("#coin").removeClass("blue").addClass("black");
+                }
             });
         });
 
         $("#like").bind('click',function(){
             var id = [[${video.id}]];
             $.post('/user/addlikenum',{"id":id},function (result) {
-                console.log(result.data);
                 $("#like").next().html(result.data.like);
+                if(result.code==201){
+                    $("#like").removeClass("black").addClass("blue");
+                }else if(result.code==202){
+                    $("#like").removeClass("blue").addClass("black");
+                }
             });
         });
 
@@ -259,13 +268,15 @@
         });
 
         function postdata() {
-            $("#comments").load('/user/addComment', {
-                "videoId": $("[name='videoId']").val(),
+            console.log('发送前');
+            $.post('/user/addComment',{
+                "videoId": videoId,
                 "content": $("[name='content']").val()
-            }, function (responseTxt, statusTxt, xhr) {
+            },function (result) {
                 $("[name='content']").val('');
                 $("[name='content']").attr("placeholder", "请输入评论信息...");
             });
+            console.log('发送后');
         }
 
         //评论表单验证

@@ -50,6 +50,8 @@
           <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:1.0" />
           <element id="library" level="project" name="Maven: org.liquibase:liquibase-core:1.9.1" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.3" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.9.2" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.9.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">

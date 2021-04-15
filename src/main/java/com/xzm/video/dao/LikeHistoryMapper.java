@@ -1,6 +1,7 @@
 package com.xzm.video.dao;
 
 import com.xzm.video.bean.LikeHistory;
+import org.apache.ibatis.annotations.Param;
 
 public interface LikeHistoryMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface LikeHistoryMapper {
     int updateByPrimaryKeySelective(LikeHistory record);
 
     int updateByPrimaryKey(LikeHistory record);
+
+    LikeHistory selectByUserIdAndVideoId(@Param("userId") Integer userId, @Param("videoId") Integer videoId);
 }

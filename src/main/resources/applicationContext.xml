@@ -4,12 +4,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 			            http://www.springframework.org/schema/beans/spring-beans.xsd
 			            http://www.springframework.org/schema/context
 			            http://www.springframework.org/schema/context/spring-context.xsd
 			            http://mybatis.org/schema/mybatis-spring
-			            http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+			            http://mybatis.org/schema/mybatis-spring.xsd
+			            http://www.springframework.org/schema/tx
+			            http://www.springframework.org/schema/tx/spring-tx.xsd
+			            http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <mybatis:scan base-package="com.xzm.video.dao"/>
 
@@ -43,6 +48,7 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <!--启用注解-->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
     <bean id="securityFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -83,5 +89,8 @@
         <property name ="changeLog"  value ="classpath:db.changelog-1.0.xml"   />
         <property name ="contexts"  value ="test, production"   />
     </bean>
+
+    <!--aop的使用-->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
 </beans>

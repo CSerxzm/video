@@ -1,6 +1,7 @@
 package com.xzm.video.dao;
 
 import com.xzm.video.bean.CoinHistory;
+import org.apache.ibatis.annotations.Param;
 
 public interface CoinHistoryMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +15,6 @@ public interface CoinHistoryMapper {
     int updateByPrimaryKeySelective(CoinHistory record);
 
     int updateByPrimaryKey(CoinHistory record);
+
+    CoinHistory selectByUserIdAndVideoId(@Param("userId") Integer userId, @Param("videoId") Integer videoId);
 }

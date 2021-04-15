@@ -1,6 +1,8 @@
 package com.xzm.video.service;
 
+import com.xzm.video.bean.CoinHistory;
 import com.xzm.video.bean.History;
+import com.xzm.video.bean.LikeHistory;
 
 import java.util.List;
 
@@ -25,4 +27,20 @@ public interface HistoryService {
      * @return
      */
     List<History> selectAllByUserId(Integer userId);
+
+    /**
+     * 获得用户是否投币
+     * @param userId
+     * @param videoId
+     * @return
+     */
+    CoinHistory selectCoinHistoryByUserIdAndVideoId(Integer userId,Integer videoId);
+
+    /**
+     * 获得用户是否点赞
+     * @param userId
+     * @param videoId
+     * @return
+     */
+    LikeHistory selectLikeHistoryByUserIdAndVideoId(Integer userId, Integer videoId);
 }
