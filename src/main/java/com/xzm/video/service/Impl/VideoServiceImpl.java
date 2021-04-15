@@ -30,6 +30,9 @@ public class VideoServiceImpl implements VideoService{
     private TagMapper tagMapper;
 
     @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
     private FavoriteMapper favoriteMapper;
 
     @Autowired
@@ -148,14 +151,23 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public ResultInfo addCoinNum(User user, Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
+        //投币用户
+        User user1 = userMapper.selectByPrimaryKey(user.getId());
         //检查是否已经投币
         CoinHistory coinHistory = coinHistoryMapper.selectByUserIdAndVideoId(user.getId(), id);
         Video video = videoMapper.selectByPrimaryKey(id);
         if(coinHistory!=null){
             coinHistoryMapper.deleteByPrimaryKey(coinHistory.getId());
             video.setCoinnum(video.getCoinnum()-1);
+            user1.setCoinnum(user1.getCoinnum()+1);
             resultInfo.setCode(ResultCode.CANCEL.getCode());
         }else{
+            if(user1.getCoinnum()<=0){
+                resultInfo.setCode(ResultCode.NOTENOUGH.getCode());
+                resultInfo.setMessage(ResultCode.NOTENOUGH.getName());
+                return resultInfo;
+            }
+            user1.setCoinnum(user1.getCoinnum()-1);
             coinHistory = new CoinHistory();
             coinHistory.setUserId(user.getId());
             coinHistory.setVideoId(id);
@@ -163,6 +175,7 @@ public class VideoServiceImpl implements VideoService{
             video.setCoinnum(video.getCoinnum()+1);
             resultInfo.setCode(ResultCode.DO.getCode());
         }
+        userMapper.updateByPrimaryKey(user1);
         videoMapper.updateByPrimaryKey(video);
         resultInfo.setData("coin",video.getCoinnum());
         return resultInfo;

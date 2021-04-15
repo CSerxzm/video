@@ -1,6 +1,7 @@
 package com.xzm.video.controller;
 
 import com.xzm.video.bean.User;
+import com.xzm.video.constant.UserRole;
 import com.xzm.video.service.UserService;
 import com.xzm.video.utils.ResultInfo;
 import org.apache.shiro.SecurityUtils;
@@ -66,6 +67,7 @@ public class LoginController {
         String username = user.getUsername();
         ResultInfo res = userService.selectByUsername(username);
         if(res==null){
+            user.setRole(UserRole.USER.getCode());
             user.setCreateTime(new Date());
             userService.insertSelective(user);
             return "redirect:/";

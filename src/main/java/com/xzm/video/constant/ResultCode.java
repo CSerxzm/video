@@ -7,7 +7,7 @@ package com.xzm.video.constant;
  */
 public enum  ResultCode {
 
-    DO(201,"使用"),CANCEL(202,"取消");
+    DO(201,"使用"),CANCEL(202,"取消"),NOTENOUGH(203,"余额不足");
 
     private Integer code;
     private String name;

@@ -178,6 +178,22 @@
         </div>
     </div>
     </div>
+    <div class="ui basic modal">
+        <div class="ui icon header">
+            <i class="info icon"></i>
+            抱歉,您的硬币不足。
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                否
+            </div>
+            <div class="ui blue ok inverted button">
+                <i class="checkmark icon"></i>
+                是
+            </div>
+        </div>
+    </div>
     <script th:inline="javascript">
         var videoUrl = [[${ video.videoUrl }]];
         var videoId = [[${ video.id }]];
@@ -230,6 +246,9 @@
                     $("#coin").removeClass("black").addClass("blue");
                 }else if(result.code==202){
                     $("#coin").removeClass("blue").addClass("black");
+                }else if(result.code==203){
+                    $(".ui.modal").modal("show");
+                    console.log(result.message);
                 }
             });
         });
