@@ -20,6 +20,11 @@ public class BarrageController {
     @Autowired
     private BarrageService barrageService;
 
+    /**
+     * 得到某视频的弹幕列表
+     * @param id
+     * @return
+     */
     @GetMapping("/barrage/v3")
     @ResponseBody
     public Map<String,Object>  getBarrage(@RequestParam("id") Integer id){
@@ -30,6 +35,13 @@ public class BarrageController {
         return map;
     }
 
+    /**
+     * 添加弹幕
+     * @param param
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @ResponseBody
     @PostMapping("/barrage/v3")
     public String addBarrage(@RequestBody Map<String,String> param, HttpServletRequest request) throws Exception {

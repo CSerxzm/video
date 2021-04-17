@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/me.css" />
+    <title>Video</title>
+</head>
+
+<body>
+    <div th:fragment="sidebar">
+        <div class="ui sidebar vertical menu">
+            <div class="item">
+                <a href="#" th:href="@{/admin/index}">主页</a>
+            </div>
+            <div class="item">
+                <a href="#" th:href="@{/admin/user}">用户管理</a>
+            </div>
+            <div class="item">
+                <a href="#" th:href="@{/admin/video}">视频审核</a>
+            </div>
+            <div class="item">
+                <a href="#" th:href="@{/admin/barrage}">弹幕审核</a>
+            </div>
+            <div class="item">
+                <a href="#" th:href="@{/admin/comment}">评论审核</a>
+            </div>
+        </div>
+        <div class="ui labeled icon button blue">
+            <i class="sidebar icon"></i>菜单
+        </div>
+        <script>
+            $(".ui.button").click(function () {
+                $(".ui.sidebar")
+                    .sidebar({
+                        transition:'slide out'
+                    })
+                    .sidebar("toggle");
+            });
+        </script>
+    </div>
+</body>
+</html>

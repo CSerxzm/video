@@ -158,4 +158,11 @@
     where username = #{username,jdbcType=VARCHAR}
   </select>
 
+  <!--List<User> selectAll();-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+  </select>
+
 </mapper>

@@ -1,0 +1,122 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/me.css" />
+    <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
+    <title>Video</title>
+</head>
+
+<body>
+    <!--导航-->
+    <div th:replace="admin/_sidebar::sidebar"></div>
+
+    <div class="ui m-margin-top column grid container">
+        <div class="two wide column"></div>
+        <div class="eleven wide column">
+            <div class="ui attached segment">
+                <div class="ui">
+                    <div class="ui header title-big" th:text="${video.title}">123242rwetrtgfddgfdgfd</div>
+                    <div>
+                        <span th:text="${video.viewnum}">7900</span>人播放
+                        &nbsp;&nbsp;
+                        <span th:text="${video.barrnum}">543</span>弹幕
+                        &nbsp;&nbsp;
+                        <span th:text="${#dates.format(video.createTime,'yyyy-MM-dd hh:mm:ss')}">2020-10-23 18:51</span>
+                    </div>
+                </div>
+                <div class="ui m-margin-top" style="height: 400px;">
+                    <div id="dplayer"></div>
+                </div>
+                <div class="ui seven column grid m-margin" style="font-size: 16px;">
+                    <div class="column m-padded-tiny" style="margin-left:2rem">
+                        <i class="large star icon" id="star"></i><span th:text="${video.starnum}">1888</span>
+                    </div>
+                    <div class="column m-padded-tiny">
+                        <i class="large yen sign icon" id="coin"></i><span th:text="${video.coinnum}">1888</span>
+                    </div>
+                    <div class="column m-padded-tiny">
+                        <i class="large thumbs up outline icon" id="like"></i><span th:text="${video.likenum}">1888</span>
+                    </div>
+                    <div class="column m-padded-tiny">
+                        <i class="large share icon"></i><span th:text="${video.trannum}">1888</span>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                <!--介绍信息-->
+                <div class="description" th:text="${video.description}">
+                    这个花嫁不想肝了orz，配布老规矩硬币走起
+                    过276硬币放链接∠( ᐛ 」∠)_ 给个三连呗x
+                </div>
+                <!--标签-->
+                <div class="label m-margin-top">
+                    <a class="ui blue label large"  th:each="tag:${tags}"
+                       th:text="${tag.content}">搞笑</a>
+                </div>
+                <div class="ui divider"></div>
+                <!--评论-->
+                <div class="m-margin-top">
+                    <h3 class="ui header">评论</h3>
+                </div>
+                <div class="ui divider"></div>
+                <div class="ui comments">
+                    <div class="comment" th:fragment="commentList" id="commentList">
+                        <div class="ui m-margin-tb-small grey" th:each="comment:${comments}">
+                            <h4 class="ui header"><img src="../../static/images/logo.png" th:src="${comment.user.avatar}" class="head">
+                                <span style="font-size: 16px;text-align:center !important;">[[${comment.user.nickname}]]</span>
+                                <span class="date" style="margin-right: 80px !important;font-size: 10px;text-align:center !important;" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd hh:MM')}">今天下午 5:42</span>
+                            </h4>
+                            <div class="text" style="min-height:30px !important;padding-right: 14px !important;" th:text="${comment.content}">太赞了！ </div>
+                        </div>
+                    </div>
+                    <div class="comment" th:if="${comments==null}">
+                        <a class="avatar">
+                            <img src="../../static/images/logo.png" class="head" />
+                        </a>
+                        <div class="content">
+                            <a class="author">Elliot Fu</a>
+                            <div class="metadata">
+                                <span class="date">昨天上午12:30</span>
+                            </div>
+                            <div class="text">
+                                <p>這對我的研究是非常有用.謝謝!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="two wide column"></div>
+    </div>
+    <script th:inline="javascript">
+        var videoUrl = [[${ video.videoUrl }]];
+        var videoId = [[${ video.id }]];
+        var userId = [[${ video.user.id }]];
+        const dp = new DPlayer({
+            container: document.getElementById('dplayer'),
+            autoplay: false,
+            theme: '#FADFA3',
+            loop: true,
+            lang: 'zh-cn',
+            screenshot: true,
+            hotkey: true,
+            preload: 'auto',
+            volume: 0.7,
+            mutex: true,
+            video: {
+                url: videoUrl,
+                type: 'auto',
+            },
+            danmaku: {
+                id: videoId,
+                api: '/barrage/',
+                user: userId,
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -6,6 +6,7 @@ import com.xzm.video.bean.Favorite;
 import com.xzm.video.bean.History;
 import com.xzm.video.bean.User;
 import com.xzm.video.bean.Video;
+import com.xzm.video.constant.VideoStatus;
 import com.xzm.video.service.FavoriteService;
 import com.xzm.video.service.HistoryService;
 import com.xzm.video.service.UserService;
@@ -64,8 +65,9 @@ public class UserController {
         User user = (User) session.getAttribute("user");
         video.setUser(user);
         video.setCreateTime(new Date());
+        video.setStatus(VideoStatus.UNPASS.getCode());
         videoService.insertSelective(video,tags);
-        return "success";
+        return "user/success";
     }
 
     /**

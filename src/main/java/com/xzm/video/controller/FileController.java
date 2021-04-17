@@ -20,31 +20,50 @@ import java.util.*;
 @Controller
 public class FileController {
 
+    /**
+     * 上传视频
+     * @param video
+     * @param request
+     * @return
+     */
     @PostMapping("/user/uploadvideo")
     @ResponseBody
     public String uploadVideo(@RequestParam("video") MultipartFile video,
                          HttpServletRequest request){
-        return transfer(video,request);
+        return transfer("video",video,request);
     }
 
+    /**
+     * 上传视频封面
+     * @param pic
+     * @param request
+     * @return
+     */
     @PostMapping("/user/uploadpic")
     @ResponseBody
     public String uploadPic(@RequestParam("pic") MultipartFile pic,
                          HttpServletRequest request){
-        return transfer(pic,request);
+        return transfer("pic",pic,request);
     }
 
+    /**
+     * 上传人物头像
+     * @param pic
+     * @param request
+     * @return
+     */
     @PostMapping("/uploadpicwithoutlogin")
     @ResponseBody
     public String uploadPicWithoutLogin(@RequestParam("pic") MultipartFile pic,
                             HttpServletRequest request){
-        return transfer(pic,request);
+        return transfer("head",pic,request);
     }
 
-    public String transfer(MultipartFile file,HttpServletRequest request){
+    public String transfer(String folder,MultipartFile file,HttpServletRequest request){
+        folder = "/"+folder+"/";
         String serverPath = request.getScheme() + "://"+request.getServerName()+":" +
-                request.getServerPort() + request.getContextPath() + "/file/";
-        String path = request.getServletContext().getRealPath("/file/");
+                request.getServerPort() + request.getContextPath() + folder;
+        String path = request.getServletContext().getRealPath(folder);
         String picNameCode = (new SimpleDateFormat("yyyyMMddHHmmssSSS")).format(new Date());
         String picName = file.getOriginalFilename();
         String [] videos = picName.split("\\.");

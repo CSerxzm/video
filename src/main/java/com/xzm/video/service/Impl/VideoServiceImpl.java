@@ -85,6 +85,11 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
+    public List<Video> selectAllAdmin() {
+        return videoMapper.selectAllAdmin();
+    }
+
+    @Override
     public Map<String,List<Video>> selectNewByType(Integer size){
         Map<String,List<Video>> map = new HashMap();
         List<Type> types = typeMapper.selectAll();

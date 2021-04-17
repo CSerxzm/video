@@ -31,6 +31,12 @@ public class IndexController {
     @Autowired
     private TypeService typeService;
 
+    /**
+     *主页
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping("/")
     public String index(ModelMap model, HttpSession session) {
         List<Type> types = typeService.selectAll();

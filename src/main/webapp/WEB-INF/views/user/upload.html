@@ -30,8 +30,7 @@
                         <label>封面预览(拖动视频预览找到合适的封面，点击上传按钮)</label>
                         <canvas id="myCanvas" width="200" height="100"></canvas>
                     </div>
-                    <button class="ui button" id="uploadvideo">上传视频</button>
-                    <button class="ui button" id="uploadpic">上传封面</button>
+                    <button class="ui button grey disabled" id="uploadpic">上传封面</button>
                 </form>
             </div>
             <div class="eight wide column">
@@ -39,7 +38,7 @@
                     enctype="multipart/form-data">
                     <div class="field">
                         <label>标题</label>
-                        <input name="title" type="text" placeholder="视频标题">
+                        <input name="title" id="title" type="text" placeholder="视频标题">
                     </div>
                     <div class="field">
                         <label>视频链接</label>
@@ -47,8 +46,7 @@
                     </div>
                     <div class="field">
                         <label>视频描述</label>
-                        <textarea name="description" type="text" placeholder="视频描述">
-                        </textarea>
+                        <textarea name="description" type="text" rows="3" placeholder="请输入视频描述" id="description"></textarea>
                     </div>
                     <div class="field">
                         <label>种类</label>
@@ -67,98 +65,37 @@
                         <label>封面链接</label>
                         <input name="pictureUrl" id="pictureUrl" type="text" placeholder="封面图片" readonly>
                     </div>
-                    <button class="ui button" type="submit">提交</button>
+                    <button class="ui button blue" type="submit">提交</button>
+                    <div class="ui error mini message"></div>
                 </form>
+
+            </div>
+        </div>
+
+        <div class="ui basic modal">
+            <div class="ui icon header">
+                <i class="info icon"></i>
+                恭喜，你的视频上传成功。
+            </div>
+            <div class="actions">
+                <div class="ui blue ok inverted button">
+                    <i class="checkmark icon"></i>
+                    是
+                </div>
             </div>
         </div>
     </div>
     <script>
-        $('.dropdown')
-            .dropdown({
-                maxSelections: 3
-            });
-        function dataURItoBlob(dataURI) {
-            var byteString = atob(dataURI.split(',')[1]);
-            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            var ab = new ArrayBuffer(byteString.length);
-            var ia = new Uint8Array(ab);
-            for (var i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-            }
-            return new Blob([ab], { type: mimeString });
-        }
 
         var imgHeight = 0,
             imgWidth = 0,
             videoWidth = 0,
             videoHeight = 0, pic;
 
-        function getObjectURL(file) {
-            var url = null;
-            // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
-            if (window.createObjectURL != undefined) { // basic
-                url = window.createObjectURL(file);
-            } else if (window.URL != undefined) { // mozilla(firefox)
-                url = window.URL.createObjectURL(file);
-            } else if (window.webkitURL != undefined) { // webkit or chrome
-                url = window.webkitURL.createObjectURL(file);
-            }
-            return url;
-        }
-
-        function changepic(obj) {
-            //console.log(obj.files[0]);//这里可以获取上传文件的name
-            // 转换格式
-            var newsrc = getObjectURL(obj.files[0]);
-            console.log(newsrc);
-            //$('#video').src = newsrc;,这种方法不能实现
-            document.getElementById('video').src = newsrc;
-        }
-
-        function dataURLtoFile(dataurl, filename) {
-            console.log("转文件");
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while (n--) {
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            return new File([u8arr], filename, { type: mime });
-        }
-
-        $('#uploadvideo').click(function () {
-            var datatemp = new FormData($('#file')[0]);
-            $.ajax({
-                url: '/user/uploadvideo',
-                type: 'post',
-                processData: false,
-                contentType: false,
-                data: datatemp,
-                success: function (data) {
-                    alert("视频上传成功");
-                    document.getElementById("videoUrl").value = data;
-                }
+        $('.dropdown')
+            .dropdown({
+                maxSelections: 3
             });
-            return false;
-        });
-
-        $('#uploadpic').click(function () {
-            var datatemp = new FormData();
-            var imgFile = dataURLtoFile(pic, "img.png");
-            datatemp.append("pic", imgFile);
-            console.log(datatemp);
-            $.ajax({
-                url: '/user/uploadpic',
-                type: 'post',
-                processData: false,
-                contentType: false,
-                data: datatemp,
-                success: function (data) {
-                    alert("封面上传成功");
-                    document.getElementById("pictureUrl").value = data;
-                }
-            });
-            return false;
-        });
 
         video = document.getElementById('video');
         canvas = document.getElementById("myCanvas");
@@ -182,6 +119,123 @@
                 pic = dataUrl;
             }, 500);
         });
+
+        function dataURItoBlob(dataURI) {
+            var byteString = atob(dataURI.split(',')[1]);
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], { type: mimeString });
+        }
+
+        function getObjectURL(file) {
+            var url = null;
+            // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+            if (window.createObjectURL != undefined) { // basic
+                url = window.createObjectURL(file);
+            } else if (window.URL != undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file);
+            } else if (window.webkitURL != undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file);
+            }
+            return url;
+        }
+
+        function changepic(obj) {
+            //console.log(obj.files[0]);//这里可以获取上传文件的name
+            // 转换格式
+            var newsrc = getObjectURL(obj.files[0]);
+            uploadVideo();
+            //$('#video').src = newsrc;,这种方法不能实现
+            document.getElementById('video').src = newsrc;
+        }
+
+        function dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
+        }
+
+        function uploadVideo() {
+            var datatemp = new FormData($('#file')[0]);
+            $.ajax({
+                url: '/user/uploadvideo',
+                type: 'post',
+                processData: false,
+                contentType: false,
+                data: datatemp,
+                success: function (data) {
+                    document.getElementById("videoUrl").value = data;
+                    $("#uploadpic").removeClass("grey disabled").addClass("blue");
+                }
+            });
+            return false;
+        }
+
+        $('#uploadpic').click(function () {
+            var datatemp = new FormData();
+            var imgFile = dataURLtoFile(pic, "img.png");
+            datatemp.append("pic", imgFile);
+            $.ajax({
+                url: '/user/uploadpic',
+                type: 'post',
+                processData: false,
+                contentType: false,
+                data: datatemp,
+                success: function (data) {
+                    document.getElementById("pictureUrl").value = data;
+                }
+            });
+            return false;
+        });
+
+        //校验数据
+        $('.ui.form').form({
+            fields: {
+                title: {
+                    identifier: 'title',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请输入视频标题'
+                    }]
+                },
+                password: {
+                    identifier: 'videoUrl',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请选择视频进行上传'
+                    }]
+                },
+                description: {
+                    identifier: 'description',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请输入视频描述'
+                    }]
+                },
+                tags: {
+                    identifier: 'tags',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请选择视频标签'
+                    }]
+                },
+                pictureUrl: {
+                    identifier: 'pictureUrl',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请选择封面进行上传'
+                    }]
+                }
+            }
+        });
+
     </script>
 </body>
 

@@ -1,0 +1,76 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/me.css" />
+    <title>Video</title>
+</head>
+
+<body>
+<div th:replace="admin/_sidebar::sidebar"></div>
+<div class="ui">
+    <div></div>
+    <div class="ui" style="padding: 20px">
+        <table class="ui selectable large blue table">
+            <thead>
+            <tr>
+                <th>标题</th>
+                <th>描述</th>
+                <th>用户</th>
+                <th>时间</th>
+                <th>种类</th>
+                <th>状态</th>
+                <th>查看</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="video:${pageInfo.list}" th:attr="class=(${video.status}=='0'?'warning':'')">
+                <td th:text="${#strings.abbreviate(video.title,20)}" th:attr="data-content=${video.title}" ></td>
+                <td th:text="${#strings.abbreviate(video.description,30)}" th:attr="data-content='${video.description}'"></td>
+                <td th:text="${#strings.abbreviate(video.user.nickname,10)}"></td>
+                <td th:text="${#dates.format(video.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#strings.abbreviate(video.typeId,10)}"></td>
+                <td><div class="ui horizontal label" th:classappend="${video.status}=='0'?'red':'blue'" th:text="${video.status}=='0'?'未审核':'已审核'">水果</div></td>
+                <td><a th:href="@{/admin/video/}+${video.id}">查看</a></td>
+                <td>
+                    <button th:attr="del_uri=@{/admin/user/}+${video.id}"
+                            class="ui red button deleteBtn">删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="m-margin-top container" style="text-align:center;">
+        <div class=" ui buttons">
+            <a class="ui basic blue button" th:if="${pageInfo.hasPreviousPage}"
+               th:href="@{'/admin/video?page='+${pageInfo.prePage}}">
+                <font style="vertical-align: inherit;">上一页</font>
+            </a>
+            <a class="ui blue button" th:each="pageNo:${pageInfo.navigatepageNums}"
+               th:classappend="${pageNo==pageInfo.pageNum}?'primary':'basic'"
+               th:href="@{'/admin/video?page='+${pageNo}}">
+                <font style="vertical-align: inherit;" th:text="${pageNo}">1</font>
+            </a>
+            <a class="ui basic blue button" th:if="${pageInfo.hasNextPage}"
+               th:href="@{'/admin/video?page='+${pageInfo.nextPage}}">
+                <font style="vertical-align: inherit;">下一页</font>
+            </a>
+        </div>
+    </div>
+</div>
+<form id="deleteVideoForm" method="post">
+    <input type="hidden" name="_method" value="delete"/>
+</form>
+</body>
+<script>
+    $(".deleteBtn").click(function () {
+        $("#deleteVideoForm").attr("action", $(this).attr("del_uri")).submit();
+        return false;
+    });
+</script>
+</html>

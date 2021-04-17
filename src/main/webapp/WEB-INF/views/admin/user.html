@@ -1,0 +1,110 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/me.css" />
+    <title>Video</title>
+</head>
+
+<body>
+    <div th:replace="admin/_sidebar::sidebar"></div>
+    <div class="ui">
+        <div></div>
+        <div class="ui" style="padding: 20px">
+            <table class="ui selectable large blue table">
+                <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th>昵称</th>
+                    <th>头像</th>
+                    <th>注册时间</th>
+                    <th>角色</th>
+                    <th>投币数</th>
+                    <th>关注数</th>
+                    <th>描述</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user:${pageInfo.list}">
+                    <td th:text="${#strings.abbreviate(user.username,10)}"></td>
+                    <td th:text="${#strings.abbreviate(user.nickname,10)}"></td>
+                    <td><img class="head" th:src="${user.avatar}"/></td>
+                    <td th:text="${#dates.format(user.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td>
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" th:id="${user.id}" th:value="${user.role}" th:attr="checked=(${user.role}=='admin'?true:false)" onchange="checkChange(this.id)">
+                            <label th:text="${user.role}=='admin'?'管理员':'用户'"></label>
+                        </div>
+                    </td>
+                    <td th:text="${#strings.abbreviate(user.coinnum,10)}"></td>
+                    <td th:text="${#strings.abbreviate(user.attentionNum,10)}"></td>
+                    <td th:text="${#strings.abbreviate(user.description,20)}"></td>
+                    <td>
+                        <button th:attr="del_uri=@{/admin/user/}+${user.id}"
+                                class="ui red button deleteBtn">删除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="m-margin-top container" style="text-align:center;">
+            <div class=" ui buttons">
+                <a class="ui basic blue button" th:if="${pageInfo.hasPreviousPage}"
+                   th:href="@{'/admin/user?page='+${pageInfo.prePage}}">
+                    <font style="vertical-align: inherit;">上一页</font>
+                </a>
+                <a class="ui blue button" th:each="pageNo:${pageInfo.navigatepageNums}"
+                   th:classappend="${pageNo==pageInfo.pageNum}?'primary':'basic'"
+                   th:href="@{'/admin/user?page='+${pageNo}}">
+                    <font style="vertical-align: inherit;" th:text="${pageNo}">1</font>
+                </a>
+                <a class="ui basic blue button" th:if="${pageInfo.hasNextPage}"
+                   th:href="@{'/admin/user?page='+${pageInfo.nextPage}}">
+                    <font style="vertical-align: inherit;">下一页</font>
+                </a>
+            </div>
+        </div>
+    </div>
+    <form id="deleteUserForm" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+    </form>
+</body>
+<script>
+    function checkChange(obj){
+        var roleInput = $('#'+obj+'');
+        var role = roleInput.val();
+        if(role=='admin'){
+            roleInput.val('user');
+            roleInput.next().text('用户');
+            changeRole(obj,'user');
+        }else{
+            roleInput.val('admin');
+            roleInput.next().text('管理员');
+            changeRole(obj,'admin');
+        }
+    }
+
+    function changeRole(obj,role){
+        $.ajax({
+            url: '/admin/updateuser',
+            type: 'POST',
+            data:{
+                id:obj,
+                role:role
+            },
+            success:function (result) {
+                console.log("success");
+            }
+        })
+    }
+    $(".deleteBtn").click(function () {
+        $("#deleteUserForm").attr("action", $(this).attr("del_uri")).submit();
+        return false;
+    });
+</script>
+</html>

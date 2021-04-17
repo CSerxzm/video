@@ -12,6 +12,8 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -29,6 +31,10 @@ public class UserServiceImpl implements UserService {
         return resultInfo;
     }
 
+    @Override
+    public int deleteUser(Integer id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
 
     @Override
     public ResultInfo insertSelective(User record) {
@@ -54,6 +60,11 @@ public class UserServiceImpl implements UserService {
         int index = userMapper.updateByPrimaryKeySelective(record);
         resultInfo.setData("index",index);
         return resultInfo;
+    }
+
+    @Override
+    public int updateUser(User user){
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -88,5 +99,10 @@ public class UserServiceImpl implements UserService {
         userMapper.updateByPrimaryKey(userTemp);
         resultInfo.setData("attentionNum",userTemp.getAttentionNum());
         return resultInfo;
+    }
+
+    @Override
+    public List<User> selectAll() {
+        return userMapper.selectAll();
     }
 }

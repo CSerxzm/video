@@ -15,6 +15,7 @@
     <result column="trannum" jdbcType="INTEGER" property="trannum" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
     <association property="user"
                  select="com.xzm.video.dao.UserMapper.selectByPrimaryKey"
                  column="user_id">
@@ -22,7 +23,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, title, user_id, description, create_time, video_url, viewnum, barrnum, starnum, 
-    coinnum, likenum, trannum, type_id, picture_url
+    coinnum, likenum, trannum, type_id, picture_url,status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -39,12 +40,12 @@
       description, create_time, video_url, 
       viewnum, barrnum, starnum, 
       coinnum, likenum, trannum, 
-      type_id, picture_url)
+      type_id, picture_url,status)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{user.id,jdbcType=INTEGER},
       #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{videoUrl,jdbcType=VARCHAR}, 
       #{viewnum,jdbcType=INTEGER}, #{barrnum,jdbcType=INTEGER}, #{starnum,jdbcType=INTEGER}, 
       #{coinnum,jdbcType=INTEGER}, #{likenum,jdbcType=INTEGER}, #{trannum,jdbcType=INTEGER}, 
-      #{typeId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR})
+      #{typeId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xzm.video.bean.Video">
     insert into t_video
@@ -91,6 +92,9 @@
       <if test="pictureUrl != null">
         picture_url,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -134,6 +138,9 @@
       </if>
       <if test="pictureUrl != null">
         #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -179,6 +186,9 @@
       <if test="pictureUrl != null">
         picture_url = #{pictureUrl,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -196,21 +206,22 @@
       likenum = #{likenum,jdbcType=INTEGER},
       trannum = #{trannum,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
-      picture_url = #{pictureUrl,jdbcType=VARCHAR}
+      picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <!--List<Video> selectAll();-->
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_video
+    from t_video where status = 1
   </select>
   <!--List<Video> selectNewByTypeId(@Param("type_id") Integer type_id, @Param("size") Integer size);-->
   <select id="selectNewByTypeId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from t_video
-    where type_id = #{type_id,jdbcType=INTEGER} order by create_time desc limit #{size}
+    where type_id = #{type_id,jdbcType=INTEGER} and status = 1 order by create_time desc limit #{size}
   </select>
 
   <!--List<Video> selectHotByTypeId(@Param("type_id") Integer type_id, @Param("size") Integer size);-->
@@ -218,14 +229,14 @@
     select
     <include refid="Base_Column_List" />
     from t_video
-    where type_id = #{type_id,jdbcType=INTEGER} order by viewnum desc limit #{size}
+    where type_id = #{type_id,jdbcType=INTEGER} and status =1 order by viewnum desc limit #{size}
   </select>
 
   <!--List<Video> selectHot(Integer size);-->
   <select id="selectHot" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_video
+    from t_video where status = 1
      order by viewnum desc limit #{size}
   </select>
 
@@ -234,7 +245,7 @@
     select
     <include refid="Base_Column_List" />
     from t_video
-    where type_id=#{type_id}
+    where type_id=#{type_id} and status =1
     order by viewnum desc
   </select>
 
@@ -244,8 +255,15 @@
     select
     <include refid="Base_Column_List" />
     from t_video
-    where title like #{pattern}
+    where status =1 and title like #{pattern}
     order by viewnum desc
+  </select>
+
+  <!--List<Video> selectAllAdmin();-->
+  <select id="selectAllAdmin" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_video order by create_time desc
   </select>
 
 </mapper>

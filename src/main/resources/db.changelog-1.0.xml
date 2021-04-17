@@ -65,4 +65,18 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="xiangzhimin" id="20210417-1920">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="t_video"/>
+            <not>
+                <columnExists tableName="t_video" columnName ="status"/>
+            </not>
+        </preConditions>
+        <comment>视频表添加视频状态</comment>
+        <addColumn tableName="t_video">
+            <column name="status" type="VARCHAR(12)" remarks="视频状态"/>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

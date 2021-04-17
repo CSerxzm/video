@@ -22,6 +22,8 @@ public interface VideoService {
 
     List<Video> selectAll();
 
+    List<Video> selectAllAdmin();
+
     Map<String,List<Video>> selectNewByType(Integer size);
 
     Map<String,List<Video>> selectHotByType(Integer size);

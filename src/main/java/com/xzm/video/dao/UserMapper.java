@@ -2,6 +2,8 @@ package com.xzm.video.dao;
 
 import com.xzm.video.bean.User;
 
+import java.util.List;
+
 public interface UserMapper {
 
     int deleteByPrimaryKey(Integer id);
@@ -18,4 +20,5 @@ public interface UserMapper {
 
     User selectByUsername(String username);
 
+    List<User> selectAll();
 }

@@ -59,6 +59,7 @@
         <property name="unauthorizedUrl" value="/" />
         <property name="filterChainDefinitions">
             <value>
+                /admin/** = authc
                 /user/** = authc
                 /** = anon
             </value>

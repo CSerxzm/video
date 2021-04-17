@@ -20,12 +20,24 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    /**
+     *
+     * @param videoId
+     * @param model
+     * @return
+     */
     @GetMapping("/comments/{videoId}")
     public String comments(@PathVariable Integer videoId, Model model) {
         model.addAttribute("comments", commentService.selectByVideoId(videoId));
         return "video :: commentList";
     }
 
+    /**
+     *
+     * @param comment
+     * @param session
+     * @return
+     */
     @PostMapping("/user/addComment")
     public String addComment(Comment comment, HttpSession session){
         //后期使用安全框架修改

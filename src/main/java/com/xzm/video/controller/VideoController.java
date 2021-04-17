@@ -53,6 +53,13 @@ public class VideoController {
     @Autowired
     private AttentionService attentionService;
 
+    /**
+     * 查看视频
+     * @param session
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/{id}")
     public String video(HttpSession session,@PathVariable Integer id, ModelMap model) {
         User user = (User) session.getAttribute("user");
@@ -95,7 +102,13 @@ public class VideoController {
         return "video";
     }
 
-    //根据种类选id
+    /**
+     * 根据种类筛选视频
+     * @param page
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/type/{id}")
     public String videoByType(@RequestParam(value = "page", defaultValue = "1") Integer page, @PathVariable Integer id, ModelMap model) {
         List<Video> videos_hot = videoService.selectHotByTypeId(id,10);
@@ -111,6 +124,13 @@ public class VideoController {
         return "type";
     }
 
+    /**
+     * 查找视频
+     * @param page
+     * @param query
+     * @param model
+     * @return
+     */
     @RequestMapping("/search")
     public String videoSearch(@RequestParam(value = "page", defaultValue = "1") Integer page,String query,ModelMap model){
         List<Video> videos_hot = videoService.selectHot(5);
