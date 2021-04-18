@@ -18,4 +18,6 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     List<Comment> selectByVideoId(Integer video_id);
+
+    List<Comment> selectAllAdmin();
 }

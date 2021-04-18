@@ -1,5 +1,7 @@
 package com.xzm.video.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,8 @@ import java.util.*;
  */
 @Controller
 public class FileController {
+
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 上传视频
@@ -77,6 +81,8 @@ public class FileController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return serverPath+picNameCode;
+        String resPath = serverPath+picNameCode;
+        logger.info("文件的路径：{}",resPath);
+        return resPath;
     }
 }

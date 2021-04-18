@@ -113,4 +113,11 @@
     where video_id = #{video_id,jdbcType=INTEGER}
   </select>
 
+  <!--List<Comment> selectAllAdmin();-->
+  <select id="selectAllAdmin" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_comment order by status,create_time desc
+  </select>
+
 </mapper>

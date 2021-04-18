@@ -10,18 +10,84 @@
 </head>
 
 <body>
-    <div th:replace="admin/_sidebar::sidebar"></div>
-    <div>
-        评论中心
+<div th:replace="admin/_sidebar::sidebar"></div>
+<div class="ui">
+    <div></div>
+    <div class="ui" style="padding: 20px">
+        <table class="ui selectable large blue table">
+            <thead>
+            <tr>
+                <th class="six wide">内容</th>
+                <th class="four wide">时间</th>
+                <th class="four wide">用户</th>
+                <th class="two wide">状态</th>
+                <th class="four wide">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comment:${pageInfo.list}" th:attr="class=(${comment.status}=='0'?'warning':'')">
+                <td th:text="${#strings.abbreviate(comment.content,30)}"></td>
+                <td th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#strings.abbreviate(comment.user.nickname,10)}"></td>
+                <td><div class="ui horizontal label" th:classappend="${comment.status}=='0'?'red':'green'" th:text="${comment.status}=='0'?'未审核':'已审核'">水果</div></td>
+                <td>
+                    <button class="ui blur blue button">
+                        <a th:href="@{/admin/barrage/}+${comment.videoId}" target="_blank">查看视频</a>
+                    </button>
+                    <button class="ui blur button" th:id="${comment.id}" th:disabled="${comment.status}=='1'" th:classappend="${comment.status}=='0'?'green':'grey'" onclick="changeStatus(this.id)">通过</button>
+                    <button th:attr="del_uri=@{/admin/comment/}+${comment.id}" th:disabled="${comment.status}=='1'" th:classappend="${comment.status}=='0'?'red':'grey'"
+                            class="ui button deleteBtn">删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <script>
-        $(".ui.button").click(function () {
-            $(".ui.sidebar")
-                .sidebar({
-                    transition:'slide out'
-                })
-                .sidebar("toggle");
-        });
-    </script>
+    <div class="m-margin-top container" style="text-align:center;">
+        <div class=" ui buttons">
+            <a class="ui basic blue button" th:if="${pageInfo.hasPreviousPage}"
+               th:href="@{'/admin/comment?page='+${pageInfo.prePage}}">
+                <font style="vertical-align: inherit;">上一页</font>
+            </a>
+            <a class="ui blue button" th:each="pageNo:${pageInfo.navigatepageNums}"
+               th:classappend="${pageNo==pageInfo.pageNum}?'primary':'basic'"
+               th:href="@{'/admin/comment?page='+${pageNo}}">
+                <font style="vertical-align: inherit;" th:text="${pageNo}">1</font>
+            </a>
+            <a class="ui basic blue button" th:if="${pageInfo.hasNextPage}"
+               th:href="@{'/admin/comment?page='+${pageInfo.nextPage}}">
+                <font style="vertical-align: inherit;">下一页</font>
+            </a>
+        </div>
+    </div>
+</div>
+<form id="deleteBarrageForm" method="post">
+    <input type="hidden" name="_method" value="delete"/>
+</form>
 </body>
+<script>
+    $(".deleteBtn").click(function () {
+        $("#deleteBarrageForm").attr("action", $(this).attr("del_uri")).submit();
+        return false;
+    });
+
+    function changeStatus(obj){
+        $.ajax({
+            url: '/admin/updatecomment',
+            type: 'POST',
+            data:{
+                id:obj,
+                status:"1"
+            },
+            success:function (result) {
+                if(result.code==200){
+                    $("#"+obj).removeClass('green').addClass('grey disabled');
+                    $("#"+obj).next().removeClass('red').addClass('grey disabled');
+
+                }
+            }
+        })
+    }
+
+</script>
 </html>

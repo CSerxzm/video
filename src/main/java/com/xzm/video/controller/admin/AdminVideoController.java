@@ -123,7 +123,7 @@ public class AdminVideoController {
     }
 
     /**
-     * 弹幕的审核
+     * 弹幕的审核,其实也是跳转到视频页面
      * @param session
      * @param id
      * @param model
@@ -152,8 +152,41 @@ public class AdminVideoController {
         return resultInfo;
     }
 
+    /**
+     * 评论列表
+     * @param page
+     * @param model
+     * @return
+     */
     @RequestMapping("/comment")
-    public String toCommentPage(){
+    public String toCommentPage(@RequestParam(value = "page", defaultValue = "1") Integer page, ModelMap model){
+        PageHelper.startPage(page, 10);
+        List <Comment> comments = commentService.selectAllAdmin();
+        PageInfo pageInfo = new PageInfo(comments, 5);
+        model.addAttribute("pageInfo", pageInfo);
         return "admin/comment";
+    }
+
+    /**
+     * 删除评论，主要是对于不合格的评论
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/comment/{id}")
+    public String delComment(@PathVariable("id") Integer id){
+        commentService.deleteByPrimaryKey(id);
+        return "redirect:/admin/comment";
+    }
+
+    /**
+     * 更新评论，主要用于审核
+     * @param comment
+     * @return
+     */
+    @PostMapping("/updatecomment")
+    @ResponseBody
+    public ResultInfo updateComment(Comment comment){
+        ResultInfo resultInfo = commentService.updateByPrimaryKeySelective(comment);
+        return resultInfo;
     }
 }

@@ -103,5 +103,23 @@
             <column name="status" type="VARCHAR(12)" remarks="弹幕状态"/>
         </addColumn>
     </changeSet>
+<!--
+    <changeSet author="xiangzhimin" id="20210418-2322">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="operation_log"/>
+            </not>
+        </preConditions>
+        <comment>添加操作日志表</comment>
+        <createTable tableName="operation_log">
+            <column name="id" type="int(11)" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="int(11)"/>
+            <column name="video_id" type="int(11)"/>
+            <column name="create_time" type="datetime"/>
+        </createTable>
+    </changeSet>
+    -->
 
 </databaseChangeLog>

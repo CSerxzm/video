@@ -2,6 +2,7 @@ package com.xzm.video.controller;
 
 import com.xzm.video.bean.Comment;
 import com.xzm.video.bean.User;
+import com.xzm.video.constant.Status;
 import com.xzm.video.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,8 +48,6 @@ public class CommentController {
             //未登录
         }else{
             comment.setUser(user);
-            comment.setCreateTime(new Date());
-            System.out.println(comment);
             commentService.insertSelective(comment);
         }
         return "redirect:/comments/" + videoId;
