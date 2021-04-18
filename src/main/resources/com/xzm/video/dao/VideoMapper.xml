@@ -13,12 +13,15 @@
     <result column="coinnum" jdbcType="INTEGER" property="coinnum" />
     <result column="likenum" jdbcType="INTEGER" property="likenum" />
     <result column="trannum" jdbcType="INTEGER" property="trannum" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <association property="user"
                  select="com.xzm.video.dao.UserMapper.selectByPrimaryKey"
                  column="user_id">
+    </association>
+    <association property="type"
+                 select="com.xzm.video.dao.TypeMapper.selectByPrimaryKey"
+                 column="type_id">
     </association>
   </resultMap>
   <sql id="Base_Column_List">
@@ -45,7 +48,7 @@
       #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{videoUrl,jdbcType=VARCHAR}, 
       #{viewnum,jdbcType=INTEGER}, #{barrnum,jdbcType=INTEGER}, #{starnum,jdbcType=INTEGER}, 
       #{coinnum,jdbcType=INTEGER}, #{likenum,jdbcType=INTEGER}, #{trannum,jdbcType=INTEGER}, 
-      #{typeId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+      #{type.id,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xzm.video.bean.Video">
     insert into t_video
@@ -86,7 +89,7 @@
       <if test="trannum != null">
         trannum,
       </if>
-      <if test="typeId != null">
+      <if test="type!=null and type.id != null">
         type_id,
       </if>
       <if test="pictureUrl != null">
@@ -133,8 +136,8 @@
       <if test="trannum != null">
         #{trannum,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        #{typeId,jdbcType=INTEGER},
+      <if test="type!=null and type.id != null">
+        #{type.id,jdbcType=INTEGER},
       </if>
       <if test="pictureUrl != null">
         #{pictureUrl,jdbcType=VARCHAR},
@@ -180,8 +183,8 @@
       <if test="trannum != null">
         trannum = #{trannum,jdbcType=INTEGER},
       </if>
-      <if test="typeId != null">
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="type!=null and type.id != null">
+        type_id = #{type.id,jdbcType=INTEGER},
       </if>
       <if test="pictureUrl != null">
         picture_url = #{pictureUrl,jdbcType=VARCHAR},
@@ -205,7 +208,7 @@
       coinnum = #{coinnum,jdbcType=INTEGER},
       likenum = #{likenum,jdbcType=INTEGER},
       trannum = #{trannum,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
+      type_id = #{type.id,jdbcType=INTEGER},
       picture_url = #{pictureUrl,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -263,7 +266,7 @@
   <select id="selectAllAdmin" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_video order by create_time desc
+    from t_video order by status,create_time desc
   </select>
 
 </mapper>

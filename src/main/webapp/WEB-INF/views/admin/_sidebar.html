@@ -13,7 +13,7 @@
     <div th:fragment="sidebar">
         <div class="ui sidebar vertical menu">
             <div class="item">
-                <a href="#" th:href="@{/admin/index}">主页</a>
+                <a href="#" th:href="@{/}">主页</a>
             </div>
             <div class="item">
                 <a href="#" th:href="@{/admin/user}">用户管理</a>
@@ -26,6 +26,9 @@
             </div>
             <div class="item">
                 <a href="#" th:href="@{/admin/comment}">评论审核</a>
+            </div>
+            <div class="item">
+                <a href="#" th:href="@{/logout}">退出登录</a>
             </div>
         </div>
         <div class="ui labeled icon button blue">

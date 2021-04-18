@@ -18,6 +18,8 @@ public interface VideoService {
 
     Video selectByPrimaryKey(Integer id);
 
+    Video selectByPrimaryKeyAdmin(Integer id);
+
     ResultInfo updateByPrimaryKeySelective(Video record);
 
     List<Video> selectAll();

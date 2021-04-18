@@ -10,18 +10,96 @@
 </head>
 
 <body>
-    <div th:replace="admin/_sidebar::sidebar"></div>
-    <div>
-        弹幕中心
+<div th:replace="admin/_sidebar::sidebar"></div>
+<div class="ui">
+    <div></div>
+    <div class="ui" style="padding: 20px">
+        <table class="ui selectable large blue table">
+            <thead>
+            <tr>
+                <th>内容</th>
+                <th>时间</th>
+                <th>视频内时间</th>
+                <th>用户</th>
+                <th>颜色</th>
+                <th>种类</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="barrage:${pageInfo.list}" th:attr="class=(${barrage.status}=='0'?'warning':'')">
+                <td th:text="${#strings.abbreviate(barrage.text,20)}"></td>
+                <td th:text="${#dates.format(barrage.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${barrage.time}"></td>
+                <td th:text="${#strings.abbreviate(barrage.author.nickname,10)}"></td>
+                <td>
+                    <div class="ui horizontal label" th:style="'color:'+${barrage.color}+' !important ;'" th:text="${barrage.color}">滚动</div>
+                </td>
+                <td>
+                    <div class="ui horizontal label" th:if="${barrage.type}==0">滚动</div>
+                    <div class="ui horizontal label" th:if="${barrage.type}==1">顶部</div>
+                    <div class="ui horizontal label" th:if="${barrage.type}==2">底部</div>
+                </td>
+                <td><div class="ui horizontal label" th:classappend="${barrage.status}=='0'?'red':'green'" th:text="${barrage.status}=='0'?'未审核':'已审核'">水果</div></td>
+                <td>
+                    <button class="ui blur blue button">
+                        <a th:href="@{/admin/barrage/}+${barrage.videoId}" target="_blank">查看视频</a>
+                    </button>
+                    <button class="ui blur button" th:id="${barrage.id}" th:disabled="${barrage.status}=='1'" th:classappend="${barrage.status}=='0'?'green':'grey'" onclick="changeStatus(this.id)">通过</button>
+                    <button th:attr="del_uri=@{/admin/barrage/}+${barrage.id}" th:disabled="${barrage.status}=='1'" th:classappend="${barrage.status}=='0'?'red':'grey'"
+                            class="ui button deleteBtn">删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <script>
-        $(".ui.button").click(function () {
-            $(".ui.sidebar")
-                .sidebar({
-                    transition:'slide out'
-                })
-                .sidebar("toggle");
-        });
-    </script>
+    <div class="m-margin-top container" style="text-align:center;">
+        <div class=" ui buttons">
+            <a class="ui basic blue button" th:if="${pageInfo.hasPreviousPage}"
+               th:href="@{'/admin/barrage?page='+${pageInfo.prePage}}">
+                <font style="vertical-align: inherit;">上一页</font>
+            </a>
+            <a class="ui blue button" th:each="pageNo:${pageInfo.navigatepageNums}"
+               th:classappend="${pageNo==pageInfo.pageNum}?'primary':'basic'"
+               th:href="@{'/admin/barrage?page='+${pageNo}}">
+                <font style="vertical-align: inherit;" th:text="${pageNo}">1</font>
+            </a>
+            <a class="ui basic blue button" th:if="${pageInfo.hasNextPage}"
+               th:href="@{'/admin/barrage?page='+${pageInfo.nextPage}}">
+                <font style="vertical-align: inherit;">下一页</font>
+            </a>
+        </div>
+    </div>
+</div>
+<form id="deleteBarrageForm" method="post">
+    <input type="hidden" name="_method" value="delete"/>
+</form>
 </body>
+<script>
+    $(".deleteBtn").click(function () {
+        $("#deleteBarrageForm").attr("action", $(this).attr("del_uri")).submit();
+        return false;
+    });
+
+    function changeStatus(obj){
+        $.ajax({
+            url: '/admin/updatebarrage',
+            type: 'POST',
+            data:{
+                id:obj,
+                status:"1"
+            },
+            success:function (result) {
+                if(result.code==200){
+                    $("#"+obj).removeClass('green').addClass('grey disabled');
+                    $("#"+obj).next().removeClass('red').addClass('grey disabled');
+
+                }
+            }
+        })
+    }
+
+</script>
 </html>

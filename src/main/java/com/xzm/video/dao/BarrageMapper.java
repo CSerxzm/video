@@ -19,4 +19,6 @@ public interface BarrageMapper {
 
     List<Barrage> selectByVideoId(Integer video_id);
 
+    List<Barrage> selectAllAdmin();
+
 }

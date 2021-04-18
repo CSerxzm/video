@@ -6,13 +6,14 @@
     <result column="video_id" jdbcType="INTEGER" property="videoId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
     <association property="user"
                  select="com.xzm.video.dao.UserMapper.selectByPrimaryKey"
                  column="user_id">
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, video_id, user_id, create_time, content
+    id, video_id, user_id, create_time, content, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -26,9 +27,9 @@
   </delete>
   <insert id="insert" parameterType="com.xzm.video.bean.Comment">
     insert into t_comment (id, video_id, user_id, 
-      create_time, content)
+      create_time, content,status)
     values (#{id,jdbcType=INTEGER}, #{videoId,jdbcType=INTEGER}, #{user.id,jdbcType=INTEGER},
-      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xzm.video.bean.Comment">
     insert into t_comment
@@ -48,6 +49,9 @@
       <if test="content != null">
         content,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -64,6 +68,9 @@
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -82,6 +89,9 @@
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -90,7 +100,8 @@
     set video_id = #{videoId,jdbcType=INTEGER},
       user_id = #{user.id,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=VARCHAR}
+      content = #{content,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

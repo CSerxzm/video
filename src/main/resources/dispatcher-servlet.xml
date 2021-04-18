@@ -27,17 +27,16 @@
         <property name="templateEngine" ref="templateEngine"/>
     </bean>
 
-    <!--在thymeleaf中使用shiro的自定义tag-->
-    <bean id="shiroDialect" class="at.pollux.thymeleaf.shiro.dialect.ShiroDialect"/>
-
     <!-- 自动扫描装配 -->
     <context:component-scan base-package="com.xzm.video.controller"/>
+
+    <!--在thymeleaf中使用shiro的自定义tag-->
+    <bean id="shiroDialect" class="at.pollux.thymeleaf.shiro.dialect.ShiroDialect"/>
 
     <!--启用spring的一些annotation -->
     <context:annotation-config/>
 
     <!-- 配置注解驱动 可以将request参数与绑定到controller参数上 -->
     <mvc:annotation-driven/>
-
 
 </beans>

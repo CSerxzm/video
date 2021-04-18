@@ -59,7 +59,7 @@
         <property name="unauthorizedUrl" value="/" />
         <property name="filterChainDefinitions">
             <value>
-                /admin/** = authc
+                /admin/** = roles[admin]
                 /user/** = authc
                 /** = anon
             </value>
@@ -93,5 +93,6 @@
 
     <!--aop的使用-->
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
 
 </beans>

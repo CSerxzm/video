@@ -89,10 +89,7 @@
                 </div>
             </div>
         </div>
-        <div class="two wide column ui container" style="margin-top:200px">
-            <button class="ui medium green button" id="passBtn" style="margin:10px" onclick="pressBtn('pass')">审核&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过</button>
-            <button class="ui medium red button" id="unpassBtn" style="margin:10px" onclick="pressBtn('unpass')">审核不通过</button>
-        </div>
+        <div class="two wide column ui container" style="margin-top:200px"></div>
     </div>
 
     <div class="ui basic modal">
@@ -137,24 +134,6 @@
                 user: userId,
             }
         });
-        
-        //审核
-
-        function pressBtn(obj){
-            var status = '0';
-            obj=='pass'? status='1': status='0';
-            $.ajax({
-                url: '/admin/updatevideo',
-                type: 'POST',
-                data:{
-                    id:videoId,
-                    status:status
-                },
-                success:function (result) {
-                    $(".ui.modal").modal("show");
-                }
-            });
-        }
     </script>
 </body>
 

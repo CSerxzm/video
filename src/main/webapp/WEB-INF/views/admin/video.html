@@ -22,8 +22,11 @@
                 <th>用户</th>
                 <th>时间</th>
                 <th>种类</th>
+                <th>观看</th>
+                <th>收藏</th>
+                <th>点赞</th>
+                <th>投币</th>
                 <th>状态</th>
-                <th>查看</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -33,11 +36,17 @@
                 <td th:text="${#strings.abbreviate(video.description,30)}" th:attr="data-content='${video.description}'"></td>
                 <td th:text="${#strings.abbreviate(video.user.nickname,10)}"></td>
                 <td th:text="${#dates.format(video.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-                <td th:text="${#strings.abbreviate(video.typeId,10)}"></td>
-                <td><div class="ui horizontal label" th:classappend="${video.status}=='0'?'red':'blue'" th:text="${video.status}=='0'?'未审核':'已审核'">水果</div></td>
-                <td><a th:href="@{/admin/video/}+${video.id}">查看</a></td>
+                <td th:text="${video.type.name}"></td>
+                <th th:text="${video.viewnum}"></th>
+                <th th:text="${video.starnum}"></th>
+                <th th:text="${video.likenum}"></th>
+                <th th:text="${video.coinnum}"></th>
+                <td><div class="ui horizontal label" th:classappend="${video.status}=='0'?'red':'green'" th:text="${video.status}=='0'?'未审核':'已审核'">水果</div></td>
                 <td>
-                    <button th:attr="del_uri=@{/admin/user/}+${video.id}"
+                    <button class="ui blur blue button">
+                        <a th:href="@{/admin/video/}+${video.id}" target="_blank">查看视频</a>
+                    </button>
+                    <button th:attr="del_uri=@{/admin/video/}+${video.id}"
                             class="ui red button deleteBtn">删除
                     </button>
                 </td>

@@ -78,5 +78,30 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="xiangzhimin" id="20210418-1523">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="t_barrage"/>
+            <not>
+                <columnExists tableName="t_barrage" columnName ="status"/>
+            </not>
+        </preConditions>
+        <comment>弹幕添加状态</comment>
+        <addColumn tableName="t_barrage">
+            <column name="status" type="VARCHAR(12)" remarks="弹幕状态"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="xiangzhimin" id="20210418-1524">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="t_comment"/>
+            <not>
+                <columnExists tableName="t_comment" columnName ="status"/>
+            </not>
+        </preConditions>
+        <comment>评论添加状态</comment>
+        <addColumn tableName="t_comment">
+            <column name="status" type="VARCHAR(12)" remarks="弹幕状态"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

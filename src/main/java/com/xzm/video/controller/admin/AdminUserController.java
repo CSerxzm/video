@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xzm.video.bean.*;
 import com.xzm.video.service.*;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@RequiresRoles(value = {"admin"})
 class AdminUserController {
 
     @Autowired

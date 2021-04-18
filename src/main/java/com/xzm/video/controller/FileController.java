@@ -30,7 +30,7 @@ public class FileController {
     @ResponseBody
     public String uploadVideo(@RequestParam("video") MultipartFile video,
                          HttpServletRequest request){
-        return transfer("video",video,request);
+        return transfer("mp4",video,request);
     }
 
     /**

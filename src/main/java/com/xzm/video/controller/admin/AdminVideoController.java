@@ -2,21 +2,17 @@ package com.xzm.video.controller.admin;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xzm.video.bean.Barrage;
-import com.xzm.video.bean.Comment;
-import com.xzm.video.bean.Tag;
-import com.xzm.video.bean.Video;
+import com.xzm.video.bean.*;
 import com.xzm.video.service.BarrageService;
 import com.xzm.video.service.CommentService;
 import com.xzm.video.service.TagService;
 import com.xzm.video.service.VideoService;
+import com.xzm.video.utils.ResultInfo;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -29,6 +25,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@RequiresRoles(value = {"admin"})
 public class AdminVideoController {
 
     @Autowired
@@ -67,8 +64,7 @@ public class AdminVideoController {
      */
     @GetMapping("/video/{id}")
     public String video(HttpSession session, @PathVariable Integer id, ModelMap model) {
-        Video video = videoService.selectByPrimaryKey(id);
-        List <Barrage> barrages = barrageService.selectByVideoId(id);
+        Video video = videoService.selectByPrimaryKeyAdmin(id);
         List<Comment> comments = commentService.selectByVideoId(id);
         List<Tag> tags = tagService.selectByVideoId(id);
         model.put("video",video);
@@ -77,9 +73,83 @@ public class AdminVideoController {
         return "admin/videocheck";
     }
 
+    /**
+     * 删除视频
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/video/{id}")
+    public String delUser(@PathVariable("id") Integer id){
+        videoService.deleteByPrimaryKey(id);
+        return "redirect:/admin/video";
+    }
+
+    /**
+     * 更新视频，主要用于审核
+     * @param video
+     * @return
+     */
+    @PostMapping("/updatevideo")
+    public String updateUser(Video video){
+        videoService.updateByPrimaryKeySelective(video);
+        return "redirect:/admin/video";
+    }
+
+
+    /**
+     * 弹幕列表
+     * @param page
+     * @param model
+     * @return
+     */
     @RequestMapping("/barrage")
-    public String toBarragePage(){
+    public String toBarragePage(@RequestParam(value = "page", defaultValue = "1") Integer page, ModelMap model){
+        PageHelper.startPage(page, 10);
+        List <Barrage> barrages = barrageService.selectAllAdmin();
+        PageInfo pageInfo = new PageInfo(barrages, 5);
+        model.addAttribute("pageInfo", pageInfo);
         return "admin/barrage";
+    }
+
+    /**
+     * 删除弹幕，主要是对于不合格的弹幕
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/barrage/{id}")
+    public String delBarrage(@PathVariable("id") Integer id){
+        barrageService.deleteByPrimaryKey(id);
+        return "redirect:/admin/barrage";
+    }
+
+    /**
+     * 弹幕的审核
+     * @param session
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/barrage/{id}")
+    public String barrage(HttpSession session, @PathVariable Integer id, ModelMap model) {
+        Video video = videoService.selectByPrimaryKeyAdmin(id);
+        List<Comment> comments = commentService.selectByVideoId(id);
+        List<Tag> tags = tagService.selectByVideoId(id);
+        model.put("video",video);
+        model.put("tags",tags);
+        model.put("comments",comments);
+        return "admin/barragecheck";
+    }
+
+    /**
+     * 更新弹幕，主要用于审核
+     * @param barrage
+     * @return
+     */
+    @PostMapping("/updatebarrage")
+    @ResponseBody
+    public ResultInfo updateBarrage(Barrage barrage){
+        ResultInfo resultInfo = barrageService.updateByPrimaryKey(barrage);
+        return resultInfo;
     }
 
     @RequestMapping("/comment")

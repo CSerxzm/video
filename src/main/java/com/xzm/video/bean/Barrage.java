@@ -19,10 +19,12 @@ public class Barrage {
 
     private String time;
 
-    private Integer author;
+    private User author;
 
     private Integer color;
 
     private Integer type;
+
+    private String status;
 
 }

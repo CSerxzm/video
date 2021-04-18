@@ -46,7 +46,6 @@ public class BarrageController {
     @PostMapping("/barrage/v3")
     public String addBarrage(@RequestBody Map<String,String> param, HttpServletRequest request) throws Exception {
         Map map = new HashMap();
-        System.out.println(param);
         barrageService.insertSelective(param);
         map.put("code",0);
         Gson gson = new Gson();

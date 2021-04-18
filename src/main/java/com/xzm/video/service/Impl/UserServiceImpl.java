@@ -7,6 +7,7 @@ import com.xzm.video.dao.AttentionMapper;
 import com.xzm.video.dao.UserMapper;
 import com.xzm.video.service.UserService;
 import com.xzm.video.utils.ResultInfo;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;

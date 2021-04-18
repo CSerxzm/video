@@ -7,12 +7,17 @@
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="video_id" jdbcType="INTEGER" property="videoId" />
     <result column="time" jdbcType="VARCHAR" property="time" />
-    <result column="author" jdbcType="INTEGER" property="author" />
     <result column="color" jdbcType="INTEGER" property="color" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <association property="author"
+                 select="com.xzm.video.dao.UserMapper.selectByPrimaryKey"
+                 column="author">
+    </association>
   </resultMap>
+
   <sql id="Base_Column_List">
-    id, text, createTime, video_id, time, author, color, type
+    id, text, createTime, video_id, time, author, color, type, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,10 +32,10 @@
   <insert id="insert" parameterType="com.xzm.video.bean.Barrage">
     insert into t_barrage (id, text, createTime, 
       video_id, time, author, 
-      color, type)
+      color, type,status)
     values (#{id,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{videoId,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR}, #{author,jdbcType=INTEGER}, 
-      #{color,jdbcType=INTEGER}, #{type,jdbcType=INTEGER})
+      #{videoId,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR}, #{author.id,jdbcType=INTEGER},
+      #{color,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},#{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xzm.video.bean.Barrage">
     insert into t_barrage
@@ -50,7 +55,7 @@
       <if test="time != null">
         time,
       </if>
-      <if test="author != null">
+      <if test="author != null and author.id != null ">
         author,
       </if>
       <if test="color != null">
@@ -58,6 +63,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="status != null">
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -76,14 +84,17 @@
       <if test="time != null">
         #{time,jdbcType=VARCHAR},
       </if>
-      <if test="author != null">
-        #{author,jdbcType=INTEGER},
+      <if test="author != null and author.id != null ">
+        #{author.id,jdbcType=INTEGER},
       </if>
       <if test="color != null">
         #{color,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -102,14 +113,17 @@
       <if test="time != null">
         time = #{time,jdbcType=VARCHAR},
       </if>
-      <if test="author != null">
-        author = #{author,jdbcType=INTEGER},
+      <if test="author != null and author.id != null ">
+        author = #{author.id,jdbcType=INTEGER},
       </if>
       <if test="color != null">
         color = #{color,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -120,9 +134,10 @@
       createTime = #{createtime,jdbcType=TIMESTAMP},
       video_id = #{videoId,jdbcType=INTEGER},
       time = #{time,jdbcType=VARCHAR},
-      author = #{author,jdbcType=INTEGER},
+      author = #{author.id,jdbcType=INTEGER},
       color = #{color,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -132,6 +147,13 @@
     <include refid="Base_Column_List" />
     from t_barrage
     where video_id = #{video_id,jdbcType=INTEGER}
+  </select>
+
+  <!--List<Barrage> selectAllAdmin();-->
+  <select id="selectAllAdmin" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_barrage order by status,createTime desc
   </select>
 
 </mapper>

@@ -19,4 +19,7 @@ public interface BarrageService {
 
     List<Barrage> selectByVideoId(Integer video_id);
 
+    List<Barrage> selectAllAdmin();
+
+    ResultInfo updateByPrimaryKey(Barrage record);
 }

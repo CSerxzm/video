@@ -33,7 +33,7 @@ public class Video {
 
     private Integer trannum;//转发数
 
-    private Integer typeId;
+    private Type type;
 
     private String pictureUrl;
 

@@ -2,11 +2,8 @@ package com.xzm.video.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xzm.video.bean.Favorite;
-import com.xzm.video.bean.History;
-import com.xzm.video.bean.User;
-import com.xzm.video.bean.Video;
-import com.xzm.video.constant.VideoStatus;
+import com.xzm.video.bean.*;
+import com.xzm.video.constant.Status;
 import com.xzm.video.service.FavoriteService;
 import com.xzm.video.service.HistoryService;
 import com.xzm.video.service.UserService;
@@ -59,13 +56,16 @@ public class UserController {
      * @throws IOException
      */
     @PostMapping("/addvideo")
-    public String addvideo(Video video, String tags,
+    public String addvideo(Video video, String tags,Integer typeId,
                            HttpSession session,
                            HttpServletRequest request) throws IOException {
         User user = (User) session.getAttribute("user");
         video.setUser(user);
         video.setCreateTime(new Date());
-        video.setStatus(VideoStatus.UNPASS.getCode());
+        video.setStatus(Status.UNPASS.getCode());
+        Type type = new Type();
+        type.setId(typeId);
+        video.setType(type);
         videoService.insertSelective(video,tags);
         return "user/success";
     }

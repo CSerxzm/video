@@ -5,7 +5,7 @@ package com.xzm.video.constant;
  * @Description
  * @create 2021-04-17 19:18
  */
-public enum VideoStatus {
+public enum Status {
 
     PASS("1","审核通过"),
     UNPASS("0","审核不通过");
@@ -14,10 +14,10 @@ public enum VideoStatus {
 
     private String message;
 
-    VideoStatus() {
+    Status() {
     }
 
-    VideoStatus(String code, String message) {
+    Status(String code, String message) {
         this.code = code;
         this.message = message;
     }

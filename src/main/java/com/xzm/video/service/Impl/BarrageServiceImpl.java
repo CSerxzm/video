@@ -1,7 +1,9 @@
 package com.xzm.video.service.Impl;
 
 import com.xzm.video.bean.Barrage;
+import com.xzm.video.bean.User;
 import com.xzm.video.bean.Video;
+import com.xzm.video.constant.Status;
 import com.xzm.video.dao.BarrageMapper;
 import com.xzm.video.dao.VideoMapper;
 import com.xzm.video.service.BarrageService;
@@ -26,6 +28,10 @@ public class BarrageServiceImpl implements BarrageService {
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
+        Barrage barrage = barrageMapper.selectByPrimaryKey(id);
+        Video video = videoMapper.selectByPrimaryKey(barrage.getVideoId());
+        video.setBarrnum(video.getBarrnum()-1);
+        videoMapper.updateByPrimaryKey(video);
         int index = barrageMapper.deleteByPrimaryKey(id);
         resultInfo.setData("index",index);
         return resultInfo;
@@ -38,9 +44,12 @@ public class BarrageServiceImpl implements BarrageService {
         //{id=1, author=DIYgod, time=5.534275, text=123, color=15024726, type=0}
         Integer videoId = Integer.valueOf(record.get("id"));
         barrage.setVideoId(videoId);
-        barrage.setAuthor(Integer.valueOf(record.get("author")));
+        User user = new User();
+        user.setId(Integer.valueOf(record.get("author")));
+        barrage.setAuthor(user);
         barrage.setTime(record.get("time"));
         barrage.setText(record.get("text"));
+        barrage.setStatus(Status.UNPASS.getCode());
         barrage.setColor(Integer.valueOf(record.get("color")));
         barrage.setType(Integer.valueOf(record.get("type")));
         barrage.setCreatetime(new Date());
@@ -81,5 +90,23 @@ public class BarrageServiceImpl implements BarrageService {
     @Override
     public List<Barrage> selectByVideoId(Integer video_id){
         return barrageMapper.selectByVideoId(video_id);
+    }
+
+    @Override
+    public List<Barrage> selectAllAdmin() {
+        return barrageMapper.selectAllAdmin();
+    }
+
+    @Override
+    public ResultInfo updateByPrimaryKey(Barrage record){
+        ResultInfo resultInfo = new ResultInfo(true);
+        int i = barrageMapper.updateByPrimaryKeySelective(record);
+        if(i==1){
+            resultInfo.setCode(200);
+        }else{
+            resultInfo.setCode(500);
+            resultInfo.setMessage("操作失败.");
+        }
+        return resultInfo;
     }
 }

@@ -72,6 +72,13 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
+    public Video selectByPrimaryKeyAdmin(Integer id) {
+        ResultInfo resultInfo = new ResultInfo(true);
+        Video video = videoMapper.selectByPrimaryKey(id);
+        return video;
+    }
+
+    @Override
     public ResultInfo updateByPrimaryKeySelective(Video record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = videoMapper.updateByPrimaryKeySelective(record);
