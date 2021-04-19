@@ -4,6 +4,7 @@ import com.xzm.video.bean.User;
 import com.xzm.video.utils.ResultInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -24,4 +25,6 @@ public interface UserService {
     List<User> selectAll();
 
     int updateUser(User user);
+
+    List<Map<String,String>> countByRole();
 }

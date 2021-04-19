@@ -13,6 +13,12 @@
     <result column="role" jdbcType="VARCHAR" property="role" />
     <result column="attention_num" jdbcType="INTEGER" property="attentionNum" />
   </resultMap>
+
+  <resultMap id="byRole" type="java.util.Map">
+    <result column="role" property="status" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="VARCHAR"/>
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, username, description, password, nickname, avatar, create_time, coinnum, role,attention_num
   </sql>
@@ -163,6 +169,11 @@
     select
     <include refid="Base_Column_List" />
     from t_user
+  </select>
+
+  <!--List<Map<String,String>> countByRole();-->
+  <select id="countByRole" resultMap="byRole">
+    select role,count(1) count from t_user group by role
   </select>
 
 </mapper>

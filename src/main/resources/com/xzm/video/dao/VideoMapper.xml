@@ -24,6 +24,12 @@
                  column="type_id">
     </association>
   </resultMap>
+
+  <resultMap id="byStatus" type="java.util.Map">
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="count(1)" property="count" jdbcType="VARCHAR"/>
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, title, user_id, description, create_time, video_url, viewnum, barrnum, starnum, 
     coinnum, likenum, trannum, type_id, picture_url,status
@@ -267,6 +273,11 @@
     select
     <include refid="Base_Column_List" />
     from t_video order by status,create_time desc
+  </select>
+
+  <!--List<Map<String,String>> countByStatus();-->
+  <select id="countByStatus" resultMap="byStatus">
+    select status,count(1) count from t_video group by status
   </select>
 
 </mapper>

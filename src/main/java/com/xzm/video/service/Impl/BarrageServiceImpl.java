@@ -109,4 +109,9 @@ public class BarrageServiceImpl implements BarrageService {
         }
         return resultInfo;
     }
+
+    @Override
+    public List<Map<String, String>> countByStatus() {
+        return barrageMapper.countByStatus();
+    }
 }

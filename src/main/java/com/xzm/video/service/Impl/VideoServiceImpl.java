@@ -220,4 +220,9 @@ public class VideoServiceImpl implements VideoService{
     public List<Video> selectByTitleLike(String query) {
         return videoMapper.selectByTitleLike(query);
     }
+
+    @Override
+    public List<Map<String, String>> countByStatus() {
+        return videoMapper.countByStatus();
+    }
 }

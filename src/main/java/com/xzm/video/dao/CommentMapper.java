@@ -3,6 +3,7 @@ package com.xzm.video.dao;
 import com.xzm.video.bean.Comment;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CommentMapper {
     int deleteByPrimaryKey(Integer id);
@@ -20,4 +21,6 @@ public interface CommentMapper {
     List<Comment> selectByVideoId(Integer video_id);
 
     List<Comment> selectAllAdmin();
+
+    List<Map<String,String>> countByStatus();
 }

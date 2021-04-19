@@ -3,6 +3,7 @@ package com.xzm.video.dao;
 import com.xzm.video.bean.Barrage;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BarrageMapper {
     int deleteByPrimaryKey(Integer id);
@@ -20,5 +21,7 @@ public interface BarrageMapper {
     List<Barrage> selectByVideoId(Integer video_id);
 
     List<Barrage> selectAllAdmin();
+
+    List<Map<String,String>> countByStatus();
 
 }

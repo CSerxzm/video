@@ -21,20 +21,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-@RequiresRoles(value = {"admin"})
 class AdminUserController {
 
     @Autowired
     private UserService userService;
-
-    /**
-     * 后台主页
-     * @return
-     */
-    @RequestMapping("/index")
-    public String index(){
-        return "admin/index";
-    }
 
     /**
      * 用户列表

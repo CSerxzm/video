@@ -12,6 +12,12 @@
                  column="user_id">
     </association>
   </resultMap>
+
+  <resultMap id="byStatus" type="java.util.Map">
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="count(1)" property="count" jdbcType="VARCHAR"/>
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, video_id, user_id, create_time, content, status
   </sql>
@@ -118,6 +124,11 @@
     select
     <include refid="Base_Column_List" />
     from t_comment order by status,create_time desc
+  </select>
+
+  <!--List<Map<String,String>> countByStatus();-->
+  <select id="countByStatus" resultMap="byStatus">
+    select status,count(1) count from t_comment group by status
   </select>
 
 </mapper>

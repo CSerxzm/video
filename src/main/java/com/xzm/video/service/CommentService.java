@@ -5,6 +5,7 @@ import com.xzm.video.utils.ResultInfo;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 public interface CommentService {
 
@@ -19,5 +20,7 @@ public interface CommentService {
     List<Comment> selectByVideoId(Integer video_id);
 
     List<Comment> selectAllAdmin();
+
+    List<Map<String,String>> countByStatus();
 
 }

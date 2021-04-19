@@ -65,4 +65,10 @@ public interface VideoService {
      */
     List<Video> selectByTitleLike(String query);
 
+    /**
+     * 用于统计数据
+     * @return
+     */
+    List<Map<String,String>> countByStatus();
+
 }

@@ -32,8 +32,8 @@
             </thead>
             <tbody>
             <tr th:each="video:${pageInfo.list}" th:attr="class=(${video.status}=='0'?'warning':'')">
-                <td th:text="${#strings.abbreviate(video.title,20)}" th:attr="data-content=${video.title}" ></td>
-                <td th:text="${#strings.abbreviate(video.description,30)}" th:attr="data-content='${video.description}'"></td>
+                <td th:text="${#strings.abbreviate(video.title,15)}" th:attr="data-content=${video.title}" ></td>
+                <td th:text="${#strings.abbreviate(video.description,15)}" th:attr="data-content='${video.description}'"></td>
                 <td th:text="${#strings.abbreviate(video.user.nickname,10)}"></td>
                 <td th:text="${#dates.format(video.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${video.type.name}"></td>

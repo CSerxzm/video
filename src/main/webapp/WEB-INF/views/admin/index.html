@@ -6,14 +6,35 @@
     <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <link rel="stylesheet" href="../../static/css/me.css" />
+    <script src="../../static/js/chart.js" th:src="@{/js/chart.js}"></script>
     <title>Video</title>
 </head>
 
 <body>
     <div th:replace="admin/_sidebar::sidebar"></div>
-    <div class="ui center aligned container">
-        <div style="padding-top:100px;">
-            <p style="font-size:40px">你已经进入后台主页。</p>
+    <div class="ui column grid container">
+        <div class="ui center aligned container sixteen wide column" style="padding-bottom:50px;">
+            <p style="font-size:40px">后台主页</p>
+        </div>
+        <div class="four wide column">
+            <div>
+                <canvas id="myChart0"></canvas>
+            </div>
+        </div>
+        <div class="four wide column">
+            <div>
+                <canvas id="myChart1"></canvas>
+            </div>
+        </div>
+        <div class="four wide column">
+            <div>
+                <canvas id="myChart2"></canvas>
+            </div>
+        </div>
+        <div class="four wide column">
+            <div>
+                <canvas id="myChart3"></canvas>
+            </div>
         </div>
     </div>
     <script>
@@ -24,6 +45,81 @@
                 })
                 .sidebar("toggle");
         });
+
+        /*图表部分*/
+        var ctx0 = document.getElementById('myChart0').getContext('2d');
+        var ctx1 = document.getElementById('myChart1').getContext('2d');
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var ctx3 = document.getElementById('myChart3').getContext('2d');
+        var fonsize = {size: 22};
+        var  backgroundColor = ['rgb(255, 99, 132)','rgb(54, 162, 235)'];
+        var title = [];
+        var labels = [], data=[];
+        var arr=[ctx0,ctx1,ctx2,ctx3];
+
+
+        $.ajax({
+            url: '/admin/getdata',
+            type: 'GET',
+            success:function (result) {
+                var map = result.data.piedata;
+                for(var key in map){
+                    title.push(key);
+                    var temps = map[key];
+                    var labels_temp = [];
+                    var data_temp = [];
+                    for(var index in temps)
+                    {
+                        if(temps[index].status=='admin'){
+                            labels_temp.push('管理员');
+                        }else if(temps[index].status=='user'){
+                            labels_temp.push('用户');
+                        }else if(temps[index].status=='1'){
+                            labels_temp.push('已审核');
+                        }else if(temps[index].status=='0'){
+                            labels_temp.push('未审核');
+                        }
+                        data_temp.push(temps[index].count);
+                    }
+                    labels.push(labels_temp);
+                    data.push(data_temp);
+                }
+
+                for (let i=0; i<arr.length; i++){
+                    draw(arr[i],title[i],data[i],labels[i]);
+                }
+            }
+        });
+
+        /**
+         * 绘制饼状图
+         * @param obj 对象
+         * @param title 标题
+         * @param data 数据
+         * @param labels 图标
+         */
+        function draw(obj,title,data,labels) {
+            new Chart(obj, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: data,
+                        backgroundColor:backgroundColor
+                    }],
+                    labels:labels,
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            font: fonsize,
+                            text: title,
+                        }
+                    }
+                }
+            });
+        }
+
     </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -62,5 +63,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> selectAllAdmin() {
         return commentMapper.selectAllAdmin();
+    }
+
+    @Override
+    public List<Map<String, String>> countByStatus() {
+        return commentMapper.countByStatus();
     }
 }

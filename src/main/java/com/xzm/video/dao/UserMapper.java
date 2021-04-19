@@ -3,6 +3,7 @@ package com.xzm.video.dao;
 import com.xzm.video.bean.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserMapper {
 
@@ -21,4 +22,6 @@ public interface UserMapper {
     User selectByUsername(String username);
 
     List<User> selectAll();
+
+    List<Map<String,String>> countByRole();
 }

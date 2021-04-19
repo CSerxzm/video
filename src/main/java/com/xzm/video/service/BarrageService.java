@@ -22,4 +22,6 @@ public interface BarrageService {
     List<Barrage> selectAllAdmin();
 
     ResultInfo updateByPrimaryKey(Barrage record);
+
+    List<Map<String,String>> countByStatus();
 }

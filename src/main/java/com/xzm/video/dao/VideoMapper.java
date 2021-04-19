@@ -4,6 +4,7 @@ import com.xzm.video.bean.Video;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface VideoMapper {
     int deleteByPrimaryKey(Integer id);
@@ -31,4 +32,7 @@ public interface VideoMapper {
     List<Video> selectByTitleLike(@Param("query") String query);
 
     List<Video> selectAllAdmin();
+
+    List<Map<String,String>> countByStatus();
+
 }
