@@ -27,8 +27,9 @@
                     </div>
                 </div>
 
-                <div class="ui middle aligned two column grid" th:fragment="videos" th:each="history:${pageInfo.list}">
-                    <div class="column m-padded-tiny" style="float:right">
+                <div class="ui column grid container" th:fragment="videos" th:each="history:${pageInfo.list}">
+                    <div class="one wide column"></div>
+                    <div class="seven wide column m-padded-tiny" style="float:right">
                         <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${history.video.id})}">
                             <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;"
                                 th:src="${history.video.pictureUrl}">
@@ -41,7 +42,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="column" style="float:left">
+                    <div class="seven wide column m-padded-tiny" style="float:left;font-size:16px">
                         <div class="m-margin-top-mini m-padded-mini">
                             <h3 class="ui header m-margin-tb-tiny title" th:text="${history.video.title}">
                                 加油！程序员</h3>
@@ -51,6 +52,7 @@
                                     th:text="${#dates.format(history.createTime,'yyyy-MM-dd HH:mm:ss')}">2021年11月27日</span></p>
                         </div>
                     </div>
+                    <div class="one wide column"></div>
                 </div>
 
                 <div class="m-margin-top container" style="text-align:center;">

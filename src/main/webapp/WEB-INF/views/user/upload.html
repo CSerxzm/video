@@ -38,15 +38,15 @@
                     enctype="multipart/form-data">
                     <div class="field">
                         <label>标题</label>
-                        <input name="title" id="title" type="text" placeholder="视频标题">
+                        <input name="title" id="title" type="text" placeholder="视频标题（最多20词）" maxLength="20">
                     </div>
                     <div class="field">
                         <label>视频链接</label>
-                        <input name="videoUrl" id="videoUrl" type="text" placeholder="视频链接" readonly>
+                        <input name="videoUrl" id="videoUrl" type="text" placeholder="视频链接（选择视频自动设置）" readonly>
                     </div>
                     <div class="field">
                         <label>视频描述</label>
-                        <textarea name="description" type="text" rows="3" placeholder="请输入视频描述" id="description"></textarea>
+                        <textarea name="description" type="text" rows="3" placeholder="请输入视频描述（最多50词）" id="description" maxLength="50"></textarea>
                     </div>
                     <div class="field">
                         <label>种类</label>
@@ -59,11 +59,11 @@
                     </div>
                     <div class="field">
                         <label>标签</label>
-                        <input name="tags" id="tags" type="text" placeholder="标签，多标签用逗号隔开">
+                        <input name="tags" id="tags" type="text" placeholder="标签，多标签用逗号隔开（最多20词）" maxLength="20">
                     </div>
                     <div class="field">
                         <label>封面链接</label>
-                        <input name="pictureUrl" id="pictureUrl" type="text" placeholder="封面图片" readonly>
+                        <input name="pictureUrl" id="pictureUrl" type="text" placeholder="封面图片（上传图片自动设置）" readonly>
                     </div>
                     <button class="ui button blue" type="submit">提交</button>
                     <div class="ui error mini message"></div>

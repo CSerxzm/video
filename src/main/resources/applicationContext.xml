@@ -94,5 +94,46 @@
     <!--aop的使用-->
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
+    <!--接入redis-->
+    <!--配置JedisPoolConfig 实例-->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.pool.maxIdle}"/>
+        <property name="maxTotal" value="${redis.pool.maxTotal}"/>
+        <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"/>
+    </bean>
+
+    <!--配置connectionFactory-->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.hostname}"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="password" value="${redis.pass}"/>
+        <property name="database" value="${redis.database}"/>
+        <property name="poolConfig" ref="poolConfig"/>
+    </bean>
+
+    <!--配置RedisTemplate-->
+    <bean id="rediTeplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <!-- 如果不配置Serializer，那么存储的时候只能使用String，如果用对象类型存储，那么会提示错误 can't cast to String！！！-->
+        <property name="keySerializer">
+            <!--对key的默认序列化器。默认值是StringSerializer-->
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <!--是对value的默认序列化器，默认值是取自DefaultSerializer的JdkSerializationRedisSerializer。-->
+        <property name="valueSerializer">
+            <bean class="com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer"/>
+        </property>
+        <!--存储Map时key需要的序列化配置-->
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <!--存储Map时value需要的序列化配置-->
+        <property name="hashValueSerializer">
+            <bean class="com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer"/>
+        </property>
+    </bean>
+
+    <!--配置redis工具类bean-->
+    <bean id="redisUtils" class="com.xzm.video.utils.RedisUtils"></bean>
 
 </beans>

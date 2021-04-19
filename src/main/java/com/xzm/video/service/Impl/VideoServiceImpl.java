@@ -1,5 +1,6 @@
 package com.xzm.video.service.Impl;
 
+import com.xzm.video.annotation.MyIncreBy;
 import com.xzm.video.annotation.MyLock;
 import com.xzm.video.bean.*;
 import com.xzm.video.constant.LockName;
@@ -63,8 +64,8 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
+    @MyIncreBy
     public Video selectByPrimaryKey(Integer id) {
-        ResultInfo resultInfo = new ResultInfo(true);
         Video video = videoMapper.selectByPrimaryKey(id);
         video.setViewnum(video.getViewnum()+1);
         videoMapper.updateByPrimaryKey(video);

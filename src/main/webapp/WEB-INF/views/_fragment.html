@@ -15,7 +15,7 @@
             <div class="ui secondary menu m-padded-tb-mini">
                 <div class="item">
                     <img src="../../static/images/logo.png" th:src="@{/images/logo.png}"
-                         class="ui rounded image head" />
+                         class="ui rounded image head-big" />
                 </div>
                 <a href="#" th:href="@{/}" class="m-item item m-mobile-hide">主站</a>
                 <a href="#" th:each="type:${session.types}!=null?${session.types}" th:text="${type.name}"
@@ -29,7 +29,7 @@
                 </form>
                 <div class="m-item item">
                     <img src="../../static/images/avatar.png"
-                         th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}" class="ui rounded head-big" />
+                         th:src="@{${session.user}!=null?${session.user.avatar}:'/images/avatar.png'}" class="ui rounded head" />
                 </div>
                 <a href="#" th:href="@{/login}" class="m-item item m-mobile-hide" shiro:guest="">登录</a>
                 <a href="#" th:href="@{/regist}" class="m-item item m-mobile-hide" shiro:guest="">注册</a>

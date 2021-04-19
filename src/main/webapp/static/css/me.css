@@ -1,5 +1,4 @@
 body {
-    background: url("../images/bg.png");
 }
 
 .m-padded-mini {
@@ -196,13 +195,13 @@ img{
 }
 
 .head{
-    width:35px !important;
-    height:35px !important;
+    width:45px !important;
+    height:45px !important;
     border-radius:50% !important;
 }
 .head-big{
-    width:55px !important;
-    height:55px !important;
+    width:65px !important;
+    height:65px !important;
     border-radius:50% !important;
 }
 
@@ -277,4 +276,8 @@ a{
 
 #list{
     display:none;
+}
+
+.menu .item{
+    font-size:18px !important;
 }

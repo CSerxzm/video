@@ -14,7 +14,7 @@
     <div th:replace="admin/_sidebar::sidebar"></div>
     <div class="ui column grid container">
         <div class="ui center aligned container sixteen wide column" style="padding-bottom:50px;">
-            <p style="font-size:40px">后台主页</p>
+            <p style="font-size:40px">数据概览</p>
         </div>
         <div class="four wide column">
             <div>
@@ -36,6 +36,11 @@
                 <canvas id="myChart3"></canvas>
             </div>
         </div>
+        <div class="ui center aligned container twelve wide column" style="padding-bottom:50px;">
+            <div>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
     </div>
     <script>
         $(".ui.button").click(function () {
@@ -51,6 +56,8 @@
         var ctx1 = document.getElementById('myChart1').getContext('2d');
         var ctx2 = document.getElementById('myChart2').getContext('2d');
         var ctx3 = document.getElementById('myChart3').getContext('2d');
+        var ctx4 = document.getElementById('lineChart').getContext('2d');
+
         var fonsize = {size: 22};
         var  backgroundColor = ['rgb(255, 99, 132)','rgb(54, 162, 235)'];
         var title = [];
@@ -86,8 +93,18 @@
                 }
 
                 for (let i=0; i<arr.length; i++){
-                    draw(arr[i],title[i],data[i],labels[i]);
+                    drawPie(arr[i],title[i],data[i],labels[i]);
                 }
+                var days_label=[];
+                var days_data =[];
+
+                var days = result.data.days;
+                console.log(days);
+                for(j = 0; j < days.length; j++) {
+                    days_data.push(days[j].count);
+                    days_label.push(days[j].day);
+                }
+                drawLine(ctx4,'近7日浏览量',days_data,days_label);
             }
         });
 
@@ -98,7 +115,7 @@
          * @param data 数据
          * @param labels 图标
          */
-        function draw(obj,title,data,labels) {
+        function drawPie(obj,title,data,labels) {
             new Chart(obj, {
                 type: 'doughnut',
                 data: {
@@ -119,6 +136,37 @@
                 }
             });
         }
+
+        function drawLine(obj,title,data,labels){
+            var data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '浏览量',
+                        backgroundColor: "#fff",
+                        borderColor: "#36A2EB",
+                        pointBackgroundColor: "#36A2EB",
+                        pointBorderColor: "#fff",
+                        data: data
+                    }
+                ]
+            };
+            new Chart(obj, {
+                type: 'line',
+                data: data,
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            font: fonsize,
+                            text: title,
+                        }
+                    }
+                }
+            });
+        }
+
+
 
     </script>
 </body>
