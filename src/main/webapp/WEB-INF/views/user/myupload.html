@@ -13,43 +13,45 @@
 
 <body>
     <!--导航-->
-    <div th:replace="_fragment::nav"></div>
-    <div class="ui m-margin-top-large column grid container">
-        <div class="twelve wide column">
-            <div class="ui attached segment">
+    <div th:replace="user/_sidebar::sidebar"></div>
+    <div class="ui column grid container">
+        <div class="two wide column"></div>
+        <div class="twelve wide column m-margin-top-small">
                 <div class="ui middle aligned two column grid">
                     <div class="column m-padded-tiny">
-                        <i class="video big icon"></i>
-                        <span class="ui header" style="vertical-align:middle">收藏夹</span>
+                        <i class="folder open outline big icon"></i>
+                        <span class="ui header" style="vertical-align:middle">投稿记录</span>
                     </div>
                     <div class="right aligned column m-padded-tiny">
                         <a class="ui basic compact button">共<span th:text="${pageInfo.total}">200</span>个</a>
                     </div>
                 </div>
 
-                <div class="ui column grid container" th:fragment="videos" th:each="history:${pageInfo.list}">
+                <div class="ui column grid container" th:fragment="videos" th:each="video:${pageInfo.list}">
                     <div class="one wide column"></div>
                     <div class="seven wide column m-padded-tiny" style="float:right">
-                        <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${history.video.id})}">
+                        <a class="ui medium image" href="#" th:href="@{/video/{id}(id=${video.id})}">
                             <img src="../../static/images/20201103113816254.png" style="width:300px;height:168px;"
-                                th:src="${history.video.pictureUrl}">
+                                th:src="${video.pictureUrl}">
                             <div class="inverted shade">
                                 <i class="large youtube icon"></i><span style="color:black;vertical-align:middle;"
-                                    th:text="${history.video.viewnum}">123</span>
+                                    th:text="${video.viewnum}">123</span>
                                 <i class="large thumbs up outline icon"></i><span
                                     style="color:black;vertical-align:middle;"
-                                    th:text="${history.video.likenum}">123</span>
+                                    th:text="${video.likenum}">123</span>
                             </div>
                         </a>
                     </div>
                     <div class="seven wide column m-padded-tiny" style="float:left;font-size:16px">
                         <div class="m-margin-top-mini m-padded-mini">
-                            <h3 class="ui header m-margin-tb-tiny title" th:text="${#strings.abbreviate(history.video.title,20)}">
-                                加油！程序员</h3>
-                            <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span
-                                    th:text="${history.video.user.nickname}">UP主</span></p>
+                            <p class="m-margin-tb-tiny"  style="font-size:16px !important;font-weight: bold !important;" th:text="${#strings.abbreviate(video.title,20)}">
+                                加油！程序员</p>
+                            <div class="ui horizontal label" th:classappend="${video.status}=='0'?'red':'green'" th:text="${video.status}=='0'?'未审核':'已审核'">水果</div>
                             <p class="m-margin-tb-tiny"><i class="clock outline icon"></i><span
-                                    th:text="${#dates.format(history.createTime,'yyyy-MM-dd HH:mm:ss')}">2021年11月27日</span></p>
+                                    th:text="${#dates.format(video.createTime,'yyyy-MM-dd HH:mm:ss')}">2021年11月27日</span></p>
+                            <p class="m-margin-tb-tiny"><i class="pencil alternate icon"></i><span
+                                    th:text="${#strings.abbreviate(video.description,40)}">2021年11月27日</span></p>
+                            <button class="ui mini primary brown basic button deleteBtn" th:attr="del_uri=@{/user/video/}+${video.id}">撤回</button>
                         </div>
                     </div>
                     <div class="one wide column"></div>
@@ -58,46 +60,31 @@
                 <div class="m-margin-top container" style="text-align:center;">
                     <div class=" ui buttons">
                         <a class="ui basic blue button" th:if="${pageInfo.hasPreviousPage}"
-                            th:href="@{'/user/star?page='+${pageInfo.prePage}}">
+                            th:href="@{'/user/myupload?page='+${pageInfo.prePage}}">
                             <font style="vertical-align: inherit;">上一页</font>
                         </a>
                         <a class="ui blue button" th:each="pageNo:${pageInfo.navigatepageNums}"
                             th:classappend="${pageNo==pageInfo.pageNum}?'primary':'basic'"
-                            th:href="@{'/user/star?page='+${pageNo}}">
+                            th:href="@{'/user/myupload?page='+${pageNo}}">
                             <font style="vertical-align: inherit;" th:text="${pageNo}">1</font>
                         </a>
                         <a class="ui basic blue button" th:if="${pageInfo.hasNextPage}"
-                            th:href="@{'/user/star?page='+${pageInfo.nextPage}}">
+                            th:href="@{'/user/myupload?page='+${pageInfo.nextPage}}">
                             <font style="vertical-align: inherit;">下一页</font>
                         </a>
                     </div>
                 </div>
-            </div>
         </div>
-        <div class="four wide column">
-            <div class="ui attached segment">
-                <div class="ui middle aligned two column grid">
-                    <div class="column m-padded-tiny">
-                        <span class="ui header" style="vertical-align:middle">排行榜</span>
-                    </div>
-                </div>
-                <div class="ui m-margin-top">
-                    <div class="item m-margin-top title-small" th:each="video,videoStat:${videos_hot}">
-                        <a class="ui circular label" th:classappend="${videoStat.count} lt '5' ? 'red'">
-                            <font style="vertical-align: inherit;" th:text="${videoStat.count}">1</font>
-                        </a>
-                        <a th:text="${#strings.abbreviate(video.title,20)}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频1</a>
-                    </div>
-                    <div class="item m-margin-top  title-small" th:if="${videos_hot}==null">
-                        <a class="ui red circular label">
-                            <font style="vertical-align: inherit;" th:text="${videoStat.count}">2</font>
-                        </a>
-                        <a th:text="${#strings.abbreviate(video.title,20)}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频2</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="two wide column"></div>
     </div>
-
+    <form id="deleteVideoForm" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+    </form>
 </body>
+<script>
+    $(".deleteBtn").click(function () {
+        $("#deleteVideoForm").attr("action", $(this).attr("del_uri")).submit();
+        return false;
+    });
+</script>
 </html>

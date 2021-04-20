@@ -17,4 +17,7 @@ public interface CoinHistoryMapper {
     int updateByPrimaryKey(CoinHistory record);
 
     CoinHistory selectByUserIdAndVideoId(@Param("userId") Integer userId, @Param("videoId") Integer videoId);
+
+    Integer deleteByVideoId(Integer videoId);
+
 }

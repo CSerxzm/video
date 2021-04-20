@@ -2,10 +2,11 @@
 
 <head>
     <meta charset="UTF-8" />
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-    <link rel="stylesheet" href="../../static/css/me.css" />
+    <link rel="shortcut icon" href="../../static/images/logo.png" th:href="@{/images/logo.png}"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" th:href="@{/semantic/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js" th:src="@{/semantic/semantic.min.js}"></script>
+    <link rel="stylesheet" href="../../static/css/me.css"  th:href="@{/css/me.css}"/>
     <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
     <title>Video</title>
 </head>
@@ -103,10 +104,10 @@
         <div class="five wide column">
             <div class="ui attached segment">
                 <div class="ui column grid container">
-                    <div class="three wide column m-margin-tb-tiny">
-                        <img src="../../static/images/logo.png" class="ui rounded image head head-big " th:src="${video.user.avatar}">
+                    <div class="four wide column m-margin-tb-tiny">
+                        <img src="../../static/images/logo.png" class="ui rounded image head-big" th:src="${video.user.avatar}">
                     </div>
-                    <div class="thirteen wide column left">
+                    <div class="twelve wide column left">
                         <h3 class="ui header m-margin-tb-tiny" th:text="${video.user.nickname}">xzm</h3>
                         <p class="m-margin-tb-tiny" th:text="${video.user.description}">高效，我们是专业的</p>
                     </div>

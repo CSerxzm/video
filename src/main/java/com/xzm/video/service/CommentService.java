@@ -23,4 +23,6 @@ public interface CommentService {
 
     List<Map<String,String>> countByStatus();
 
+    Integer countSumByVideoUserId(Integer videoUserId);
+
 }

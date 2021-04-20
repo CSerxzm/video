@@ -280,4 +280,17 @@
     select status,count(1) count from t_video group by status
   </select>
 
+  <!--List<Video> selectByUserId(Integer userId);-->
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_video order by create_time desc
+  </select>
+
+  <!--Integer getSumByUserId(Integer userId);-->
+  <select id="getSumByUserId" resultType="Integer">
+    select count(1)
+    from t_video where user_id = #{userId}
+  </select>
+
 </mapper>

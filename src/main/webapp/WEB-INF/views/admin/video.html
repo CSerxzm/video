@@ -2,10 +2,12 @@
 
 <head>
     <meta charset="UTF-8" />
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-    <link rel="stylesheet" href="../../static/css/me.css" />
+    <link rel="shortcut icon" href="../../static/images/logo.png" th:href="@{/images/logo.png}"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" th:href="@{/semantic/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js" th:src="@{/semantic/semantic.min.js}"></script>
+    <link rel="stylesheet" href="../../static/css/me.css"  th:href="@{/css/me.css}"/>
+    <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
     <title>Video</title>
 </head>
 
@@ -33,7 +35,7 @@
             <tbody>
             <tr th:each="video:${pageInfo.list}" th:attr="class=(${video.status}=='0'?'warning':'')">
                 <td th:text="${#strings.abbreviate(video.title,15)}" th:attr="data-content=${video.title}" ></td>
-                <td th:text="${#strings.abbreviate(video.description,15)}" th:attr="data-content='${video.description}'"></td>
+                <td th:text="${#strings.abbreviate(video.description,30)}" th:attr="data-content='${video.description}'"></td>
                 <td th:text="${#strings.abbreviate(video.user.nickname,10)}"></td>
                 <td th:text="${#dates.format(video.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${video.type.name}"></td>

@@ -114,4 +114,9 @@ public class BarrageServiceImpl implements BarrageService {
     public List<Map<String, String>> countByStatus() {
         return barrageMapper.countByStatus();
     }
+
+    @Override
+    public Integer countSumByVideoUserId(Integer videoUserId) {
+        return barrageMapper.countSumByVideoUserId(videoUserId);
+    }
 }

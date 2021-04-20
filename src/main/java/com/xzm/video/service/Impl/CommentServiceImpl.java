@@ -69,4 +69,9 @@ public class CommentServiceImpl implements CommentService {
     public List<Map<String, String>> countByStatus() {
         return commentMapper.countByStatus();
     }
+
+    @Override
+    public Integer countSumByVideoUserId(Integer videoUserId) {
+        return commentMapper.countSumByVideoUserId(videoUserId);
+    }
 }

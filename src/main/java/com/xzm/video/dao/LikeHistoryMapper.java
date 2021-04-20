@@ -17,4 +17,7 @@ public interface LikeHistoryMapper {
     int updateByPrimaryKey(LikeHistory record);
 
     LikeHistory selectByUserIdAndVideoId(@Param("userId") Integer userId, @Param("videoId") Integer videoId);
+
+    Integer deleteByVideoId(Integer videoId);
+
 }

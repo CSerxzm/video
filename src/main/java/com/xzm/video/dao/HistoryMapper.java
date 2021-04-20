@@ -22,4 +22,6 @@ public interface HistoryMapper {
 
     List<History> selectAllByUserId(Integer userId);
 
+    Integer deleteByVideoId(Integer videoId);
+
 }

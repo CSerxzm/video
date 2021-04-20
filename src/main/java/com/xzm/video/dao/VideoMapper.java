@@ -35,4 +35,17 @@ public interface VideoMapper {
 
     List<Map<String,String>> countByStatus();
 
+    /**
+     * 获得用户的上传记录
+     * @param userId
+     * @return
+     */
+    List<Video> selectByUserId(Integer userId);
+
+    /**
+     * 获得用户的上传数量
+     * @param userId
+     * @return
+     */
+    Integer getSumByUserId(Integer userId);
 }

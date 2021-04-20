@@ -6,6 +6,27 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="atten_userid" jdbcType="INTEGER" property="attenUserid" />
   </resultMap>
+
+  <!--获得关注列表-->
+  <resultMap id="userIdResultMap" type="com.xzm.video.bean.AttentionVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <association property="user"
+                 select="com.xzm.video.dao.UserMapper.selectByPrimaryKey"
+                 column="atten_userid">
+    </association>
+  </resultMap>
+
+  <!--获得粉丝列表-->
+  <resultMap id="atttenIdResultMap" type="com.xzm.video.bean.AttentionVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="atten_userid" jdbcType="INTEGER" property="userId" />
+    <association property="user"
+                 select="com.xzm.video.dao.UserMapper.selectByPrimaryKey"
+                 column="user_id">
+    </association>
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, user_id, atten_userid
   </sql>
@@ -75,6 +96,36 @@
     <include refid="Base_Column_List" />
     from t_attention
     where user_id = #{userId,jdbcType=INTEGER} and atten_userid = #{attenUserid,jdbcType=INTEGER}
+  </select>
+
+  <!--List<Attention> selectByUserId(Integer userId);-->
+  <select id="selectByUserId" resultMap="userIdResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_attention
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+  <!--List<Attention> selectByAttenUserId(Integer attenUserid);-->
+  <select id="selectByAttenUserId" resultMap="atttenIdResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_attention
+    where atten_userid = #{attenUserid,jdbcType=INTEGER}
+  </select>
+
+  <!--Integer countSumByAttenUserId(Integer attenUserid);-->
+  <select id="countSumByAttenUserId" resultType="Integer">
+    select count(1)
+    from t_attention
+    where atten_userid = #{attenUserid,jdbcType=INTEGER}
+  </select>
+
+  <!--Integer countSumByUserId(Integer userId);-->
+  <select id="countSumByUserId" resultType="Integer">
+    select count(1)
+    from t_attention
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
 
 </mapper>

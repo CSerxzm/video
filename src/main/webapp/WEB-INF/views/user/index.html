@@ -1,0 +1,116 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../static/images/logo.png" th:href="@{/images/logo.png}"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" th:href="@{/semantic/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js" th:src="@{/semantic/semantic.min.js}"></script>
+    <link rel="stylesheet" href="../../static/css/me.css"  th:href="@{/css/me.css}"/>
+    <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
+    <script src="../../static/js/chart.js" th:src="@{/js/chart.js}"></script>
+    <title>Video</title>
+</head>
+
+<body>
+    <div th:replace="user/_sidebar::sidebar"></div>
+    <div class="ui column grid container">
+        <div class="ui center aligned container sixteen wide column" style="padding-bottom:50px;">
+            <p style="font-size:40px">数据概览</p>
+        </div>
+        <div class="eight wide column">
+            <div>
+                <canvas id="myChart0"></canvas>
+            </div>
+        </div>
+        <div class="eight wide column">
+            <div>
+                <canvas id="myChart1"></canvas>
+            </div>
+        </div>
+        <div class="ui center aligned container twelve wide column" style="padding-bottom:50px;">
+            <div>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".ui.button").click(function () {
+            $(".ui.sidebar")
+                .sidebar({
+                    transition:'slide out'
+                })
+                .sidebar("toggle");
+        });
+
+        /*图表部分*/
+        var ctx0 = document.getElementById('myChart0').getContext('2d');
+        var ctx1 = document.getElementById('myChart1').getContext('2d');
+
+        var fonsize = {size: 22};
+        var backgroundColor0 =             [
+            'rgb(255, 99, 132)',
+            'rgb(75, 192, 192)',
+            'rgb(255, 205, 86)'
+        ];
+        var backgroundColor1 =             [
+            'rgb(75, 100, 255)',
+            'rgb(255, 75, 75)'
+        ];
+
+
+        $.ajax({
+            url: '/user/getdata',
+            type: 'GET',
+            success:function (result) {
+                //绘制极地图
+                var labels1 = [], data1=[];
+                var map = result.data.polarAreaData1;
+                for(var key in map) {
+                    labels1.push(key);
+                    data1.push(map[key]);
+                }
+                drawPolarArea(ctx0,'点击统计',data1,labels1,backgroundColor0);
+                var labels2 = [], data2=[];
+                map = result.data.polarAreaData2;
+                for(var key in map) {
+                    labels2.push(key);
+                    data2.push(map[key]);
+                }
+                drawPolarArea(ctx1,'用户统计',data2,labels2,backgroundColor1);
+
+            }
+        });
+
+        /**
+         * 绘制极地图
+         * @param obj 对象
+         * @param title 标题
+         * @param data 数据
+         * @param labels 图标
+         */
+        function drawPolarArea(obj,title,data,labels,backgroundColor) {
+            new Chart(obj, {
+                type: 'polarArea',
+                data: {
+                    datasets: [{
+                        data: data,
+                        backgroundColor:backgroundColor
+                    }],
+                    labels:labels,
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            font: fonsize,
+                            text: title,
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

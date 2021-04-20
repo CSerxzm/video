@@ -24,4 +24,8 @@ public interface BarrageMapper {
 
     List<Map<String,String>> countByStatus();
 
+    Integer countSumByVideoUserId(Integer videoUserId);
+
+    Integer deleteByVideoId(Integer videoId);
+
 }

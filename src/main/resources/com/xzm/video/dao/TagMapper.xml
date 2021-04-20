@@ -77,4 +77,11 @@
     where video_id = #{videoId,jdbcType=INTEGER}
   </select>
 
+  <!--Integer deleteByVideoId(Integer videoId);-->
+  <delete id="deleteByVideoId" parameterType="java.lang.Integer">
+    delete from t_tag
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </delete>
+
+
 </mapper>

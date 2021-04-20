@@ -1,12 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
-
 <head>
     <meta charset="UTF-8" />
-    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-    <link rel="stylesheet" href="../../static/css/me.css" />
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="shortcut icon" href="../../static/images/logo.png" th:href="@{/images/logo.png}"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" th:href="@{/semantic/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js" th:src="@{/semantic/semantic.min.js}"></script>
+    <link rel="stylesheet" href="../../static/css/me.css"  th:href="@{/css/me.css}"/>
+    <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
     <title>Video</title>
 </head>
 
@@ -22,8 +23,7 @@
                         <span class="ui header" style="vertical-align:middle">观影记录</span>
                     </div>
                     <div class="right aligned column m-padded-tiny">
-                        <a class="ui basic compact button">共<span th:text="${pageInfo.total}">200</span>个<i
-                                class="angle right icon"></i></a>
+                        <a class="ui basic compact button">共<span th:text="${pageInfo.total}">200</span>个</a>
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@
                     </div>
                     <div class="seven wide column m-padded-tiny" style="float:left;font-size:16px">
                         <div class="m-margin-top-mini m-padded-mini">
-                            <h3 class="ui header m-margin-tb-tiny title" th:text="${history.video.title}">
+                            <h3 class="ui header m-margin-tb-tiny title" th:text="${#strings.abbreviate(history.video.title,20)}">
                                 加油！程序员</h3>
                             <p class="m-margin-tb-tiny"><i class="user outline icon"></i><span
                                     th:text="${history.video.user.nickname}">UP主</span></p>
@@ -86,13 +86,13 @@
                         <a class="ui circular label" th:classappend="${videoStat.count} lt '5' ? 'red'">
                             <font style="vertical-align: inherit;" th:text="${videoStat.count}">1</font>
                         </a>
-                        <a th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频1</a>
+                        <a th:text="${#strings.abbreviate(video.title,20)}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频1</a>
                     </div>
                     <div class="item m-margin-top  title-small" th:if="${videos_hot}==null">
                         <a class="ui red circular label">
                             <font style="vertical-align: inherit;" th:text="${videoStat.count}">2</font>
                         </a>
-                        <a th:text="${video.title}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频2</a>
+                        <a th:text="${#strings.abbreviate(video.title,20)}" href="#" th:href="@{/video/{id}(id=${video.id})}">热点视频2</a>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,7 @@ public interface UserService {
 
     List<User> selectAll();
 
-    int updateUser(User user);
+    User updateUser(User user);
 
     List<Map<String,String>> countByRole();
 }

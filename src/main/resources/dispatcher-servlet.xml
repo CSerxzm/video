@@ -7,6 +7,7 @@
     <!--静态资源映射-->
     <mvc:resources mapping="/css/**" location="/static/css/"/>
     <mvc:resources mapping="/js/**" location="/static/js/"/>
+    <mvc:resources mapping="/semantic/**" location="/static/semantic/"/>
     <mvc:resources mapping="/images/**" location="/static/images/"/>
     <mvc:default-servlet-handler />
 

@@ -1,0 +1,133 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../static/images/logo.png" th:href="@{/images/logo.png}"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" th:href="@{/semantic/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js" th:src="@{/semantic/semantic.min.js}"></script>
+    <link rel="stylesheet" href="../../static/css/me.css"  th:href="@{/css/me.css}"/>
+    <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
+    <title>Video</title>
+</head>
+
+<body>
+    <!--导航-->
+    <div th:replace="user/_sidebar::sidebar"></div>
+    <div class="ui column grid container">
+        <div class="two wide column"></div>
+        <div class="twelve wide column m-margin-top-small">
+            <form class="ui large form"  id="updateUser" method="post" action="#">
+                <div class="ui  segment">
+                    <input type="text" name="id" placeholder="用户标识"  th:value="*{user}!=null ? *{user.id}" hidden>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="paint brush icon"></i>
+                            <input type="text" name="nickname" placeholder="昵称" th:value="*{user}!=null ? *{user.nickname}"  required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="密码" th:value="*{user}!=null ? *{user.password}" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="edit icon"></i>
+                            <input type="text" name="description" placeholder="描述" th:value="*{user}!=null ? *{user.description}" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user circle icon"></i>
+                            <input type="file" id="file" accept="image/*"  placeholder="头像" onchange="uploadFile(this)" required>
+                            <input type="text" name="avatar" id="avatar" hidden="hidden" th:value="*{user}!=null ? *{user.avatar}">
+                        </div>
+                    </div>
+                    <button class="ui fluid large blue button" onclick="updateUser()">修改</button>
+                </div>
+
+            </form>
+        </div>
+        <div class="two wide column"></div>
+    </div>
+
+    <div class="ui basic modal">
+        <div class="ui icon header">
+            <i class="info icon"></i>
+            更新成功。谢谢！
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                否
+            </div>
+            <div class="ui blue ok inverted button">
+                <i class="checkmark icon"></i>
+                是
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.ui.form').form({
+            fields: {
+                password: {
+                    identifier: 'password',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请输入密码'
+                    }]
+                },
+                description: {
+                    identifier: 'description',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请输入描述'
+                    }]
+                },
+                nickname: {
+                    identifier: 'nickname',
+                    rules: [{
+                        type: 'empty',
+                        prompt: '请输入昵称'
+                    }]
+                }
+            }
+        });
+
+        function uploadFile(obj) {
+            var datatemp = new FormData();
+            var imgFile = obj.files[0];
+            datatemp.append("pic", imgFile);
+            $.ajax({
+                url: '/uploadpicwithoutlogin',
+                type: 'post',
+                processData: false,
+                contentType: false,
+                data: datatemp,
+                success: function (data) {
+                    $("#avatar").val(data)
+                }
+            });
+        }
+
+        function updateUser() {
+            $.ajax({
+                type: "post",
+                url: "/user/updateuser",
+                data: $('#updateUser').serialize(),
+                success:function (data) {
+                    if(data.code==200){
+                        console.log(data.code);
+                        $(".ui.modal").modal("show");
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

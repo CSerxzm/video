@@ -25,6 +25,12 @@ public class VideoServiceImpl implements VideoService{
     private VideoMapper videoMapper;
 
     @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private BarrageMapper barrageMapper;
+
+    @Autowired
     private TypeMapper typeMapper;
 
     @Autowired
@@ -42,10 +48,22 @@ public class VideoServiceImpl implements VideoService{
     @Autowired
     private LikeHistoryMapper likeHistoryMapper;
 
+    @Autowired
+    private HistoryMapper historyMapper;
+
     @Override
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = videoMapper.deleteByPrimaryKey(id);
+        //删除视频对应的评论和弹幕，以及标签
+        commentMapper.deleteByVideoId(id);
+        barrageMapper.deleteByVideoId(id);
+        tagMapper.deleteByVideoId(id);
+        //删除投币、点赞、收藏、历史记录
+        favoriteMapper.deleteByVideoId(id);
+        coinHistoryMapper.deleteByVideoId(id);
+        likeHistoryMapper.deleteByVideoId(id);
+        historyMapper.deleteByVideoId(id);
         resultInfo.setData("index",index);
         return resultInfo;
     }
@@ -225,5 +243,15 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public List<Map<String, String>> countByStatus() {
         return videoMapper.countByStatus();
+    }
+
+    @Override
+    public List<Video> selectByUserId(Integer userId) {
+        return videoMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public Integer getSumByUserId(Integer userId) {
+        return videoMapper.getSumByUserId(userId);
     }
 }

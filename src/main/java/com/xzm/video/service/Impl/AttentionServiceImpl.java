@@ -6,6 +6,8 @@ import com.xzm.video.service.AttentionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author xiangzhimin
  * @Description
@@ -21,5 +23,25 @@ public class AttentionServiceImpl implements AttentionService {
     @Override
     public Attention selectAttention(Integer userId, Integer attenUserid) {
         return attentionMapper.selectAttention(userId,attenUserid);
+    }
+
+    @Override
+    public List<Attention> selectByUserId(Integer userId) {
+        return attentionMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public List<Attention> selectByAttenUserId(Integer attenUserid) {
+        return attentionMapper.selectByAttenUserId(attenUserid);
+    }
+
+    @Override
+    public Integer countSumByAttenUserId(Integer attenUserid) {
+        return attentionMapper.countSumByAttenUserId(attenUserid);
+    }
+
+    @Override
+    public Integer countSumByUserId(Integer userId) {
+        return attentionMapper.countSumByUserId(userId);
     }
 }

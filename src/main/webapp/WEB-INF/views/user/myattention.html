@@ -1,0 +1,80 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="../../static/images/logo.png" th:href="@{/images/logo.png}"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" rel="stylesheet" th:href="@{/semantic/semantic.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js" th:src="@{/semantic/semantic.min.js}"></script>
+    <link rel="stylesheet" href="../../static/css/me.css"  th:href="@{/css/me.css}"/>
+    <script src="../../static/js/DPlayer.min.js" th:src="@{/js/DPlayer.min.js}"></script>
+    <title>Video</title>
+</head>
+
+<body>
+    <!--导航-->
+    <div th:replace="user/_sidebar::sidebar"></div>
+    <div class="ui column grid container">
+        <div class="sixteen wide column">
+            <div class="ui middle aligned two column grid">
+                <div class="column m-padded-tiny">
+                    <i class="user circle outline big icon"></i>
+                    <span class="ui header" style="vertical-align:middle">关注作者</span>
+                </div>
+                <div class="right aligned column m-padded-tiny">
+                    <a class="ui basic compact button">共<span th:text="${pageInfo.total}">200</span>个</a>
+                </div>
+            </div>
+
+            <div class="ui m-margin-top three cards middle aligned" th:fragment="videos">
+                <div class="ui card four wide column" th:each="attention:${pageInfo.list}" style="margin:5px;">
+                    <div class="content">
+                        <img class="right floated mini ui head" th:src="${attention.user.avatar}">
+                        <div class="header">[[${attention.user.nickname}]]</div>
+                        <div class="meta">[[${attention.user.attentionNum}]]人关注</div>
+                        <div class="description" th:text="${attention.user.description}"></div>
+                    </div>
+                    <div class="extra content">
+                        <div class="ui one buttons right floated">
+                            <div class="ui basic red button" th:id="${attention.user.id}" onclick="clickbutton(this.id)">取消关注</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-margin-top container" style="text-align:center;">
+                <div class=" ui buttons">
+                    <a class="ui basic blue button" th:if="${pageInfo.hasPreviousPage}"
+                        th:href="@{'/user/myattention?page='+${pageInfo.prePage}}">
+                        <font style="vertical-align: inherit;">上一页</font>
+                    </a>
+                    <a class="ui blue button" th:each="pageNo:${pageInfo.navigatepageNums}"
+                        th:classappend="${pageNo==pageInfo.pageNum}?'primary':'basic'"
+                        th:href="@{'/user/myattention?page='+${pageNo}}">
+                        <font style="vertical-align: inherit;" th:text="${pageNo}">1</font>
+                    </a>
+                    <a class="ui basic blue button" th:if="${pageInfo.hasNextPage}"
+                        th:href="@{'/user/myattention?page='+${pageInfo.nextPage}}">
+                        <font style="vertical-align: inherit;">下一页</font>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="deleteBarrageForm" method="post" action="/user/delattention">
+        <input type="hidden" id="attenUserid" name="attenUserid" />
+    </form>
+<script>
+
+    function clickbutton(attenUserid) {
+        $('#attenUserid').val(attenUserid);
+        $("#deleteBarrageForm").submit();
+        return false;
+    };
+
+</script>
+
+</body>
+
+</html>

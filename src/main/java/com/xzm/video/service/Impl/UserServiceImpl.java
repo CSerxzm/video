@@ -65,8 +65,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUser(User user){
-        return userMapper.updateByPrimaryKeySelective(user);
+    public User updateUser(User user){
+        Integer id = user.getId();
+        User oldUser = userMapper.selectByPrimaryKey(id);
+        if(oldUser.getPassword().equals(user.getPassword())){
+            user.setPassword(null);
+        }else{
+            ByteSource salt = ByteSource.Util.bytes(oldUser.getUsername());
+            Object password = new SimpleHash("MD5",user.getPassword(),salt,2);
+            user.setPassword(String.valueOf(password));
+        }
+        int i = userMapper.updateByPrimaryKeySelective(user);
+        if(i==1){
+            return userMapper.selectByPrimaryKey(id);
+        }else{
+            return null;
+
+        }
     }
 
     @Override

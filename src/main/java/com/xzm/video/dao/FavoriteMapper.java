@@ -21,4 +21,7 @@ public interface FavoriteMapper {
     Favorite selectByUserIdAndVideoId(@Param("userId") Integer userId, @Param("videoId") Integer videoId);
 
     List<Favorite> selectAllByUserId(Integer userId);
+
+    Integer deleteByVideoId(Integer videoId);
+
 }

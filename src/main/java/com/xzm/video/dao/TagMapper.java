@@ -18,4 +18,6 @@ public interface TagMapper {
     int updateByPrimaryKey(Tag record);
 
     List<Tag> selectByVideoId(Integer videoId);
+
+    Integer deleteByVideoId(Integer videoId);
 }

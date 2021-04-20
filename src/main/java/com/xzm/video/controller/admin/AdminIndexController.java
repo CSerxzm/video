@@ -4,6 +4,7 @@ import com.xzm.video.service.BarrageService;
 import com.xzm.video.service.CommentService;
 import com.xzm.video.service.UserService;
 import com.xzm.video.service.VideoService;
+import com.xzm.video.utils.HashMapComparator;
 import com.xzm.video.utils.RedisUtils;
 import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,7 @@ public class AdminIndexController {
             map.put("count",count);
             list.add(map);
         }
+        Collections.sort(list,new HashMapComparator());
         return list;
     }
 }

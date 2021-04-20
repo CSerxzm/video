@@ -100,4 +100,10 @@
     order by create_time desc
   </select>
 
+  <!--Integer deleteByVideoId(Integer videoId);-->
+  <delete id="deleteByVideoId" parameterType="java.lang.Integer">
+    delete from t_favorite
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </delete>
+
 </mapper>

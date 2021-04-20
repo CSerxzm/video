@@ -24,4 +24,7 @@ public interface BarrageService {
     ResultInfo updateByPrimaryKey(Barrage record);
 
     List<Map<String,String>> countByStatus();
+
+    Integer countSumByVideoUserId(Integer videoUserId);
+
 }

@@ -37,6 +37,13 @@ public interface VideoService {
     List<Video> selectHotByTypeId(Integer type_id,Integer size);
 
     /**
+     * 获得用户的上传记录
+     * @param userId
+     * @return
+     */
+    List<Video> selectByUserId(Integer userId);
+
+    /**
      * 收藏
      * @param id
      * @return
@@ -58,6 +65,7 @@ public interface VideoService {
      * @return
      */
     ResultInfo addLikeNum(User user,Integer id);
+
     /**
      * 搜索获得相关的video列表
      * @param query
@@ -70,5 +78,12 @@ public interface VideoService {
      * @return
      */
     List<Map<String,String>> countByStatus();
+
+    /**
+     * 获得用户的投稿数量
+     * @param userId
+     * @return
+     */
+    Integer getSumByUserId(Integer userId);
 
 }

@@ -131,4 +131,17 @@
     select status,count(1) count from t_comment group by status
   </select>
 
+  <!--Integer countSumByVideoUserId(Integer videoUserId);-->
+  <select id="countSumByVideoUserId" resultType="Integer">
+    select count(1) from t_comment left join t_video
+    on t_comment.video_id=t_video.id
+    and t_video.user_id = #{videoUserId}
+  </select>
+
+  <!--Integer deleteByVideoId(Integer videoId);-->
+  <delete id="deleteByVideoId" parameterType="java.lang.Integer">
+    delete from t_comment
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </delete>
+
 </mapper>
