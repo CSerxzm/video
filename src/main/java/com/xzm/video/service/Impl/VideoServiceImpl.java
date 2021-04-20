@@ -11,6 +11,9 @@ import com.xzm.video.service.TagService;
 import com.xzm.video.service.VideoService;
 import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -52,6 +55,7 @@ public class VideoServiceImpl implements VideoService{
     private HistoryMapper historyMapper;
 
     @Override
+    @CacheEvict(value = {"video"},key = "'video:'+#id")
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = videoMapper.deleteByPrimaryKey(id);
@@ -83,6 +87,7 @@ public class VideoServiceImpl implements VideoService{
 
     @Override
     @MyIncreBy
+    @Cacheable(value = "video",key = "'video:'+#id")
     public Video selectByPrimaryKey(Integer id) {
         Video video = videoMapper.selectByPrimaryKey(id);
         video.setViewnum(video.getViewnum()+1);
@@ -91,6 +96,7 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
+    @Cacheable(value = "video",key = "'video:'+#id")
     public Video selectByPrimaryKeyAdmin(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         Video video = videoMapper.selectByPrimaryKey(id);
@@ -98,6 +104,7 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
+    @CachePut(value = "video",key = "'video:'+#id")
     public ResultInfo updateByPrimaryKeySelective(Video record) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = videoMapper.updateByPrimaryKeySelective(record);

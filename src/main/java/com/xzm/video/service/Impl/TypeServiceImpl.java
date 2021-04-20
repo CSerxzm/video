@@ -5,6 +5,9 @@ import com.xzm.video.dao.TypeMapper;
 import com.xzm.video.service.TypeService;
 import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,7 @@ public class TypeServiceImpl implements TypeService{
     private TypeMapper typeMapper;
 
     @Override
+    @CacheEvict(value = {"video"},key = "'type:'+#id")
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = typeMapper.deleteByPrimaryKey(id);
@@ -32,6 +36,7 @@ public class TypeServiceImpl implements TypeService{
     }
 
     @Override
+    @Cacheable(value = {"video"},key = "'type:'+#id")
     public Type selectByPrimaryKey(Integer id) {
         Type type = typeMapper.selectByPrimaryKey(id);
         return type;

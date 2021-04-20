@@ -5,6 +5,9 @@ import com.xzm.video.dao.TagMapper;
 import com.xzm.video.service.TagService;
 import com.xzm.video.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +19,7 @@ public class TagServiceImpl implements TagService {
     private TagMapper tagMapper;
 
     @Override
+    @CacheEvict(value = {"video"},key = "'type:'+#id")
     public ResultInfo deleteByPrimaryKey(Integer id) {
         ResultInfo resultInfo = new ResultInfo(true);
         int index = tagMapper.deleteByPrimaryKey(id);
@@ -32,6 +36,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Cacheable(value = {"video"},key = "'type:'+#id")
     public Tag selectByPrimaryKey(Integer id) {
         Tag tag = tagMapper.selectByPrimaryKey(id);
         return tag;

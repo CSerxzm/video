@@ -5,6 +5,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 			            http://www.springframework.org/schema/beans/spring-beans.xsd
 			            http://www.springframework.org/schema/context
@@ -14,7 +15,9 @@
 			            http://www.springframework.org/schema/tx
 			            http://www.springframework.org/schema/tx/spring-tx.xsd
 			            http://www.springframework.org/schema/aop
-                        http://www.springframework.org/schema/aop/spring-aop.xsd">
+                        http://www.springframework.org/schema/aop/spring-aop.xsd
+			            http://www.springframework.org/schema/cache
+                        http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <mybatis:scan base-package="com.xzm.video.dao"/>
 
@@ -112,7 +115,7 @@
     </bean>
 
     <!--配置RedisTemplate-->
-    <bean id="rediTeplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
         <property name="connectionFactory" ref="connectionFactory" />
         <!-- 如果不配置Serializer，那么存储的时候只能使用String，如果用对象类型存储，那么会提示错误 can't cast to String！！！-->
         <property name="keySerializer">
@@ -135,5 +138,12 @@
 
     <!--配置redis工具类bean-->
     <bean id="redisUtils" class="com.xzm.video.utils.RedisUtils"></bean>
+
+    <cache:annotation-driven cache-manager="redisCacheManager"/>
+
+    <!-- 配置RedisCacheManager -->
+    <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+        <constructor-arg name="redisOperations" ref="redisTemplate" />
+    </bean>
 
 </beans>
